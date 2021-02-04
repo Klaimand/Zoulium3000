@@ -21,7 +21,17 @@ public class KLD_PlayerController : SerializedMonoBehaviour
     [SerializeField]
     ControllerMode controllerMode;
 
-    [SerializeField]
+    //AXIS
+    [SerializeField, Header("Axis")] float axisDeadZoneMagnitude = 0.1f;
+    Vector2 rawAxis; //raw unity axis
+    Vector2 deadZonedRawAxis; //raw axis that are only 0 or 1
+    Vector2 timedAxis = Vector2.zero; //axis that are timed with acceleration and deceleration times
+    [SerializeField] float accelerationTime = 0.3f;
+    [SerializeField] float decelerationTime = 0.2f;
+
+    Vector2 axisVector; //normalized direction where the player moves
+
+    [SerializeField, Header("Movement")]
     float speed = 10f;
 
     [SerializeField, Header("Jump")]
@@ -30,7 +40,7 @@ public class KLD_PlayerController : SerializedMonoBehaviour
     [SerializeField] float lowJumpMultiplier = 3f; //more means a lower minimal jump
 
     [SerializeField] LayerMask groundLayer;
-    [SerializeField, ReadOnly] bool m_isGrounded = false;
+    //[SerializeField, ReadOnly] bool m_isGrounded = false;
 
     private void Awake()
     {
@@ -47,10 +57,15 @@ public class KLD_PlayerController : SerializedMonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        //axis
+        DoDeadZoneRawAxis();
+
+
         DoPlayerMove();
         CheckPlayerJump();
+        DoPlayerRotation();
 
-        m_isGrounded = isGrounded();
+        //m_isGrounded = isGrounded();
     }
 
     private void FixedUpdate()
@@ -58,11 +73,37 @@ public class KLD_PlayerController : SerializedMonoBehaviour
         CheckFall();
     }
 
+    void DoDeadZoneRawAxis()
+    {
+        rawAxis = new Vector2(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical"));
+
+        float hori = (Mathf.Abs(rawAxis.x) >= axisDeadZoneMagnitude ? 1f : 0f) * Mathf.Sign(rawAxis.x);
+        float vert = (Mathf.Abs(rawAxis.y) >= axisDeadZoneMagnitude ? 1f : 0f) * Mathf.Sign(rawAxis.y);
+
+        deadZonedRawAxis = new Vector2(hori, vert);
+    }
+
+    void DoTimedAxis()
+    {
+
+        float hori = timedAxis.x;
+        float vert = timedAxis.y;
+
+        hori += deadZonedRawAxis.x > 0.5f ? accelerationTime * Time.deltaTime : decelerationTime * -Time.deltaTime;
+        vert += deadZonedRawAxis.y > 0.5f ? accelerationTime * Time.deltaTime : decelerationTime * -Time.deltaTime;
+
+        hori = Mathf.Clamp(hori, -1f, 1f);
+        vert = Mathf.Clamp(vert, -1f, 1f);
+
+        timedAxis = new Vector2(hori, vert);
+    }
+
     void DoPlayerMove()
     {
-        float xSpeed = Input.GetAxisRaw("Horizontal") * Time.deltaTime * speed * 100f;
-        float zSpeed = Input.GetAxisRaw("Vertical") * Time.deltaTime * speed * 100f;
+        float xSpeed = Input.GetAxis("Horizontal") * Time.deltaTime * speed * 100f;
+        float zSpeed = Input.GetAxis("Vertical") * Time.deltaTime * speed * 100f;
         Vector3 flatSpeedVector = axisTransform.right * xSpeed + axisTransform.forward * zSpeed;
+        axisVector = new Vector2(flatSpeedVector.x, flatSpeedVector.z).normalized;
         rb.velocity = new Vector3(flatSpeedVector.x, rb.velocity.y, flatSpeedVector.z);
     }
 
@@ -90,6 +131,16 @@ public class KLD_PlayerController : SerializedMonoBehaviour
         else if (rb.velocity.y > 0 && !Input.GetButton("Jump"))  //check if we're jumping and gaining height
         {
             rb.velocity += Vector3.up * Physics.gravity.y * (lowJumpMultiplier - 1) * Time.deltaTime;
+        }
+    }
+
+    void DoPlayerRotation()
+    {
+        if (axisVector.magnitude > 0.1f)
+        {
+            float angleToLook = Vector3.SignedAngle(Vector3.forward, new Vector3(axisVector.x, 0f, axisVector.y), Vector3.up);
+            //print(axisVector + "\n" + angleToLook);
+            transform.rotation = Quaternion.Euler(0f, angleToLook, 0f);
         }
     }
 }
