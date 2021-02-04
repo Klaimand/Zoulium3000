@@ -7,7 +7,8 @@ public class GameEvents : MonoBehaviour
 {
     public static GameEvents Instance = null;
 
-    public event Action onGravityDisable;
+    public event Action<int> onGravityDisable;
+    public event Action<int> onGravityEnable;
 
     private void Awake()
     {
@@ -24,10 +25,13 @@ public class GameEvents : MonoBehaviour
         DontDestroyOnLoad(gameObject);
     }
 
-    public void DisableGravity()
+    public void DisableGravity(int _id)
     {
-        onGravityDisable?.Invoke();
-
+        onGravityDisable?.Invoke(_id);
     }
 
+    public void EnableGravity(int _id)
+    {
+        onGravityEnable?.Invoke(_id);
+    }
 }
