@@ -8,8 +8,7 @@ using Sirenix.OdinInspector;
 public class KLD_PlayerController : SerializedMonoBehaviour
 {
 
-
-    //[SerializeField] playerin
+    [SerializeField] PlayerInput playerInput;
     [SerializeField] Transform axisTransform;
     Rigidbody rb;
     CapsuleCollider col;
@@ -62,7 +61,7 @@ public class KLD_PlayerController : SerializedMonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        CheckPlayerJump();
+        //CheckPlayerJump();
     }
 
     private void FixedUpdate()
@@ -79,6 +78,27 @@ public class KLD_PlayerController : SerializedMonoBehaviour
 
         CheckFall();
     }
+
+    #region Inputs Callbacks
+
+    public void OnMovement(InputAction.CallbackContext value)
+    {
+        rawAxis = value.ReadValue<Vector2>();
+    }
+
+    public void OnJump(InputAction.CallbackContext value)
+    {
+        if (value.started)
+        {
+            if (isGrounded())
+            {
+                rb.velocity = new Vector3(rb.velocity.x, 0f, rb.velocity.z);
+                rb.velocity += Vector3.up * jumpSpeed;
+            }
+        }
+    }
+
+    #endregion
 
     void DoDeadZoneRawAxis()
     {
@@ -154,14 +174,15 @@ public class KLD_PlayerController : SerializedMonoBehaviour
         rb.velocity = new Vector3(flatSpeedVector.x, rb.velocity.y, flatSpeedVector.z);
     }
 
+    /** OBSOLETE
     void CheckPlayerJump()
     {
-        if (/*Input.GetButtonDown("Jump")*/false && isGrounded()) //OLD INPUT
+        if (Input.GetButtonDown("Jump")false && isGrounded()) //OLD INPUT
         {
             rb.velocity = new Vector3(rb.velocity.x, 0f, rb.velocity.z);
             rb.velocity += Vector3.up * jumpSpeed;
         }
-    }
+    }*/
 
     bool isGrounded()
     {
@@ -175,7 +196,8 @@ public class KLD_PlayerController : SerializedMonoBehaviour
         {
             rb.velocity += Vector3.up * Physics.gravity.y * (fallMultiplier - 1) * Time.fixedDeltaTime;
         }
-        else if (rb.velocity.y > 0 && !Input.GetButton("Jump"))  //check if we're jumping and gaining height
+        //else if (rb.velocity.y > 0 && !Input.GetButton("Jump"))  //check if we're jumping and gaining height
+        else if (rb.velocity.y > 0 && playerInput.actions.FindAction("Jump").phase == InputActionPhase.Waiting)
         {
             rb.velocity += Vector3.up * Physics.gravity.y * (lowJumpMultiplier - 1) * Time.fixedDeltaTime;
         }
@@ -190,4 +212,5 @@ public class KLD_PlayerController : SerializedMonoBehaviour
             transform.rotation = Quaternion.Euler(0f, angleToLook, 0f);
         }
     }
+
 }
