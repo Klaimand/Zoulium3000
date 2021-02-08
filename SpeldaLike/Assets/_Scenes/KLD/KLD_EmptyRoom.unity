@@ -704,6 +704,7 @@ GameObject:
   - component: {fileID: 870863131}
   - component: {fileID: 870863135}
   - component: {fileID: 870863136}
+  - component: {fileID: 870863132}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -725,6 +726,45 @@ CapsuleCollider:
   m_Height: 2
   m_Direction: 1
   m_Center: {x: 0, y: 1, z: 0}
+--- !u!114 &870863132
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 870863130}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 62899f850307741f2a39c98a8b639597, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Actions: {fileID: -944628639613478452, guid: 3bdda35f934251845a68eda0c5f4e41f,
+    type: 3}
+  m_NotificationBehavior: 2
+  m_UIInputModule: {fileID: 0}
+  m_DeviceLostEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  m_DeviceRegainedEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  m_ControlsChangedEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  m_ActionEvents:
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 5367cdf8-d383-4cfa-98f6-d300d047f64c
+    m_ActionName: PlayerControls/Jump[/Keyboard/space]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: a0876c4e-c363-4d9e-99ca-c9975c477d96
+    m_ActionName: PlayerControls/Movement[/Keyboard/w,/Keyboard/a,/Keyboard/a,/Keyboard/d]
+  m_NeverAutoSwitchControlSchemes: 0
+  m_DefaultControlScheme: 
+  m_DefaultActionMap: PlayerControls
+  m_SplitScreenIndex: -1
+  m_Camera: {fileID: 0}
 --- !u!33 &870863133
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -788,6 +828,11 @@ MonoBehaviour:
     SerializationNodes: []
   axisTransform: {fileID: 147190480}
   controllerMode: 0
+  axisDeadZoneMagnitude: 0.1
+  accelerationTime: 0.3
+  decelerationTime: 0.2
+  axisZeroingDeadzone: 0.05
+  snapAxis: 1
   speed: 10
   jumpSpeed: 10
   fallMultiplier: 2

@@ -1,14 +1,16 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.InputSystem;
 using Sirenix.OdinInspector;
 
 [RequireComponent(typeof(Rigidbody)), RequireComponent(typeof(CapsuleCollider))]
 public class KLD_PlayerController : SerializedMonoBehaviour
 {
 
-    [SerializeField]
-    Transform axisTransform;
+
+    //[SerializeField] playerin
+    [SerializeField] Transform axisTransform;
     Rigidbody rb;
     CapsuleCollider col;
 
@@ -80,7 +82,7 @@ public class KLD_PlayerController : SerializedMonoBehaviour
 
     void DoDeadZoneRawAxis()
     {
-        rawAxis = new Vector2(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical"));
+        //rawAxis = new Vector2(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical")); OLD INPUT
 
         float hori = (Mathf.Abs(rawAxis.x) >= axisDeadZoneMagnitude ? 1f : 0f) * Mathf.Sign(rawAxis.x);
         float vert = (Mathf.Abs(rawAxis.y) >= axisDeadZoneMagnitude ? 1f : 0f) * Mathf.Sign(rawAxis.y);
@@ -154,7 +156,7 @@ public class KLD_PlayerController : SerializedMonoBehaviour
 
     void CheckPlayerJump()
     {
-        if (Input.GetButtonDown("Jump") && isGrounded())
+        if (/*Input.GetButtonDown("Jump")*/false && isGrounded()) //OLD INPUT
         {
             rb.velocity = new Vector3(rb.velocity.x, 0f, rb.velocity.z);
             rb.velocity += Vector3.up * jumpSpeed;
