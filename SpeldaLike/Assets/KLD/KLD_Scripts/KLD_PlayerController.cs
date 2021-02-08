@@ -28,6 +28,9 @@ public class KLD_PlayerController : SerializedMonoBehaviour
     Vector2 timedAxis = Vector2.zero; //axis that are timed with acceleration and deceleration times
     [SerializeField] float accelerationTime = 0.3f;
     [SerializeField] float decelerationTime = 0.2f;
+    [Tooltip("When the axis is less than this, zero it")]
+    [SerializeField] float axisZeroingDeadzone = 0.05f;
+    [SerializeField] bool snapAxis = true;
 
     Vector2 axisVector; //normalized direction where the player moves
 
@@ -40,7 +43,7 @@ public class KLD_PlayerController : SerializedMonoBehaviour
     [SerializeField] float lowJumpMultiplier = 3f; //more means a lower minimal jump
 
     [SerializeField] LayerMask groundLayer;
-    //[SerializeField, ReadOnly] bool m_isGrounded = false;
+    [SerializeField, ReadOnly] bool m_isGrounded = false;
 
     private void Awake()
     {
@@ -57,19 +60,21 @@ public class KLD_PlayerController : SerializedMonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        //axis
-        DoDeadZoneRawAxis();
-
-
-        DoPlayerMove();
         CheckPlayerJump();
-        DoPlayerRotation();
-
-        //m_isGrounded = isGrounded();
     }
 
     private void FixedUpdate()
     {
+        //axis
+        DoDeadZoneRawAxis();
+        DoTimedAxis();
+
+
+        DoPlayerMove();
+        DoPlayerRotation();
+
+        m_isGrounded = isGrounded();
+
         CheckFall();
     }
 
@@ -89,8 +94,45 @@ public class KLD_PlayerController : SerializedMonoBehaviour
         float hori = timedAxis.x;
         float vert = timedAxis.y;
 
-        hori += deadZonedRawAxis.x > 0.5f ? accelerationTime * Time.deltaTime : decelerationTime * -Time.deltaTime;
-        vert += deadZonedRawAxis.y > 0.5f ? accelerationTime * Time.deltaTime : decelerationTime * -Time.deltaTime;
+        if (deadZonedRawAxis.x != 0f)
+        {
+            hori += deadZonedRawAxis.x > 0f ? 1f / accelerationTime * Time.fixedDeltaTime : 1f / accelerationTime * -Time.fixedDeltaTime;
+            if (snapAxis && hori != 0f && (Mathf.Sign(hori) != Mathf.Sign(deadZonedRawAxis.x)))
+            {
+                hori = 0f;
+            }
+        }
+        else
+        {
+            if (Mathf.Abs(hori) >= axisZeroingDeadzone)
+            {
+                hori += hori > 0f ? 1f / decelerationTime * -Time.fixedDeltaTime : 1f / decelerationTime * Time.fixedDeltaTime;
+            }
+            else
+            {
+                hori = 0f;
+            }
+        }
+
+        if (deadZonedRawAxis.y != 0f)
+        {
+            vert += deadZonedRawAxis.y > 0f ? 1f / accelerationTime * Time.fixedDeltaTime : 1f / accelerationTime * -Time.fixedDeltaTime;
+            if (snapAxis && vert != 0f && (Mathf.Sign(vert) != Mathf.Sign(deadZonedRawAxis.y)))
+            {
+                vert = 0f;
+            }
+        }
+        else
+        {
+            if (Mathf.Abs(vert) >= axisZeroingDeadzone)
+            {
+                vert += vert > 0f ? 1f / decelerationTime * -Time.fixedDeltaTime : 1f / decelerationTime * Time.fixedDeltaTime;
+            }
+            else
+            {
+                vert = 0f;
+            }
+        }
 
         hori = Mathf.Clamp(hori, -1f, 1f);
         vert = Mathf.Clamp(vert, -1f, 1f);
@@ -100,8 +142,11 @@ public class KLD_PlayerController : SerializedMonoBehaviour
 
     void DoPlayerMove()
     {
-        float xSpeed = Input.GetAxis("Horizontal") * Time.deltaTime * speed * 100f;
-        float zSpeed = Input.GetAxis("Vertical") * Time.deltaTime * speed * 100f;
+        //float xSpeed = Input.GetAxis("Horizontal") * Time.fixedDeltaTime * speed * 30f;
+        //float zSpeed = Input.GetAxis("Vertical") * Time.fixedDeltaTime * speed * 30f;
+        float xSpeed = timedAxis.x * Time.fixedDeltaTime * speed * 30f;
+        float zSpeed = timedAxis.y * Time.fixedDeltaTime * speed * 30f;
+
         Vector3 flatSpeedVector = axisTransform.right * xSpeed + axisTransform.forward * zSpeed;
         axisVector = new Vector2(flatSpeedVector.x, flatSpeedVector.z).normalized;
         rb.velocity = new Vector3(flatSpeedVector.x, rb.velocity.y, flatSpeedVector.z);
@@ -126,17 +171,17 @@ public class KLD_PlayerController : SerializedMonoBehaviour
     {
         if (rb.velocity.y < 0f)
         {
-            rb.velocity += Vector3.up * Physics.gravity.y * (fallMultiplier - 1) * Time.deltaTime;
+            rb.velocity += Vector3.up * Physics.gravity.y * (fallMultiplier - 1) * Time.fixedDeltaTime;
         }
         else if (rb.velocity.y > 0 && !Input.GetButton("Jump"))  //check if we're jumping and gaining height
         {
-            rb.velocity += Vector3.up * Physics.gravity.y * (lowJumpMultiplier - 1) * Time.deltaTime;
+            rb.velocity += Vector3.up * Physics.gravity.y * (lowJumpMultiplier - 1) * Time.fixedDeltaTime;
         }
     }
 
     void DoPlayerRotation()
     {
-        if (axisVector.magnitude > 0.1f)
+        if (timedAxis.magnitude > 0.1f)
         {
             float angleToLook = Vector3.SignedAngle(Vector3.forward, new Vector3(axisVector.x, 0f, axisVector.y), Vector3.up);
             //print(axisVector + "\n" + angleToLook);
