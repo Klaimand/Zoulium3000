@@ -42,6 +42,8 @@ public class KLD_PlayerController : SerializedMonoBehaviour
     float jumpSpeed = 10f;
     [SerializeField] float fallMultiplier = 2f; //more means a faster fall
     [SerializeField] float lowJumpMultiplier = 3f; //more means a lower minimal jump
+    bool jumpBuffer = false;
+    [SerializeField] float jumpBufferDuration = 0.2f;
 
     [SerializeField] LayerMask groundLayer;
     [SerializeField, ReadOnly] bool m_isGrounded = false;
@@ -76,6 +78,8 @@ public class KLD_PlayerController : SerializedMonoBehaviour
 
         m_isGrounded = isGrounded();
 
+        CheckPlayerJump(false);
+
         CheckFall();
     }
 
@@ -90,11 +94,7 @@ public class KLD_PlayerController : SerializedMonoBehaviour
     {
         if (value.started)
         {
-            if (isGrounded())
-            {
-                rb.velocity = new Vector3(rb.velocity.x, 0f, rb.velocity.z);
-                rb.velocity += Vector3.up * jumpSpeed;
-            }
+            CheckPlayerJump(true);
         }
     }
 
@@ -174,15 +174,28 @@ public class KLD_PlayerController : SerializedMonoBehaviour
         rb.velocity = new Vector3(flatSpeedVector.x, rb.velocity.y, flatSpeedVector.z);
     }
 
-    /** OBSOLETE
-    void CheckPlayerJump()
+    void CheckPlayerJump(bool _calledByInput)
     {
-        if (Input.GetButtonDown("Jump")false && isGrounded()) //OLD INPUT
+        if (isGrounded() && (_calledByInput || jumpBuffer))
         {
             rb.velocity = new Vector3(rb.velocity.x, 0f, rb.velocity.z);
             rb.velocity += Vector3.up * jumpSpeed;
+
+            jumpBuffer = false;
+            print("jumped");
         }
-    }*/
+        else if (_calledByInput)
+        {
+            jumpBuffer = true;
+            StartCoroutine(WaitAndDebufferJump());
+        }
+    }
+
+    IEnumerator WaitAndDebufferJump()
+    {
+        yield return new WaitForSeconds(jumpBufferDuration);
+        jumpBuffer = false;
+    }
 
     bool isGrounded()
     {
