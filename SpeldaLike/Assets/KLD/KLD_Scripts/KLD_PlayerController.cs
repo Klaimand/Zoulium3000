@@ -188,7 +188,8 @@ public class KLD_PlayerController : SerializedMonoBehaviour
             Vector3 horizontalMagnitude = new Vector3(rb.velocity.x, 0f, rb.velocity.z);
             if (Mathf.Abs(horizontalMagnitude.magnitude) < maxAirSpeed)
             {
-                rb.AddForce(new Vector3(deadZonedRawAxis.x, 0f, deadZonedRawAxis.y) * addAirSpeed);
+                //rb.AddForce(new Vector3(deadZonedRawAxis.x, 0f, deadZonedRawAxis.y) * addAirSpeed);
+                rb.AddForce(((axisTransform.right * deadZonedRawAxis.x) + (axisTransform.forward * deadZonedRawAxis.y)) * addAirSpeed);
             }
             else
             {
