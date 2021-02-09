@@ -523,7 +523,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 10303, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 2100000, guid: 6d72d1149c2465844966e478ad676ac4, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -673,7 +673,7 @@ GameObject:
   - component: {fileID: 844218839}
   - component: {fileID: 844218840}
   m_Layer: 0
-  m_Name: Cube
+  m_Name: GravityCube
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -951,13 +951,17 @@ MonoBehaviour:
   snapAxis: 1
   speed: 10
   jumpSpeed: 10
-  fallMultiplier: 2
-  lowJumpMultiplier: 3
+  fallMultiplier: 1.8
+  lowJumpMultiplier: 1.8
   jumpBufferDuration: 0.5
+  normalJumpDrag: 0.04
+  maxAirSpeed: 20
+  addAirSpeed: 20
+  jumpHorizontalAddedForce: 1
   groundLayer:
     serializedVersion: 2
     m_Bits: 256
-  m_isGrounded: 0
+  m_isGrounded: 1
 --- !u!1 &963194225
 GameObject:
   m_ObjectHideFlags: 0
@@ -1056,7 +1060,7 @@ GameObject:
   - component: {fileID: 1336934905}
   - component: {fileID: 1336934904}
   m_Layer: 0
-  m_Name: Cube (2)
+  m_Name: GravityCube
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1179,7 +1183,7 @@ GameObject:
   - component: {fileID: 1540942487}
   - component: {fileID: 1540942486}
   - component: {fileID: 1540942485}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Cube (3)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1534,7 +1538,7 @@ GameObject:
   - component: {fileID: 1918569712}
   - component: {fileID: 1918569711}
   m_Layer: 0
-  m_Name: Cube (1)
+  m_Name: GravityCube
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

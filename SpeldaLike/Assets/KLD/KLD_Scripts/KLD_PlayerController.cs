@@ -40,10 +40,14 @@ public class KLD_PlayerController : SerializedMonoBehaviour
 
     [SerializeField, Header("Jump")]
     float jumpSpeed = 10f;
-    [SerializeField] float fallMultiplier = 2f; //more means a faster fall
-    [SerializeField] float lowJumpMultiplier = 3f; //more means a lower minimal jump
+    [SerializeField, Tooltip("More means a faster fall")] float fallMultiplier = 2f; //more means a faster fall
+    [SerializeField, Tooltip("More means a lower minimal jump")] float lowJumpMultiplier = 3f; //more means a lower minimal jump
     bool jumpBuffer = false;
     [SerializeField] float jumpBufferDuration = 0.2f;
+    [SerializeField] float normalJumpDrag = 0.05f;
+    [SerializeField] float maxAirSpeed = 10f;
+    [SerializeField] float addAirSpeed = 1f;
+    [SerializeField] float jumpHorizontalAddedForce = 3f;
 
     [SerializeField] LayerMask groundLayer;
     [SerializeField, ReadOnly] bool m_isGrounded = false;
@@ -171,7 +175,29 @@ public class KLD_PlayerController : SerializedMonoBehaviour
 
         Vector3 flatSpeedVector = axisTransform.right * xSpeed + axisTransform.forward * zSpeed;
         axisVector = new Vector2(flatSpeedVector.x, flatSpeedVector.z).normalized;
-        rb.velocity = new Vector3(flatSpeedVector.x, rb.velocity.y, flatSpeedVector.z);
+
+        if (isGrounded())
+        {
+            rb.velocity = new Vector3(flatSpeedVector.x, rb.velocity.y, flatSpeedVector.z);
+        }
+        else
+        {
+            float drag = 1f - normalJumpDrag;
+            rb.velocity = new Vector3(rb.velocity.x * drag, rb.velocity.y, rb.velocity.z * drag);
+
+            Vector3 horizontalMagnitude = new Vector3(rb.velocity.x, 0f, rb.velocity.z);
+            if (Mathf.Abs(horizontalMagnitude.magnitude) < maxAirSpeed)
+            {
+                rb.AddForce(new Vector3(deadZonedRawAxis.x, 0f, deadZonedRawAxis.y) * addAirSpeed);
+            }
+            else
+            {
+                Vector3 maxHorizontalSpeed = new Vector3(rb.velocity.x, 0f, rb.velocity.z).normalized * maxAirSpeed;
+                rb.velocity = new Vector3(maxHorizontalSpeed.x, rb.velocity.y, maxHorizontalSpeed.z);
+            }
+
+        }
+
     }
 
     void CheckPlayerJump(bool _calledByInput)
@@ -180,15 +206,21 @@ public class KLD_PlayerController : SerializedMonoBehaviour
         {
             rb.velocity = new Vector3(rb.velocity.x, 0f, rb.velocity.z);
             rb.velocity += Vector3.up * jumpSpeed;
+            StartCoroutine(WaitAndApplyHorizontalJumpForce());
 
             jumpBuffer = false;
-            print("jumped");
         }
         else if (_calledByInput)
         {
             jumpBuffer = true;
             StartCoroutine(WaitAndDebufferJump());
         }
+    }
+
+    IEnumerator WaitAndApplyHorizontalJumpForce()
+    {
+        yield return new WaitForFixedUpdate();
+        rb.velocity += new Vector3(timedAxis.x, 0f, timedAxis.y) * jumpHorizontalAddedForce;
     }
 
     IEnumerator WaitAndDebufferJump()
