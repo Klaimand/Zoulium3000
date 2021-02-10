@@ -10,6 +10,7 @@ public class KLD_PlayerController : SerializedMonoBehaviour
 
     [SerializeField] PlayerInput playerInput;
     [SerializeField] Transform axisTransform;
+    [SerializeField] Transform playerGroundPoint;
     Rigidbody rb;
     CapsuleCollider col;
 
@@ -68,6 +69,7 @@ public class KLD_PlayerController : SerializedMonoBehaviour
     void Update()
     {
         //CheckPlayerJump();
+        UpdatePlayerGroundPointPosition();
     }
 
     private void FixedUpdate()
@@ -85,6 +87,8 @@ public class KLD_PlayerController : SerializedMonoBehaviour
         CheckPlayerJump(false);
 
         CheckFall();
+
+        //camera points
     }
 
     #region Inputs Callbacks
@@ -257,6 +261,21 @@ public class KLD_PlayerController : SerializedMonoBehaviour
             //print(axisVector + "\n" + angleToLook);
             transform.rotation = Quaternion.Euler(0f, angleToLook, 0f);
         }
+    }
+
+    void UpdatePlayerGroundPointPosition()
+    {
+        /*
+        if (isGrounded())
+        {
+            playerGroundPoint.position = transform.position;
+        }
+        else
+        {*/
+        RaycastHit hit;
+        Physics.Raycast(transform.position + Vector3.up, Vector3.down, out hit, 200f, groundLayer);
+        playerGroundPoint.position = hit.point;
+        //}
     }
 
 }
