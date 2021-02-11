@@ -53,6 +53,14 @@ public class KLD_PlayerController : SerializedMonoBehaviour
     [SerializeField] LayerMask groundLayer;
     [SerializeField, ReadOnly] bool m_isGrounded = false;
 
+    [SerializeField, Header("NO GRAVITY CONTROLLER"), Space(20)]
+    float ng_impulseForce = 3f;
+    [SerializeField] float ng_verticalImpulseForce = 3f;
+    [SerializeField] float ng_maxHorizontalSpeed = 10f;
+    [SerializeField] float ng_maxVerticalSpeed = 5f;
+    [SerializeField] float ng_rotationThreshold = 0.1f;
+    [SerializeField] float ng_lockedAngle = 135f;
+
     private void Awake()
     {
         rb = GetComponent<Rigidbody>();
@@ -78,17 +86,35 @@ public class KLD_PlayerController : SerializedMonoBehaviour
         DoDeadZoneRawAxis();
         DoTimedAxis();
 
+        if (controllerMode == ControllerMode.GRAVITY)
+        {
+            DoPlayerMove();
+            DoPlayerRotation();
 
-        DoPlayerMove();
-        DoPlayerRotation();
+            m_isGrounded = isGrounded();
 
-        m_isGrounded = isGrounded();
+            CheckPlayerJump(false);
+            CheckFall();
+        }
+        else if (controllerMode == ControllerMode.NO_GRAVITY)
+        {
+            DoPlayerNoGravityMove();
+            DoPlayerNoGravityRotation();
+        }
 
-        CheckPlayerJump(false);
 
-        CheckFall();
+    }
 
-        //camera points
+    private void OnEnable()
+    {
+        GameEvents.Instance.onGravityDisable += OnGravityDisable;
+        GameEvents.Instance.onGravityEnable += OnGravityEnable;
+    }
+
+    private void OnDisable()
+    {
+        GameEvents.Instance.onGravityDisable -= OnGravityDisable;
+        GameEvents.Instance.onGravityEnable -= OnGravityEnable;
     }
 
     #region Inputs Callbacks
@@ -100,9 +126,31 @@ public class KLD_PlayerController : SerializedMonoBehaviour
 
     public void OnJump(InputAction.CallbackContext value)
     {
-        if (value.started)
+        if (value.started && controllerMode == ControllerMode.GRAVITY)
         {
             CheckPlayerJump(true);
+        }
+    }
+
+    #endregion
+
+    #region Events
+
+    void OnGravityEnable(int _id)
+    {
+        if (controllerMode != ControllerMode.GRAVITY)
+        {
+            controllerMode = ControllerMode.GRAVITY;
+            rb.useGravity = true;
+        }
+    }
+
+    void OnGravityDisable(int _id)
+    {
+        if (controllerMode != ControllerMode.NO_GRAVITY)
+        {
+            controllerMode = ControllerMode.NO_GRAVITY;
+            rb.useGravity = false;
         }
     }
 
@@ -274,8 +322,63 @@ public class KLD_PlayerController : SerializedMonoBehaviour
         {*/
         RaycastHit hit;
         Physics.Raycast(transform.position + Vector3.up, Vector3.down, out hit, 200f, groundLayer);
-        playerGroundPoint.position = hit.point;
+        if (hit.point != Vector3.zero)
+        {
+            playerGroundPoint.position = hit.point;
+        }
+        else
+        {
+            playerGroundPoint.position = transform.position;
+        }
         //}
+    }
+
+    void DoPlayerNoGravityMove()
+    {
+        Vector2 rbHorizontalMagnitude = new Vector2(rb.velocity.x, rb.velocity.z);
+        Vector3 forceDirectionVector = axisTransform.right * deadZonedRawAxis.x + axisTransform.forward * deadZonedRawAxis.y;
+        if (forceDirectionVector.magnitude > 1f)
+        {
+            forceDirectionVector.Normalize();
+        }
+        if (rbHorizontalMagnitude.magnitude < ng_maxHorizontalSpeed)
+        {
+
+            //rb.AddForce(new Vector3(deadZonedRawAxis.x, 0f, deadZonedRawAxis.y) * ng_impulseForce, ForceMode.Force);
+            rb.AddForce(forceDirectionVector * ng_impulseForce, ForceMode.Force);
+            //WIP ^ A RENDRE MULTIDIRECTIONNEL
+        }
+        else
+        {
+            print(Vector3.Angle(rbHorizontalMagnitude, forceDirectionVector));
+            if (forceDirectionVector != Vector3.zero && Vector3.Angle(rbHorizontalMagnitude, forceDirectionVector) > ng_lockedAngle)
+            {
+                rb.AddForce(forceDirectionVector * ng_impulseForce, ForceMode.Force);
+                print("addedforce");
+            }
+        }
+
+
+
+        if (rb.velocity.y < ng_maxVerticalSpeed && playerInput.actions.FindAction("Jump").phase == InputActionPhase.Performed)
+        {
+            rb.AddForce(Vector3.up * ng_verticalImpulseForce, ForceMode.Force);
+        }
+        else if (rb.velocity.y > -ng_maxVerticalSpeed && playerInput.actions.FindAction("Crouch").phase == InputActionPhase.Performed)
+        {
+            rb.AddForce(Vector3.down * ng_verticalImpulseForce, ForceMode.Force);
+        }
+    }
+
+    void DoPlayerNoGravityRotation()
+    {
+        if (rb.velocity.magnitude > ng_rotationThreshold)
+        {
+            //float angleToLook = Vector3.SignedAngle(Vector3.forward, new Vector3(axisVector.x, 0f, axisVector.y), Vector3.up);
+            float angleToLook = Vector3.SignedAngle(Vector3.forward, rb.velocity, Vector3.up);
+            //print(axisVector + "\n" + angleToLook);
+            transform.rotation = Quaternion.Euler(0f, angleToLook, 0f);
+        }
     }
 
 }

@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class KLD_DEBUG_Inputs : MonoBehaviour
 {
@@ -13,20 +14,20 @@ public class KLD_DEBUG_Inputs : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.A))
+        if (Keyboard.current.digit1Key.isPressed)
         {
             GameEvents.Instance.DisableGravity(0);
         }
-        if (Input.GetKeyDown(KeyCode.Z))
+        if (Keyboard.current.digit2Key.isPressed)
         {
             GameEvents.Instance.EnableGravity(0);
         }
 
-        if (Input.GetKeyDown(KeyCode.E))
+        if (Keyboard.current.digit3Key.isPressed)
         {
             GameEvents.Instance.DisableGravity(1);
         }
-        if (Input.GetKeyDown(KeyCode.R))
+        if (Keyboard.current.digit4Key.isPressed)
         {
             GameEvents.Instance.EnableGravity(1);
         }
