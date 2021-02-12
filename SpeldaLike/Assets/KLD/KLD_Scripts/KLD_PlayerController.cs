@@ -60,6 +60,8 @@ public class KLD_PlayerController : SerializedMonoBehaviour
     [SerializeField] float ng_maxVerticalSpeed = 5f;
     [SerializeField] float ng_rotationThreshold = 0.1f;
     [SerializeField] float ng_lockedAngle = 135f;
+    [SerializeField] bool ng_lockHorizontalSpeed = true;
+    [SerializeField] bool ng_lockVerticalSpeed = true;
 
     private void Awake()
     {
@@ -346,7 +348,6 @@ public class KLD_PlayerController : SerializedMonoBehaviour
 
             //rb.AddForce(new Vector3(deadZonedRawAxis.x, 0f, deadZonedRawAxis.y) * ng_impulseForce, ForceMode.Force);
             rb.AddForce(forceDirectionVector * ng_impulseForce, ForceMode.Force);
-            //WIP ^ A RENDRE MULTIDIRECTIONNEL
         }
         else
         {
@@ -354,7 +355,12 @@ public class KLD_PlayerController : SerializedMonoBehaviour
             if (forceDirectionVector != Vector3.zero && Vector3.Angle(rbHorizontalMagnitude, forceDirectionVector) > ng_lockedAngle)
             {
                 rb.AddForce(forceDirectionVector * ng_impulseForce, ForceMode.Force);
-                print("addedforce");
+                //print("addedforce");
+            }
+            rbHorizontalMagnitude = rbHorizontalMagnitude.normalized * ng_maxHorizontalSpeed;
+            if (ng_lockHorizontalSpeed)
+            {
+                rb.velocity = new Vector3(rbHorizontalMagnitude.x, rb.velocity.y, rbHorizontalMagnitude.y); //capping vel
             }
         }
 
@@ -367,6 +373,11 @@ public class KLD_PlayerController : SerializedMonoBehaviour
         else if (rb.velocity.y > -ng_maxVerticalSpeed && playerInput.actions.FindAction("Crouch").phase == InputActionPhase.Performed)
         {
             rb.AddForce(Vector3.down * ng_verticalImpulseForce, ForceMode.Force);
+        }
+
+        if (ng_lockVerticalSpeed && Mathf.Abs(rb.velocity.y) > ng_maxVerticalSpeed)
+        {
+            rb.velocity = new Vector3(rb.velocity.x, Mathf.Sign(rb.velocity.y) * ng_maxVerticalSpeed, rb.velocity.z);
         }
     }
 
