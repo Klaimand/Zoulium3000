@@ -30,6 +30,9 @@ public class KLD_PlayerController : SerializedMonoBehaviour
     Vector2 timedAxis = Vector2.zero; //axis that are timed with acceleration and deceleration times
     [SerializeField] float accelerationTime = 0.3f;
     [SerializeField] float decelerationTime = 0.2f;
+    Vector2 ng_timedAxis = Vector2.zero; //axis that are timed with acceleration and deceleration times
+    [SerializeField] float ng_accelerationTime = 0.3f;
+    [SerializeField] float ng_decelerationTime = 0.2f;
     [Tooltip("When the axis is less than this, zero it")]
     [SerializeField] float axisZeroingDeadzone = 0.05f;
     [SerializeField] bool snapAxis = true;
@@ -62,6 +65,7 @@ public class KLD_PlayerController : SerializedMonoBehaviour
     [SerializeField] float ng_lockedAngle = 135f;
     [SerializeField] bool ng_lockHorizontalSpeed = true;
     [SerializeField] bool ng_lockVerticalSpeed = true;
+    [SerializeField] Transform[] ng_reactors = null;
 
     private void Awake()
     {
@@ -80,6 +84,8 @@ public class KLD_PlayerController : SerializedMonoBehaviour
     {
         //CheckPlayerJump();
         UpdatePlayerGroundPointPosition();
+
+        DoPlayerNoGravityReactorsSize();
     }
 
     private void FixedUpdate()
@@ -87,6 +93,7 @@ public class KLD_PlayerController : SerializedMonoBehaviour
         //axis
         DoDeadZoneRawAxis();
         DoTimedAxis();
+        DoNoGravityTimedAxis();
 
         if (controllerMode == ControllerMode.GRAVITY)
         {
@@ -218,6 +225,58 @@ public class KLD_PlayerController : SerializedMonoBehaviour
         vert = Mathf.Clamp(vert, -1f, 1f);
 
         timedAxis = new Vector2(hori, vert);
+    }
+
+    void DoNoGravityTimedAxis()
+    {
+
+        float hori = timedAxis.x;
+        float vert = timedAxis.y;
+
+        if (deadZonedRawAxis.x != 0f)
+        {
+            hori += deadZonedRawAxis.x > 0f ? 1f / ng_accelerationTime * Time.fixedDeltaTime : 1f / ng_accelerationTime * -Time.fixedDeltaTime;
+            if (snapAxis && hori != 0f && (Mathf.Sign(hori) != Mathf.Sign(deadZonedRawAxis.x)))
+            {
+                hori = 0f;
+            }
+        }
+        else
+        {
+            if (Mathf.Abs(hori) >= axisZeroingDeadzone)
+            {
+                hori += hori > 0f ? 1f / ng_decelerationTime * -Time.fixedDeltaTime : 1f / ng_decelerationTime * Time.fixedDeltaTime;
+            }
+            else
+            {
+                hori = 0f;
+            }
+        }
+
+        if (deadZonedRawAxis.y != 0f)
+        {
+            vert += deadZonedRawAxis.y > 0f ? 1f / ng_accelerationTime * Time.fixedDeltaTime : 1f / ng_accelerationTime * -Time.fixedDeltaTime;
+            if (snapAxis && vert != 0f && (Mathf.Sign(vert) != Mathf.Sign(deadZonedRawAxis.y)))
+            {
+                vert = 0f;
+            }
+        }
+        else
+        {
+            if (Mathf.Abs(vert) >= axisZeroingDeadzone)
+            {
+                vert += vert > 0f ? 1f / ng_decelerationTime * -Time.fixedDeltaTime : 1f / ng_decelerationTime * Time.fixedDeltaTime;
+            }
+            else
+            {
+                vert = 0f;
+            }
+        }
+
+        hori = Mathf.Clamp(hori, -1f, 1f);
+        vert = Mathf.Clamp(vert, -1f, 1f);
+
+        ng_timedAxis = new Vector2(hori, vert);
     }
 
     void DoPlayerMove()
@@ -389,6 +448,41 @@ public class KLD_PlayerController : SerializedMonoBehaviour
             float angleToLook = Vector3.SignedAngle(Vector3.forward, rb.velocity, Vector3.up);
             //print(axisVector + "\n" + angleToLook);
             transform.rotation = Quaternion.Euler(0f, angleToLook, 0f);
+        }
+    }
+
+    //RIGHT
+    //LEFT
+    //UP
+    //DOWN
+    //FWD
+    //BWD
+    void DoPlayerNoGravityReactorsSize()
+    {
+        if (controllerMode == ControllerMode.NO_GRAVITY)
+        {
+            //Vector3 forceDirectionVector = axisTransform.right * ng_timedAxis.x + axisTransform.forward * ng_timedAxis.y;
+            Vector3 forceDirectionVector = new Vector3(ng_timedAxis.x, 0f, ng_timedAxis.y);
+            if (forceDirectionVector.magnitude > 1f)
+            {
+                forceDirectionVector.Normalize();
+            }
+            for (int i = 0; i < 6; i += 2)
+            {
+                if (Mathf.Abs(forceDirectionVector[i / 2]) > 0.05f)
+                {
+                    int negInd = forceDirectionVector[i / 2] > 0f ? 1 : 0;
+                    ng_reactors[i + negInd].localScale = new Vector3(1f, 1f, Mathf.Abs(forceDirectionVector[i / 2]));
+                    ng_reactors[i + (1 - negInd)].localScale = new Vector3(1f, 1f, 0f);
+                }
+            }
+        }
+        else
+        {
+            foreach (Transform obj in ng_reactors)
+            {
+                obj.localScale = new Vector3(1f, 1f, 0f);
+            }
         }
     }
 
