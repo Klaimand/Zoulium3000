@@ -42,6 +42,11 @@ public class KLD_PlayerController : SerializedMonoBehaviour
     [SerializeField, Header("Movement")]
     float speed = 10f;
 
+    [SerializeField, Header("Ground Detection"), Range(0.5f, 1f)]
+    float sphereRadiusMultiplier = 0.9f;
+    [SerializeField] float maxSlopeAngle = 30f;
+
+
     [SerializeField, Header("Jump")]
     float jumpSpeed = 10f;
     [SerializeField, Tooltip("More means a faster fall")] float fallMultiplier = 2f; //more means a faster fall
@@ -52,6 +57,7 @@ public class KLD_PlayerController : SerializedMonoBehaviour
     [SerializeField] float maxAirSpeed = 10f;
     [SerializeField] float addAirSpeed = 1f;
     [SerializeField] float jumpHorizontalAddedForce = 3f;
+    [SerializeField] float steepSlopeLockedAngle = 90f;
 
     [SerializeField] LayerMask groundLayer;
     [SerializeField, ReadOnly] bool m_isGrounded = false;
@@ -66,6 +72,12 @@ public class KLD_PlayerController : SerializedMonoBehaviour
     [SerializeField] bool ng_lockHorizontalSpeed = true;
     [SerializeField] bool ng_lockVerticalSpeed = true;
     [SerializeField] Transform[] ng_reactors = null;
+
+    [SerializeField, Header("Animation"), Space(20)]
+    float idleVelocityThreshold = 0.1f;
+    public enum PlayerState { IDLE, RUNNING, NO_GRAVITY };
+    [SerializeField] PlayerState playerAnimationState = PlayerState.IDLE;
+    [SerializeField] Animator animator = null;
 
     private void Awake()
     {
@@ -85,7 +97,9 @@ public class KLD_PlayerController : SerializedMonoBehaviour
         //CheckPlayerJump();
         UpdatePlayerGroundPointPosition();
 
-        DoPlayerNoGravityReactorsSize();
+        UpdatePlayerAnimationState();
+
+        //DoPlayerNoGravityReactorsSize();
     }
 
     private void FixedUpdate()
@@ -302,9 +316,15 @@ public class KLD_PlayerController : SerializedMonoBehaviour
             if (Mathf.Abs(horizontalMagnitude.magnitude) < maxAirSpeed)
             {
                 //rb.AddForce(new Vector3(deadZonedRawAxis.x, 0f, deadZonedRawAxis.y) * addAirSpeed);
-                rb.AddForce(((axisTransform.right * deadZonedRawAxis.x) + (axisTransform.forward * deadZonedRawAxis.y)) * addAirSpeed);
+                Vector3 inputDirectionVector = ((axisTransform.right * deadZonedRawAxis.x) + (axisTransform.forward * deadZonedRawAxis.y)).normalized;
+                if (!isOnSteepSlope() || (isOnSteepSlope() &&
+                Vector3.Angle(inputDirectionVector, FlatAndNormalize(GetSlopeNormal())) > steepSlopeLockedAngle))
+                //A VERIFIER
+                {
+                    rb.AddForce(inputDirectionVector * addAirSpeed);
+                }
             }
-            else
+            else if (Mathf.Abs(horizontalMagnitude.magnitude) > maxAirSpeed)
             {
                 Vector3 maxHorizontalSpeed = new Vector3(rb.velocity.x, 0f, rb.velocity.z).normalized * maxAirSpeed;
                 rb.velocity = new Vector3(maxHorizontalSpeed.x, rb.velocity.y, maxHorizontalSpeed.z);
@@ -345,8 +365,34 @@ public class KLD_PlayerController : SerializedMonoBehaviour
 
     bool isGrounded()
     {
-        float radius = col.radius * 0.9f;
-        return Physics.CheckSphere(transform.position + Vector3.up * radius * 0.9f, radius, groundLayer);
+        float radius = col.radius * sphereRadiusMultiplier;
+        bool detectGround = Physics.CheckSphere(transform.position + Vector3.up * radius * 0.9f, radius, groundLayer);
+
+        RaycastHit hit;
+        Physics.Raycast(transform.position + Vector3.up, Vector3.down, out hit, 10f, groundLayer);
+        //bool isSlopeCorrect = hit.normal
+        bool isSlopeCorrect = Vector3.Angle(Vector3.up, hit.normal) <= maxSlopeAngle;
+        //print(Vector3.Angle(Vector3.up, hit.normal));
+        return detectGround && isSlopeCorrect;
+    }
+
+    bool isOnSteepSlope()
+    {
+        float radius = col.radius * 1.2f;
+        bool detectGround = Physics.CheckSphere(transform.position + Vector3.up * radius * 0.9f, radius, groundLayer);
+
+        RaycastHit hit;
+        Physics.Raycast(transform.position + Vector3.up, Vector3.down, out hit, 10f, groundLayer);
+        bool isSlopeSteep = Vector3.Angle(Vector3.up, hit.normal) > maxSlopeAngle;
+
+        return detectGround && isSlopeSteep;
+    }
+
+    Vector3 GetSlopeNormal()
+    {
+        RaycastHit hit;
+        Physics.Raycast(transform.position + Vector3.up, Vector3.down, out hit, 10f, groundLayer);
+        return hit.normal;
     }
 
     void CheckFall()
@@ -485,5 +531,36 @@ public class KLD_PlayerController : SerializedMonoBehaviour
             }
         }
     }
+
+    Vector3 FlatAndNormalize(Vector3 _vectorToFlat)
+    {
+        Vector3 v = new Vector3(_vectorToFlat.x, 0f, _vectorToFlat.z).normalized;
+        return v;
+    }
+
+    #region Animation
+
+    void UpdatePlayerAnimationState()
+    {
+        if (controllerMode == ControllerMode.GRAVITY)
+        {
+            if (new Vector2(rb.velocity.x, rb.velocity.z).magnitude >= idleVelocityThreshold)
+            {
+                playerAnimationState = PlayerState.RUNNING;
+            }
+            else
+            {
+                playerAnimationState = PlayerState.IDLE;
+            }
+        }
+        else
+        {
+            playerAnimationState = PlayerState.NO_GRAVITY;
+        }
+
+        //animator?.SetInteger("playerState", (int)playerAnimationState);
+    }
+
+    #endregion
 
 }
