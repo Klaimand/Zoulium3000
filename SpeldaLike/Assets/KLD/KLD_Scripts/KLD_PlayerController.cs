@@ -75,7 +75,7 @@ public class KLD_PlayerController : SerializedMonoBehaviour
 
     [SerializeField, Header("Animation"), Space(20)]
     float idleVelocityThreshold = 0.1f;
-    public enum PlayerState { IDLE, RUNNING, NO_GRAVITY };
+    public enum PlayerState { IDLE, RUNNING, NO_GRAVITY, JUMPING, FALLING };
     [SerializeField] PlayerState playerAnimationState = PlayerState.IDLE;
     [SerializeField] Animator animator = null;
 
@@ -317,8 +317,8 @@ public class KLD_PlayerController : SerializedMonoBehaviour
             {
                 //rb.AddForce(new Vector3(deadZonedRawAxis.x, 0f, deadZonedRawAxis.y) * addAirSpeed);
                 Vector3 inputDirectionVector = ((axisTransform.right * deadZonedRawAxis.x) + (axisTransform.forward * deadZonedRawAxis.y)).normalized;
-                if (!isOnSteepSlope() || (isOnSteepSlope() &&
-                Vector3.Angle(inputDirectionVector, FlatAndNormalize(GetSlopeNormal())) > steepSlopeLockedAngle))
+                if (!isOnSteepSlope())//|| (isOnSteepSlope() &&
+                //Vector3.Angle(inputDirectionVector, FlatAndNormalize(GetSlopeNormal())) > steepSlopeLockedAngle))
                 //A VERIFIER
                 {
                     rb.AddForce(inputDirectionVector * addAirSpeed);
@@ -544,13 +544,20 @@ public class KLD_PlayerController : SerializedMonoBehaviour
     {
         if (controllerMode == ControllerMode.GRAVITY)
         {
-            if (new Vector2(rb.velocity.x, rb.velocity.z).magnitude >= idleVelocityThreshold)
+            if (isGrounded())
             {
-                playerAnimationState = PlayerState.RUNNING;
+                if (new Vector2(rb.velocity.x, rb.velocity.z).magnitude >= idleVelocityThreshold)
+                {
+                    playerAnimationState = PlayerState.RUNNING;
+                }
+                else
+                {
+                    playerAnimationState = PlayerState.IDLE;
+                }
             }
             else
             {
-                playerAnimationState = PlayerState.IDLE;
+                playerAnimationState = rb.velocity.y > 0f ? PlayerState.JUMPING : PlayerState.FALLING;
             }
         }
         else
