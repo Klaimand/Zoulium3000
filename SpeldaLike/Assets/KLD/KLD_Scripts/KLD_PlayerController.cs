@@ -565,7 +565,15 @@ public class KLD_PlayerController : SerializedMonoBehaviour
             playerAnimationState = PlayerState.NO_GRAVITY;
         }
 
+        if (animator != null)
+        {
+
+            animator.SetInteger("lastFrameState", animator.GetInteger("playerState"));
+            animator.SetInteger("playerState", (int)playerAnimationState);
+        }
         //animator?.SetInteger("playerState", (int)playerAnimationState);
+        //int d = (int)playerAnimationState;
+        //animator?.SetFloat("PlayerState", (float)d);
     }
 
     #endregion
