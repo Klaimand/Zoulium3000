@@ -11,6 +11,10 @@ public class KLD_PlayerController : SerializedMonoBehaviour
     [SerializeField] PlayerInput playerInput;
     [SerializeField] Transform axisTransform;
     [SerializeField] Transform playerGroundPoint;
+    [SerializeField] Transform dampedGroundPoint;
+    [SerializeField] float groundPointDampingSpeed = 0.5f;
+    [SerializeField] float groundPointDampingMaxSpeed = 2f;
+    float yVelocity = 0f;
     Rigidbody rb;
     CapsuleCollider col;
 
@@ -88,7 +92,8 @@ public class KLD_PlayerController : SerializedMonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-
+        UpdatePlayerGroundPointPosition();
+        dampedGroundPoint.position = playerGroundPoint.position;
     }
 
     // Update is called once per frame
@@ -96,6 +101,7 @@ public class KLD_PlayerController : SerializedMonoBehaviour
     {
         //CheckPlayerJump();
         UpdatePlayerGroundPointPosition();
+        UpdateDampedGroundPointPosition();
 
         UpdatePlayerAnimationState();
 
@@ -317,8 +323,8 @@ public class KLD_PlayerController : SerializedMonoBehaviour
             {
                 //rb.AddForce(new Vector3(deadZonedRawAxis.x, 0f, deadZonedRawAxis.y) * addAirSpeed);
                 Vector3 inputDirectionVector = ((axisTransform.right * deadZonedRawAxis.x) + (axisTransform.forward * deadZonedRawAxis.y)).normalized;
-                if (!isOnSteepSlope())//|| (isOnSteepSlope() &&
-                //Vector3.Angle(inputDirectionVector, FlatAndNormalize(GetSlopeNormal())) > steepSlopeLockedAngle))
+                if (!isOnSteepSlope() || (isOnSteepSlope() &&
+                Vector3.Angle(inputDirectionVector, FlatAndNormalize(GetSlopeNormal())) > steepSlopeLockedAngle))
                 //A VERIFIER
                 {
                     rb.AddForce(inputDirectionVector * addAirSpeed);
@@ -438,6 +444,14 @@ public class KLD_PlayerController : SerializedMonoBehaviour
             playerGroundPoint.position = transform.position;
         }
         //}
+    }
+
+    void UpdateDampedGroundPointPosition()
+    {
+        float startY = dampedGroundPoint.position.y;
+        float endY = playerGroundPoint.position.y;
+        float curY = Mathf.SmoothDamp(startY, endY, ref yVelocity, groundPointDampingSpeed, groundPointDampingMaxSpeed, Time.deltaTime);
+        dampedGroundPoint.position = new Vector3(playerGroundPoint.position.x, curY, playerGroundPoint.position.z);
     }
 
     void DoPlayerNoGravityMove()
@@ -565,15 +579,9 @@ public class KLD_PlayerController : SerializedMonoBehaviour
             playerAnimationState = PlayerState.NO_GRAVITY;
         }
 
-        if (animator != null)
-        {
 
-            animator.SetInteger("lastFrameState", animator.GetInteger("playerState"));
-            animator.SetInteger("playerState", (int)playerAnimationState);
-        }
-        //animator?.SetInteger("playerState", (int)playerAnimationState);
-        //int d = (int)playerAnimationState;
-        //animator?.SetFloat("PlayerState", (float)d);
+
+        animator?.SetInteger("playerState", (int)playerAnimationState);
     }
 
     #endregion
