@@ -30,6 +30,7 @@ public class CameraManager : MonoBehaviour
     void Start()
     {
         curCam = startCam;
+        ChangeCamera(startCam);
     }
 
     // Update is called once per frame
