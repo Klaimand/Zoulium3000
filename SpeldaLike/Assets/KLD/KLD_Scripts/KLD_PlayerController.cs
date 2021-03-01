@@ -11,6 +11,10 @@ public class KLD_PlayerController : SerializedMonoBehaviour
     [SerializeField] PlayerInput playerInput;
     [SerializeField] Transform axisTransform;
     [SerializeField] Transform playerGroundPoint;
+    [SerializeField] Transform dampedGroundPoint;
+    [SerializeField] float groundPointDampingSpeed = 0.5f;
+    [SerializeField] float groundPointDampingMaxSpeed = 2f;
+    float yVelocity = 0f;
     Rigidbody rb;
     CapsuleCollider col;
 
@@ -75,7 +79,7 @@ public class KLD_PlayerController : SerializedMonoBehaviour
 
     [SerializeField, Header("Animation"), Space(20)]
     float idleVelocityThreshold = 0.1f;
-    public enum PlayerState { IDLE, RUNNING, NO_GRAVITY };
+    public enum PlayerState { IDLE, RUNNING, NO_GRAVITY, JUMPING, FALLING };
     [SerializeField] PlayerState playerAnimationState = PlayerState.IDLE;
     [SerializeField] Animator animator = null;
 
@@ -88,7 +92,8 @@ public class KLD_PlayerController : SerializedMonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-
+        UpdatePlayerGroundPointPosition();
+        dampedGroundPoint.position = playerGroundPoint.position;
     }
 
     // Update is called once per frame
@@ -96,6 +101,7 @@ public class KLD_PlayerController : SerializedMonoBehaviour
     {
         //CheckPlayerJump();
         UpdatePlayerGroundPointPosition();
+        UpdateDampedGroundPointPosition();
 
         UpdatePlayerAnimationState();
 
@@ -440,6 +446,14 @@ public class KLD_PlayerController : SerializedMonoBehaviour
         //}
     }
 
+    void UpdateDampedGroundPointPosition()
+    {
+        float startY = dampedGroundPoint.position.y;
+        float endY = playerGroundPoint.position.y;
+        float curY = Mathf.SmoothDamp(startY, endY, ref yVelocity, groundPointDampingSpeed, groundPointDampingMaxSpeed, Time.deltaTime);
+        dampedGroundPoint.position = new Vector3(playerGroundPoint.position.x, curY, playerGroundPoint.position.z);
+    }
+
     void DoPlayerNoGravityMove()
     {
         Vector2 rbHorizontalMagnitude = new Vector2(rb.velocity.x, rb.velocity.z);
@@ -544,13 +558,20 @@ public class KLD_PlayerController : SerializedMonoBehaviour
     {
         if (controllerMode == ControllerMode.GRAVITY)
         {
-            if (new Vector2(rb.velocity.x, rb.velocity.z).magnitude >= idleVelocityThreshold)
+            if (isGrounded())
             {
-                playerAnimationState = PlayerState.RUNNING;
+                if (new Vector2(rb.velocity.x, rb.velocity.z).magnitude >= idleVelocityThreshold)
+                {
+                    playerAnimationState = PlayerState.RUNNING;
+                }
+                else
+                {
+                    playerAnimationState = PlayerState.IDLE;
+                }
             }
             else
             {
-                playerAnimationState = PlayerState.IDLE;
+                playerAnimationState = rb.velocity.y > 0f ? PlayerState.JUMPING : PlayerState.FALLING;
             }
         }
         else
@@ -558,7 +579,9 @@ public class KLD_PlayerController : SerializedMonoBehaviour
             playerAnimationState = PlayerState.NO_GRAVITY;
         }
 
-        //animator?.SetInteger("playerState", (int)playerAnimationState);
+
+
+        animator?.SetInteger("playerState", (int)playerAnimationState);
     }
 
     #endregion
