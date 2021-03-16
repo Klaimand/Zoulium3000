@@ -167,13 +167,25 @@ namespace UnityEngine.Polybrush
         /// </summary>
         internal void RecalculateNormals()
         {
-            if (s_PerTriangleNormalsBuffer.Length < vertexCount)
+
+            Mesh bufferMesh = mesh;
+            bufferMesh.RecalculateNormals();
+
+            normals = bufferMesh.normals;
+            ApplyAttributesToUnityMesh(m_Mesh, MeshChannel.Normal);
+
+            //ApplyAttributesFromUnityMesh(mesh, MeshChannel.Normal);
+            //ApplyAttributesFromUnityMesh(mesh, MeshChannel.normals);
+            
+            Debug.Log("recalculated normals in polybrushHHH");
+            /*
+            if (s_PerTriangleNormalsBuffer.Length < vertexCount) //resize array if needed
             {
                 Array.Resize<Vector3>(ref s_PerTriangleNormalsBuffer, vertexCount);
                 Array.Resize<int>(ref s_PerTriangleAvgBuffer, vertexCount);
             }
 
-            for (int i = 0; i < vertexCount; ++i)
+            for (int i = 0; i < vertexCount; ++i) //clear buffer normals
             {
                 s_PerTriangleNormalsBuffer[i].x = 0;
                 s_PerTriangleNormalsBuffer[i].y = 0;
@@ -184,10 +196,11 @@ namespace UnityEngine.Polybrush
             int[] tris = GetTriangles();
             for (int i = 0; i < tris.Length; i += 3)
             {
-                int a = tris[i], b = tris[i + 1], c = tris[i + 2];
+                int a = tris[i], b = tris[i + 1], c = tris[i + 2]; //abc are the vertices indexes to acces position
 
-                Vector3 cross = Math.Normal(vertices[a], vertices[b], vertices[c]);
+                Vector3 cross = Math.Normal(vertices[a], vertices[b], vertices[c]); //normal vector of the face
 
+                
                 s_PerTriangleNormalsBuffer[a].x += cross.x;
                 s_PerTriangleNormalsBuffer[b].x += cross.x;
                 s_PerTriangleNormalsBuffer[c].x += cross.x;
@@ -203,9 +216,9 @@ namespace UnityEngine.Polybrush
                 s_PerTriangleAvgBuffer[a]++;
                 s_PerTriangleAvgBuffer[b]++;
                 s_PerTriangleAvgBuffer[c]++;
+                
 
             }
-
             
             for (int i = 0; i < vertexCount; i++)
             {
@@ -216,7 +229,8 @@ namespace UnityEngine.Polybrush
             }
             //hello l'équipeeeee
             //hello l'équipe episode 2
-            Debug.Log("recalculated normals of " + vertexCount + " vertices \n the mesh has " + tris.Length + " triangles");
+            */
+            //Debug.Log("recalculated normals of " + vertexCount + " vertices \n the mesh has " + tris.Length + " triangles");
         }
 
 
@@ -329,6 +343,7 @@ namespace UnityEngine.Polybrush
                 m_Mesh.name = name;
             }
 
+            Debug.Log("applied attributes");
             ApplyAttributesToUnityMesh(m_Mesh);
         }
 
