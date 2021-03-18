@@ -18,10 +18,10 @@ public class KLD_PlaneGenerator : SerializedMonoBehaviour
 
     private void Update()
     {
-        for (int i = 0; i < meshNormalsToDraw.mesh.normals.GetLength(0); i++)
-        {
-            Debug.DrawRay(meshNormalsToDraw.mesh.vertices[i], meshNormalsToDraw.mesh.normals[i]);
-        }
+        //for (int i = 0; i < meshNormalsToDraw.mesh.normals.GetLength(0); i++)
+        //{
+        //Debug.DrawRay(meshNormalsToDraw.mesh.vertices[i], meshNormalsToDraw.mesh.normals[i]);
+        //}
     }
 
     [Button]
