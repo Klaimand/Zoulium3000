@@ -168,15 +168,7 @@ namespace UnityEngine.Polybrush
         internal void RecalculateNormals()
         {
             mesh.RecalculateNormals();
-            ApplyAttributesFromUnityMesh(mesh, MeshChannel.Normal);
-            //normals = bufferMesh.normals;
 
-            //ApplyAttributesToUnityMesh(m_Mesh, MeshChannel.Normal);
-            //ApplyAttributesFromUnityMesh(mesh, MeshChannel.Normal);
-
-            //ApplyAttributesFromUnityMesh(mesh, MeshChannel.Normal);
-            //ApplyAttributesFromUnityMesh(mesh, MeshChannel.normals);
-            
             //Debug.Log("recalculated normals in polybrush123");
             /*
             if (s_PerTriangleNormalsBuffer.Length < vertexCount) //resize array if needed
@@ -227,8 +219,6 @@ namespace UnityEngine.Polybrush
                 normals[i].z = s_PerTriangleNormalsBuffer[i].z * (float)s_PerTriangleAvgBuffer[i];
                 Math.Divide(normals[i], normals[i].magnitude, ref normals[i]);
             }
-            //hello l'équipeeeee
-            //hello l'équipe episode 2
             */
             //Debug.Log("recalculated normals of " + vertexCount + " vertices \n the mesh has " + tris.Length + " triangles");
         }
@@ -343,7 +333,8 @@ namespace UnityEngine.Polybrush
                 m_Mesh.name = name;
             }
 
-            //Debug.Log("applied attributes");
+            //Debug.Log("applied attributeYYYYYY");
+            RecalculateNormals();
             //ApplyAttributesToUnityMesh(m_Mesh);
         }
 
