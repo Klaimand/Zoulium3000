@@ -5,7 +5,7 @@ using UnityEngine.UIElements;
 
 public class PolyplaneEditorWindow : EditorWindow
 {
-    //FIELDS
+    //____________________________FIELDS
     Vector2Field planeSquares;
     Vector2Field squareSize;
     FloatField seaLevel;
@@ -16,6 +16,7 @@ public class PolyplaneEditorWindow : EditorWindow
     FloatField noiseStrenght;
     FloatField noiseScale;
     ObjectField materialField;
+    //__________________________________
 
     [MenuItem("Tools/Polyplane Creator")]
     public static void ShowWindow()
@@ -41,23 +42,81 @@ public class PolyplaneEditorWindow : EditorWindow
     {
         //VECTOR2
         planeSquares = rootVisualElement.Q<Vector2Field>("plane-squares");
+        planeSquares.value = KLD_StaticPlaneGenerator.planeSquares;
         planeSquares.RegisterValueChangedCallback<Vector2>(OnPlaneSquaresValueChanged);
+
+        squareSize = rootVisualElement.Q<Vector2Field>("square-size");
+        squareSize.value = KLD_StaticPlaneGenerator.squareSize;
+        squareSize.RegisterValueChangedCallback<Vector2>(OnSquareSizeValueChanged);
+
+        //FLOAT (SEA LEVEL)
+        seaLevel = rootVisualElement.Q<FloatField>("sea-level");
+        seaLevel.value = KLD_StaticPlaneGenerator.seaLevel;
+        seaLevel.RegisterValueChangedCallback<float>(OnSeaLevelValueChanged);
 
         //BUTTONS
         flatPlaneButton = rootVisualElement.Q<Button>("flat-plane-button");
-        noisePlaneButton = rootVisualElement.Q<Button>("noise-plane-button");
-
         flatPlaneButton.RegisterCallback<ClickEvent>(ev => OnFlatPlaneButtonClick());
+
+        noisePlaneButton = rootVisualElement.Q<Button>("noise-plane-button");
         noisePlaneButton.RegisterCallback<ClickEvent>(ev => OnNoisePlaneButtonClick());
 
+        //FLOATS (NOISE PARAMETERS)
+        noiseStrenght = rootVisualElement.Q<FloatField>("noise-strenght");
+        noiseStrenght.value = KLD_StaticPlaneGenerator.noiseStrengh;
+        noiseStrenght.RegisterValueChangedCallback<float>(OnNoiseStrenghtValueChanged);
+
+        noiseScale = rootVisualElement.Q<FloatField>("noise-scale");
+        noiseScale.value = KLD_StaticPlaneGenerator.noiseScale;
+        noiseScale.RegisterValueChangedCallback<float>(OnNoiseScaleValueChanged);
+
+        materialField = rootVisualElement.Q<ObjectField>("material");
+        materialField.value = KLD_StaticPlaneGenerator.material == null ?
+        new Material(Shader.Find("Standard")) { name = "newMaterial" } :
+        KLD_StaticPlaneGenerator.material;
+
+        materialField.RegisterValueChangedCallback<Object>(OnMaterialValueChange);
 
     }
 
-    //void OnSearchTextChanged(ChangeEvent<string> evt)
+    #region Value change callbacks
+
     void OnPlaneSquaresValueChanged(ChangeEvent<Vector2> evt)
     {
-        //change plane squares in base class
+        KLD_StaticPlaneGenerator.planeSquares = new Vector2Int(Mathf.RoundToInt(evt.newValue.x), Mathf.RoundToInt(evt.newValue.y));
     }
+
+    void OnSquareSizeValueChanged(ChangeEvent<Vector2> evt)
+    {
+        KLD_StaticPlaneGenerator.squareSize = new Vector2Int(Mathf.RoundToInt(evt.newValue.x), Mathf.RoundToInt(evt.newValue.y));
+    }
+
+    void OnSeaLevelValueChanged(ChangeEvent<float> evt)
+    {
+        KLD_StaticPlaneGenerator.seaLevel = evt.newValue;
+    }
+
+    void OnNoiseStrenghtValueChanged(ChangeEvent<float> evt)
+    {
+        KLD_StaticPlaneGenerator.noiseStrengh = evt.newValue;
+    }
+
+    void OnNoiseScaleValueChanged(ChangeEvent<float> evt)
+    {
+        KLD_StaticPlaneGenerator.noiseScale = evt.newValue;
+    }
+
+    void OnMaterialValueChange(ChangeEvent<Object> evt)
+    {
+        KLD_StaticPlaneGenerator.material = (Material)evt.newValue;
+    }
+
+
+
+    #endregion
+
+
+    #region Buttons callbacks
 
     void OnFlatPlaneButtonClick()
     {
@@ -69,5 +128,6 @@ public class PolyplaneEditorWindow : EditorWindow
         Debug.Log("Noise plane click");
     }
 
+    #endregion
 
 }
