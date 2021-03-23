@@ -23,7 +23,7 @@ public class PolyplaneEditorWindow : EditorWindow
     {
         var window = GetWindow<PolyplaneEditorWindow>();
         window.titleContent = new GUIContent("Plane Creator");
-        window.minSize = new Vector2(280, 300);
+        window.minSize = new Vector2(280, 210);
     }
 
     private void OnEnable()
@@ -71,9 +71,11 @@ public class PolyplaneEditorWindow : EditorWindow
         noiseScale.RegisterValueChangedCallback<float>(OnNoiseScaleValueChanged);
 
         materialField = rootVisualElement.Q<ObjectField>("material");
+        //materialField.allowSceneObjects = false;
+        materialField.objectType = typeof(Material);
         materialField.value = KLD_StaticPlaneGenerator.material == null ?
-        new Material(Shader.Find("Standard")) { name = "newMaterial" } :
-        KLD_StaticPlaneGenerator.material;
+            new Material(Shader.Find("Standard")) { name = "newMaterial" } :
+            KLD_StaticPlaneGenerator.material;
 
         materialField.RegisterValueChangedCallback<Object>(OnMaterialValueChange);
 
@@ -120,12 +122,14 @@ public class PolyplaneEditorWindow : EditorWindow
 
     void OnFlatPlaneButtonClick()
     {
-        Debug.Log("Flat plane click");
+        KLD_StaticPlaneGenerator.CreatePlane(true);
+        //Debug.Log("Flat plane click");
     }
 
     void OnNoisePlaneButtonClick()
     {
-        Debug.Log("Noise plane click");
+        KLD_StaticPlaneGenerator.CreatePlane(false);
+        //Debug.Log("Noise plane click");
     }
 
     #endregion
