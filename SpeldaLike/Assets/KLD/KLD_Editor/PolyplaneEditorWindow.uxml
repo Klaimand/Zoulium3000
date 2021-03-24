@@ -1,0 +1,13 @@
+<UXML xmlns="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements">
+    <uie:Vector2Field label="Plane Squares" name="plane-squares"/>
+    <uie:Vector2Field label="Square Size" name="square-size"/>
+    <uie:FloatField label="Sea level" name="sea-level"/>
+    <Button text="Create flat plane" name="flat-plane-button"/>
+    <Button text="Create noise plane" name="noise-plane-button"/>
+    <Foldout name="noise-foldout" text="Noise Settings">
+        <uie:FloatField label="Noise strenght" name="noise-strenght"/>
+        <uie:FloatField label="Noise scale" name="noise-scale"/>
+    </Foldout>
+    <uie:ObjectField label="Material" name="material"/>
+
+</UXML>

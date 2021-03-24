@@ -9,20 +9,24 @@ public class KLD_PlaneGenerator : SerializedMonoBehaviour
     [SerializeField] Vector2Int planeSquares = new Vector2Int(30, 30);
     [SerializeField] Vector2 squareSize = new Vector2(1f, 1f);
 
+    [SerializeField] float noiseStrengh = 1f;
+    [SerializeField] float noiseScale = 5f;
+    [SerializeField] float seaLevel = 5f;
+
     [SerializeField] Material material;
 
     [SerializeField] MeshFilter meshNormalsToDraw;
 
     private void Update()
     {
-        for (int i = 0; i < meshNormalsToDraw.mesh.normals.GetLength(0); i++)
-        {
-            Debug.DrawRay(meshNormalsToDraw.mesh.vertices[i], meshNormalsToDraw.mesh.normals[i]);
-        }
+        //for (int i = 0; i < meshNormalsToDraw.mesh.normals.GetLength(0); i++)
+        //{
+        //    Debug.DrawRay(meshNormalsToDraw.mesh.vertices[i], meshNormalsToDraw.mesh.normals[i]);
+        //}
     }
 
     [Button]
-    public void CreatePlane()
+    public void CreatePlane(bool _flatPlane)
     {
 
         GameObject curGO = new GameObject("newPolyplane");
@@ -34,7 +38,7 @@ public class KLD_PlaneGenerator : SerializedMonoBehaviour
         meshFilter.mesh = mesh;
         mesh.Clear();
 
-        mesh.vertices = GenerateVertices();
+        mesh.vertices = GenerateVertices(_flatPlane);
         mesh.triangles = GenerateTriangles();
 
         mesh.RecalculateNormals();
@@ -47,9 +51,42 @@ public class KLD_PlaneGenerator : SerializedMonoBehaviour
         print(_meshFilter.gameObject.name + "has a mesh that has " + _meshFilter.mesh.vertices.GetLength(0) + " vertices");
     }
 
-    Vector3[] GenerateVertices()
+    [Button]
+    public void Flatten(MeshFilter _meshFilter)
+    {
+        Vector3[] verticesInst = _meshFilter.mesh.vertices;
+
+        for (int i = 0; i < verticesInst.GetLength(0); i++)
+        {
+            verticesInst[i] = new Vector3(verticesInst[i].x, 0f, verticesInst[i].z);
+            //if (i != 2 && i != 5 && i != 103 && i != 104)
+            //{
+            //}
+        }
+
+        _meshFilter.mesh.vertices = verticesInst;
+        _meshFilter.mesh.RecalculateNormals();
+    }
+
+    [Button]
+    public void RecalculateNormals(MeshFilter _meshFilter)
+    {
+        _meshFilter.mesh.RecalculateNormals();
+
+    }
+
+    [Button]
+    public void RecalculatePolybrushNormals(GameObject _go)
+    {
+
+        //_go.GetComponent<PolybrushMesh>();
+    }
+
+    Vector3[] GenerateVertices(bool _flatPlane)
     {
         Vector3[] verticesInst = new Vector3[planeSquares.x * planeSquares.y * 6];
+
+        Vector2 randomOffset = new Vector2(Random.value * 10000f, Random.value * 10000f);
 
         for (int y = 0; y < planeSquares.y; y++)
         {
@@ -57,10 +94,6 @@ public class KLD_PlaneGenerator : SerializedMonoBehaviour
             {
                 int cornerIndex = ((y * planeSquares.x) + x) * 6;
                 Vector3 cornerPosition = new Vector3(x * squareSize.x, 0f, y * squareSize.y);
-                if (x == 0 && y == 0)
-                {
-                    //cornerPosition = new Vector3(cornerPosition.x, 1f, cornerPosition.z);
-                }
 
                 //verticesInst[cornerIndex] = cornerPosition;
                 //verticesInst[cornerIndex + 1] = cornerPosition + Vector3.forward * squareSize.y;
@@ -83,12 +116,24 @@ public class KLD_PlaneGenerator : SerializedMonoBehaviour
                 verticesInst[cornerIndex + 4] = cornerPosition;
                 verticesInst[cornerIndex + 5] = cornerPosition + Vector3.forward * squareSize.y + Vector3.right * squareSize.x;
 
-                verticesInst[cornerIndex] = verticesInst[cornerIndex] + Vector3.up * Mathf.PerlinNoise(verticesInst[cornerIndex].x / (float)planeSquares.x, verticesInst[cornerIndex].z / (float)planeSquares.y);
-                verticesInst[cornerIndex + 1] = verticesInst[cornerIndex + 1] + Vector3.up * Mathf.PerlinNoise(verticesInst[cornerIndex + 1].x / (float)planeSquares.x, verticesInst[cornerIndex + 1].z / (float)planeSquares.y);
-                verticesInst[cornerIndex + 2] = verticesInst[cornerIndex + 2] + Vector3.up * Mathf.PerlinNoise(verticesInst[cornerIndex + 2].x / (float)planeSquares.x, verticesInst[cornerIndex + 2].z / (float)planeSquares.y);
-                verticesInst[cornerIndex + 3] = verticesInst[cornerIndex + 3] + Vector3.up * Mathf.PerlinNoise(verticesInst[cornerIndex + 3].x / (float)planeSquares.x, verticesInst[cornerIndex + 3].z / (float)planeSquares.y);
-                verticesInst[cornerIndex + 4] = verticesInst[cornerIndex + 4] + Vector3.up * Mathf.PerlinNoise(verticesInst[cornerIndex + 4].x / (float)planeSquares.x, verticesInst[cornerIndex + 4].z / (float)planeSquares.y);
-                verticesInst[cornerIndex + 5] = verticesInst[cornerIndex + 5] + Vector3.up * Mathf.PerlinNoise(verticesInst[cornerIndex + 5].x / (float)planeSquares.x, verticesInst[cornerIndex + 5].z / (float)planeSquares.y);
+                if (!_flatPlane)
+                {
+
+                    verticesInst[cornerIndex + 0] = verticesInst[cornerIndex + 0] + Vector3.up * Mathf.PerlinNoise(verticesInst[cornerIndex + 0].x / ((float)squareSize.x * noiseScale) + randomOffset.x, verticesInst[cornerIndex + 0].z / ((float)squareSize.y * noiseScale) + randomOffset.y) * noiseStrengh;
+                    verticesInst[cornerIndex + 1] = verticesInst[cornerIndex + 1] + Vector3.up * Mathf.PerlinNoise(verticesInst[cornerIndex + 1].x / ((float)squareSize.x * noiseScale) + randomOffset.x, verticesInst[cornerIndex + 1].z / ((float)squareSize.y * noiseScale) + randomOffset.y) * noiseStrengh;
+                    verticesInst[cornerIndex + 2] = verticesInst[cornerIndex + 2] + Vector3.up * Mathf.PerlinNoise(verticesInst[cornerIndex + 2].x / ((float)squareSize.x * noiseScale) + randomOffset.x, verticesInst[cornerIndex + 2].z / ((float)squareSize.y * noiseScale) + randomOffset.y) * noiseStrengh;
+                    verticesInst[cornerIndex + 3] = verticesInst[cornerIndex + 3] + Vector3.up * Mathf.PerlinNoise(verticesInst[cornerIndex + 3].x / ((float)squareSize.x * noiseScale) + randomOffset.x, verticesInst[cornerIndex + 3].z / ((float)squareSize.y * noiseScale) + randomOffset.y) * noiseStrengh;
+                    verticesInst[cornerIndex + 4] = verticesInst[cornerIndex + 4] + Vector3.up * Mathf.PerlinNoise(verticesInst[cornerIndex + 4].x / ((float)squareSize.x * noiseScale) + randomOffset.x, verticesInst[cornerIndex + 4].z / ((float)squareSize.y * noiseScale) + randomOffset.y) * noiseStrengh;
+                    verticesInst[cornerIndex + 5] = verticesInst[cornerIndex + 5] + Vector3.up * Mathf.PerlinNoise(verticesInst[cornerIndex + 5].x / ((float)squareSize.x * noiseScale) + randomOffset.x, verticesInst[cornerIndex + 5].z / ((float)squareSize.y * noiseScale) + randomOffset.y) * noiseStrengh;
+                }
+
+                verticesInst[cornerIndex].y += seaLevel;
+                verticesInst[cornerIndex + 1].y += seaLevel;
+                verticesInst[cornerIndex + 2].y += seaLevel;
+                verticesInst[cornerIndex + 3].y += seaLevel;
+                verticesInst[cornerIndex + 4].y += seaLevel;
+                verticesInst[cornerIndex + 5].y += seaLevel;
+
 
             }
         }
