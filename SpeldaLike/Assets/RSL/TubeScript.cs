@@ -6,7 +6,7 @@ public class TubeScript : MonoBehaviour
 {
     void Start()
     {
-        GetComponent<FixedJoint>().connectedBody = transform.parent.GetComponent<Rigidbody>();
+        GetComponent<HingeJoint>().connectedBody = transform.parent.GetComponent<Rigidbody>();
 
     }
 }
