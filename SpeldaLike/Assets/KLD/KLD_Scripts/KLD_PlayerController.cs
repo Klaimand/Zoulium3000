@@ -378,7 +378,7 @@ public class KLD_PlayerController : SerializedMonoBehaviour
         Physics.Raycast(transform.position + Vector3.up, Vector3.down, out hit, 10f, groundLayer);
         //bool isSlopeCorrect = hit.normal
         bool isSlopeCorrect = Vector3.Angle(Vector3.up, hit.normal) <= maxSlopeAngle;
-        //print(Vector3.Angle(Vector3.up, hit.normal));
+        print(Vector3.Angle(Vector3.up, hit.normal));
         return detectGround && isSlopeCorrect;
     }
 
