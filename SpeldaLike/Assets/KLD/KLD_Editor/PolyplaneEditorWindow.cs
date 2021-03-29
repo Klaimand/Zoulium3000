@@ -9,6 +9,7 @@ public class PolyplaneEditorWindow : EditorWindow
     Vector2Field planeSquares;
     Vector2Field squareSize;
     FloatField seaLevel;
+    Toggle collider;
 
     Button flatPlaneButton;
     Button noisePlaneButton;
@@ -23,7 +24,7 @@ public class PolyplaneEditorWindow : EditorWindow
     {
         var window = GetWindow<PolyplaneEditorWindow>();
         window.titleContent = new GUIContent("Plane Creator");
-        window.minSize = new Vector2(280, 210);
+        window.minSize = new Vector2(280, 225);
     }
 
     private void OnEnable()
@@ -53,6 +54,11 @@ public class PolyplaneEditorWindow : EditorWindow
         seaLevel = rootVisualElement.Q<FloatField>("sea-level");
         seaLevel.value = KLD_StaticPlaneGenerator.seaLevel;
         seaLevel.RegisterValueChangedCallback<float>(OnSeaLevelValueChanged);
+
+        //TOGGLE(collider)
+        collider = rootVisualElement.Q<Toggle>("collider");
+        collider.value = KLD_StaticPlaneGenerator.instCollider;
+        collider.RegisterValueChangedCallback<bool>(OnColliderValueChanged);
 
         //BUTTONS
         flatPlaneButton = rootVisualElement.Q<Button>("flat-plane-button");
@@ -96,6 +102,11 @@ public class PolyplaneEditorWindow : EditorWindow
     void OnSeaLevelValueChanged(ChangeEvent<float> evt)
     {
         KLD_StaticPlaneGenerator.seaLevel = evt.newValue;
+    }
+
+    void OnColliderValueChanged(ChangeEvent<bool> evt)
+    {
+        KLD_StaticPlaneGenerator.instCollider = evt.newValue;
     }
 
     void OnNoiseStrenghtValueChanged(ChangeEvent<float> evt)
