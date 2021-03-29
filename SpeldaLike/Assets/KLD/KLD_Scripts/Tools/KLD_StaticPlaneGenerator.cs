@@ -11,7 +11,8 @@ public static class KLD_StaticPlaneGenerator
 
     public static float noiseStrengh = 1f;
     public static float noiseScale = 5f;
-    public static float seaLevel = 5f;
+    public static float seaLevel = 0f;
+    public static bool instCollider = true;
 
     public static Material material;
 
@@ -31,6 +32,11 @@ public static class KLD_StaticPlaneGenerator
 
         mesh.vertices = GenerateVertices(_flatPlane);
         mesh.triangles = GenerateTriangles();
+
+        if (instCollider)
+        {
+            curGO.AddComponent<MeshCollider>();
+        }
 
         mesh.RecalculateNormals();
         //mesh.Optimize();
