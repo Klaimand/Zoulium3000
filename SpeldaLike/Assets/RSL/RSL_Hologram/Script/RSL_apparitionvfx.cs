@@ -20,7 +20,7 @@ public class RSL_apparitionvfx : MonoBehaviour
         }
         if (Keyboard.current.numpad2Key.wasPressedThisFrame)
         {
-            Destroy(vfx);
+            Destroy(vfx, 1f);
             Debug.Log("GROSPD");
         }
     }
