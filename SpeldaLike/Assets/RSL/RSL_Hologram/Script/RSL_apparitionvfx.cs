@@ -18,10 +18,5 @@ public class RSL_apparitionvfx : MonoBehaviour
         {
             Instantiate(vfx, transform.position, Quaternion.identity);
         }
-        if (Keyboard.current.numpad2Key.wasPressedThisFrame)
-        {
-            Destroy(vfx, 1f);
-            Debug.Log("GROSPD");
-        }
     }
 }
