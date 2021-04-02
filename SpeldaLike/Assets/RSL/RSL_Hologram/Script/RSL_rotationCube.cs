@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class RotationCube : MonoBehaviour
+public class RSL_rotationCube : MonoBehaviour
 {
     public float x;
     public float y;
