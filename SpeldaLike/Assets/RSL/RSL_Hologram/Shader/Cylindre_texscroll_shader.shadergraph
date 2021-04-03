@@ -1039,7 +1039,7 @@
     "m_Type": "UnityEditor.ShaderGraph.Texture2DMaterialSlot",
     "m_ObjectId": "1d2204da21d544b8b6d9dfd6252c4c46",
     "m_Id": 0,
-    "m_DisplayName": "Texture Hexagone",
+    "m_DisplayName": "Texture 2",
     "m_SlotType": 1,
     "m_Hidden": false,
     "m_ShaderOutputName": "Out",
@@ -1635,7 +1635,7 @@
     "m_Guid": {
         "m_GuidSerialized": "ab6f285a-3c53-40e3-a7b2-fe08c42881fc"
     },
-    "m_Name": "Texture Hexagone",
+    "m_Name": "Texture 2",
     "m_DefaultReferenceName": "Texture2D_3613f9de884e4ba5ae812402cfd516f9",
     "m_OverrideReferenceName": "",
     "m_GeneratePropertyBlock": true,
@@ -1671,7 +1671,7 @@
     "m_Type": "UnityEditor.ShaderGraph.Vector1MaterialSlot",
     "m_ObjectId": "39443d31cc574f6fb19e17a528848863",
     "m_Id": 0,
-    "m_DisplayName": "Tiling hexagone",
+    "m_DisplayName": "Tiling Tex2",
     "m_SlotType": 1,
     "m_Hidden": false,
     "m_ShaderOutputName": "Out",
@@ -1740,7 +1740,7 @@
     "m_Guid": {
         "m_GuidSerialized": "4af83245-0337-4d4c-ab38-f7e8a86e0641"
     },
-    "m_Name": "Vitesse stripes",
+    "m_Name": "Vitesse Tex1",
     "m_DefaultReferenceName": "Vector2_44eabe3084fa4e9e98be1d4c65339231",
     "m_OverrideReferenceName": "",
     "m_GeneratePropertyBlock": true,
@@ -1784,7 +1784,7 @@
     "m_Guid": {
         "m_GuidSerialized": "172e6de7-238e-43e5-ad8f-f06eade17adf"
     },
-    "m_Name": "Tiling hexagone",
+    "m_Name": "Tiling Tex2",
     "m_DefaultReferenceName": "Vector1_4690f74f59524f81b502004d75cfa8f2",
     "m_OverrideReferenceName": "",
     "m_GeneratePropertyBlock": true,
@@ -1805,7 +1805,7 @@
     "m_Type": "UnityEditor.ShaderGraph.Texture2DMaterialSlot",
     "m_ObjectId": "49c15caf477248e397ee6daee4dcbcc6",
     "m_Id": 0,
-    "m_DisplayName": "Texture stripes",
+    "m_DisplayName": "Texture 1",
     "m_SlotType": 1,
     "m_Hidden": false,
     "m_ShaderOutputName": "Out",
@@ -2465,7 +2465,7 @@
     "m_Guid": {
         "m_GuidSerialized": "dd71607a-2617-4c78-8f6c-7c21cefa3f52"
     },
-    "m_Name": "Color stripes",
+    "m_Name": "Color Tex1",
     "m_DefaultReferenceName": "Color_6df84fdc5bae4e67b25bfd67740b30ba",
     "m_OverrideReferenceName": "",
     "m_GeneratePropertyBlock": true,
@@ -2511,7 +2511,7 @@
     "m_Guid": {
         "m_GuidSerialized": "98737597-22e8-4e13-9d3f-706c0439f0f6"
     },
-    "m_Name": "Vitesse hexagones",
+    "m_Name": "Vitesse Tex2",
     "m_DefaultReferenceName": "Vector2_70131217ac42408084bd5376ddf5ab82",
     "m_OverrideReferenceName": "",
     "m_GeneratePropertyBlock": true,
@@ -2838,7 +2838,7 @@
     "m_Type": "UnityEditor.ShaderGraph.Vector1MaterialSlot",
     "m_ObjectId": "8128c71f0b54481f9e0a5ee208e6841d",
     "m_Id": 0,
-    "m_DisplayName": "Tiling stripes",
+    "m_DisplayName": "Tiling Tex1",
     "m_SlotType": 1,
     "m_Hidden": false,
     "m_ShaderOutputName": "Out",
@@ -2933,7 +2933,7 @@
     "m_Guid": {
         "m_GuidSerialized": "3e614890-ad67-424f-b454-12eebac4889e"
     },
-    "m_Name": "Texture stripes",
+    "m_Name": "Texture 1",
     "m_DefaultReferenceName": "Texture2D_85b02d792c0449a083efb8c6c78c3546",
     "m_OverrideReferenceName": "",
     "m_GeneratePropertyBlock": true,
@@ -4259,10 +4259,10 @@
     "hlslDeclarationOverride": 0,
     "m_Hidden": false,
     "m_Value": 0.0,
-    "m_FloatType": 0,
+    "m_FloatType": 1,
     "m_RangeValues": {
-        "x": 0.0,
-        "y": 1.0
+        "x": -5.0,
+        "y": 5.0
     }
 }
 
@@ -4549,7 +4549,7 @@
     "m_Type": "UnityEditor.ShaderGraph.Vector4MaterialSlot",
     "m_ObjectId": "dd1e72a64aae4908aeecb145ccfc7caa",
     "m_Id": 0,
-    "m_DisplayName": "Color stripes",
+    "m_DisplayName": "Color Tex1",
     "m_SlotType": 1,
     "m_Hidden": false,
     "m_ShaderOutputName": "Out",
@@ -4683,7 +4683,7 @@
     "m_Guid": {
         "m_GuidSerialized": "72d91774-3d17-49e1-8f10-738b76b28dd9"
     },
-    "m_Name": "Tiling stripes",
+    "m_Name": "Tiling Tex1",
     "m_DefaultReferenceName": "Vector1_e8919dc716bd482c936d3c5d35849078",
     "m_OverrideReferenceName": "",
     "m_GeneratePropertyBlock": true,
@@ -4741,7 +4741,7 @@
     "m_Type": "UnityEditor.ShaderGraph.Vector2MaterialSlot",
     "m_ObjectId": "eb0c54cca7784ac6ae3c867d8d191f5c",
     "m_Id": 0,
-    "m_DisplayName": "Vitesse hexagones",
+    "m_DisplayName": "Vitesse Tex2",
     "m_SlotType": 1,
     "m_Hidden": false,
     "m_ShaderOutputName": "Out",
@@ -4972,7 +4972,7 @@
     "m_Type": "UnityEditor.ShaderGraph.Vector2MaterialSlot",
     "m_ObjectId": "fb077ca0bfe24bcaa3b4f052e76fd871",
     "m_Id": 0,
-    "m_DisplayName": "Vitesse stripes",
+    "m_DisplayName": "Vitesse Tex1",
     "m_SlotType": 1,
     "m_Hidden": false,
     "m_ShaderOutputName": "Out",
