@@ -68,6 +68,26 @@ public class KLD_PlayerController : SerializedMonoBehaviour
     [SerializeField] LayerMask groundLayer;
     [SerializeField, ReadOnly] bool m_isGrounded = false;
 
+    [SerializeField, Header("PowerJump")]
+    float powerJumpSpeed = 30f;
+
+    [SerializeField]
+    enum PlayerState
+    {
+        IDLE,
+        RUNNING,
+        JUMPING,
+        FALLING,
+
+        CROUCHING,
+        POWERCROUCHING,
+        POWERJUMPING,
+        POWERFALLING,
+
+        FLOATING
+    };
+    [SerializeField] PlayerState curPlayerState = PlayerState.IDLE;
+
     [SerializeField, Header("NO GRAVITY CONTROLLER"), Space(20)]
     float ng_impulseForce = 3f;
     [SerializeField] float ng_verticalImpulseForce = 3f;
@@ -81,9 +101,13 @@ public class KLD_PlayerController : SerializedMonoBehaviour
 
     [SerializeField, Header("Animation"), Space(20)]
     float idleVelocityThreshold = 0.1f;
-    public enum PlayerState { IDLE, RUNNING, NO_GRAVITY, JUMPING, FALLING };
-    [SerializeField] PlayerState playerAnimationState = PlayerState.IDLE;
+    public enum PlayerState_obs { IDLE, RUNNING, NO_GRAVITY, JUMPING, FALLING, CROUCHING };
+    [SerializeField] PlayerState_obs playerAnimationState = PlayerState_obs.IDLE;
     [SerializeField] Animator animator = null;
+
+
+    //INPUT ACTIONS
+    //bool getJumpActionDown = false;
 
     private void Awake()
     {
@@ -101,6 +125,8 @@ public class KLD_PlayerController : SerializedMonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        UpdatePlayerState();
+        /*
         //CheckPlayerJump();
         UpdatePlayerGroundPointPosition();
         UpdateDampedGroundPointPosition();
@@ -108,10 +134,12 @@ public class KLD_PlayerController : SerializedMonoBehaviour
         UpdatePlayerAnimationState();
 
         //DoPlayerNoGravityReactorsSize();
+        */
     }
 
     private void FixedUpdate()
     {
+        /*
         //axis
         DoDeadZoneRawAxis();
         DoTimedAxis();
@@ -134,7 +162,7 @@ public class KLD_PlayerController : SerializedMonoBehaviour
             DoPlayerNoGravityRotation();
         }
 
-
+        */
     }
 
     private void OnEnable()
@@ -158,9 +186,18 @@ public class KLD_PlayerController : SerializedMonoBehaviour
 
     public void OnJump(InputAction.CallbackContext value)
     {
+        /*
         if (value.started && controllerMode == ControllerMode.GRAVITY)
         {
-            CheckPlayerJump(true);
+            //CheckPlayerJump(true);
+        }
+        if (value.canceled)
+        {
+            //print("jump button released");
+        }*/
+        if (value.started)
+        {
+            //getJumpActionDown = true;
         }
     }
 
@@ -187,6 +224,57 @@ public class KLD_PlayerController : SerializedMonoBehaviour
     }
 
     #endregion
+
+    void UpdatePlayerState()
+    {
+        if (curPlayerState == PlayerState.IDLE)
+        {
+            if (playerInput.actions.FindAction("Jump").phase == InputActionPhase.Performed)
+            {
+                print("jumped while idle");
+            }
+
+            if (timedAxis.magnitude != 0f)
+            {
+                curPlayerState = PlayerState.RUNNING;
+            }
+        }
+        else if (curPlayerState == PlayerState.RUNNING)
+        {
+            if (timedAxis.magnitude == 0f)
+            {
+                curPlayerState = PlayerState.IDLE;
+            }
+        }
+        else if (curPlayerState == PlayerState.JUMPING)
+        {
+
+        }
+        else if (curPlayerState == PlayerState.FALLING)
+        {
+
+        }
+        else if (curPlayerState == PlayerState.CROUCHING)
+        {
+
+        }
+        else if (curPlayerState == PlayerState.POWERCROUCHING)
+        {
+
+        }
+        else if (curPlayerState == PlayerState.POWERJUMPING)
+        {
+
+        }
+        else if (curPlayerState == PlayerState.POWERFALLING)
+        {
+
+        }
+        else if (curPlayerState == PlayerState.FLOATING)
+        {
+
+        }
+    }
 
     void DoDeadZoneRawAxis()
     {
@@ -402,7 +490,7 @@ public class KLD_PlayerController : SerializedMonoBehaviour
         Physics.Raycast(transform.position + Vector3.up, Vector3.down, out hit, 10f, groundLayer);
         //bool isSlopeCorrect = hit.normal
         bool isSlopeCorrect = Vector3.Angle(Vector3.up, hit.normal) <= maxSlopeAngle;
-        print(Vector3.Angle(Vector3.up, hit.normal));
+        //print(Vector3.Angle(Vector3.up, hit.normal));
         return detectGround && isSlopeCorrect;
     }
 
@@ -586,21 +674,21 @@ public class KLD_PlayerController : SerializedMonoBehaviour
             {
                 if (new Vector2(rb.velocity.x, rb.velocity.z).magnitude >= idleVelocityThreshold)
                 {
-                    playerAnimationState = PlayerState.RUNNING;
+                    playerAnimationState = PlayerState_obs.RUNNING;
                 }
                 else
                 {
-                    playerAnimationState = PlayerState.IDLE;
+                    playerAnimationState = PlayerState_obs.IDLE;
                 }
             }
             else
             {
-                playerAnimationState = rb.velocity.y > 0f ? PlayerState.JUMPING : PlayerState.FALLING;
+                playerAnimationState = rb.velocity.y > 0f ? PlayerState_obs.JUMPING : PlayerState_obs.FALLING;
             }
         }
         else
         {
-            playerAnimationState = PlayerState.NO_GRAVITY;
+            playerAnimationState = PlayerState_obs.NO_GRAVITY;
         }
 
 
