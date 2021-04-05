@@ -1076,25 +1076,6 @@ Transform:
   m_Father: {fileID: 7121690983688771078}
   m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!95 &7121690983223316113
-Animator:
-  serializedVersion: 3
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7932032903422014415}
-  m_Enabled: 1
-  m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: d2693c60f5768fb40ae9a4222c73d285, type: 2}
-  m_CullingMode: 0
-  m_UpdateMode: 0
-  m_ApplyRootMotion: 0
-  m_LinearVelocityBlending: 0
-  m_WarningMessage: 
-  m_HasTransformHierarchy: 1
-  m_AllowConstantClipSamplingOptimization: 1
-  m_KeepAnimatorControllerStateOnDisable: 0
 --- !u!1 &7121690983245276098
 GameObject:
   m_ObjectHideFlags: 0
@@ -1463,8 +1444,6 @@ GameObject:
   - component: {fileID: 7121690983688771075}
   - component: {fileID: 7121690983688771079}
   - component: {fileID: 7121690983688771128}
-  - component: {fileID: 7121690983688771076}
-  - component: {fileID: 7121690983688771077}
   m_Layer: 0
   m_Name: Player
   m_TagString: Player
@@ -1544,7 +1523,6 @@ MonoBehaviour:
     PrefabModificationsReferencedUnityObjects: []
     PrefabModifications: []
     SerializationNodes: []
-  playerInput: {fileID: 7121690983688771076}
   axisTransform: {fileID: 0}
   playerGroundPoint: {fileID: 7121690983169137050}
   dampedGroundPoint: {fileID: 0}
@@ -1576,6 +1554,8 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 256
   m_isGrounded: 1
+  powerJumpSpeed: 30
+  curPlayerState: 0
   ng_impulseForce: 2
   ng_verticalImpulseForce: 2
   ng_maxHorizontalSpeed: 5
@@ -1594,87 +1574,6 @@ MonoBehaviour:
   idleVelocityThreshold: 0.1
   playerAnimationState: 0
   animator: {fileID: 7121690983223316113}
---- !u!114 &7121690983688771076
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7121690983688771074}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 62899f850307741f2a39c98a8b639597, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_Actions: {fileID: -944628639613478452, guid: 3bdda35f934251845a68eda0c5f4e41f,
-    type: 3}
-  m_NotificationBehavior: 2
-  m_UIInputModule: {fileID: 0}
-  m_DeviceLostEvent:
-    m_PersistentCalls:
-      m_Calls: []
-  m_DeviceRegainedEvent:
-    m_PersistentCalls:
-      m_Calls: []
-  m_ControlsChangedEvent:
-    m_PersistentCalls:
-      m_Calls: []
-  m_ActionEvents:
-  - m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 7121690983688771128}
-        m_TargetAssemblyTypeName: 
-        m_MethodName: OnJump
-        m_Mode: 0
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-    m_ActionId: 5367cdf8-d383-4cfa-98f6-d300d047f64c
-    m_ActionName: PlayerControls/Jump[/Keyboard/space]
-  - m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 7121690983688771128}
-        m_TargetAssemblyTypeName: 
-        m_MethodName: OnMovement
-        m_Mode: 0
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-    m_ActionId: a0876c4e-c363-4d9e-99ca-c9975c477d96
-    m_ActionName: PlayerControls/Movement[/Keyboard/w,/Keyboard/a,/Keyboard/a,/Keyboard/d]
-  - m_PersistentCalls:
-      m_Calls: []
-    m_ActionId: 151de601-97da-4e50-a3eb-e749b5bc6b44
-    m_ActionName: PlayerControls/Crouch[/Keyboard/leftShift]
-  m_NeverAutoSwitchControlSchemes: 0
-  m_DefaultControlScheme: 
-  m_DefaultActionMap: PlayerControls
-  m_SplitScreenIndex: -1
-  m_Camera: {fileID: 0}
---- !u!136 &7121690983688771077
-CapsuleCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7121690983688771074}
-  m_Material: {fileID: 13400000, guid: 9cac1c0a04f2eed4584436f205edf26c, type: 2}
-  m_IsTrigger: 0
-  m_Enabled: 0
-  m_Radius: 0.5
-  m_Height: 3.8193753
-  m_Direction: 1
-  m_Center: {x: 0, y: 1.9096876, z: 0}
 --- !u!1 &7121690983699570774
 GameObject:
   m_ObjectHideFlags: 0
@@ -3171,6 +3070,25 @@ Transform:
   m_Father: {fileID: 454415209681051572}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!95 &7121690983223316113
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7932032903422014415}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: d2693c60f5768fb40ae9a4222c73d285, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
 --- !u!1 &8069756814053305131
 GameObject:
   m_ObjectHideFlags: 0

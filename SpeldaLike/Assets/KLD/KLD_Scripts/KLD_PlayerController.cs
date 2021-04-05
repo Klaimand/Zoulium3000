@@ -1,14 +1,14 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.InputSystem;
+//using UnityEngine.InputSystem;
 using Sirenix.OdinInspector;
 
 [RequireComponent(typeof(Rigidbody)), RequireComponent(typeof(CapsuleCollider))]
 public class KLD_PlayerController : SerializedMonoBehaviour
 {
 
-    [SerializeField] PlayerInput playerInput;
+    //[SerializeField] PlayerInput playerInput;
     [SerializeField] Transform axisTransform;
     [SerializeField] Transform playerGroundPoint;
     [SerializeField] Transform dampedGroundPoint;
@@ -178,7 +178,7 @@ public class KLD_PlayerController : SerializedMonoBehaviour
     }
 
     #region Inputs Callbacks
-
+    /*
     public void OnMovement(InputAction.CallbackContext value)
     {
         rawAxis = value.ReadValue<Vector2>();
@@ -186,7 +186,7 @@ public class KLD_PlayerController : SerializedMonoBehaviour
 
     public void OnJump(InputAction.CallbackContext value)
     {
-        /*
+        
         if (value.started && controllerMode == ControllerMode.GRAVITY)
         {
             //CheckPlayerJump(true);
@@ -194,13 +194,13 @@ public class KLD_PlayerController : SerializedMonoBehaviour
         if (value.canceled)
         {
             //print("jump button released");
-        }*/
+        }
         if (value.started)
         {
             //getJumpActionDown = true;
         }
     }
-
+    */
     #endregion
 
     #region Events
@@ -229,7 +229,7 @@ public class KLD_PlayerController : SerializedMonoBehaviour
     {
         if (curPlayerState == PlayerState.IDLE)
         {
-            if (playerInput.actions.FindAction("Jump").phase == InputActionPhase.Performed)
+            if (Input.GetButtonDown("Jump"))
             {
                 print("jumped while idle");
             }
@@ -520,7 +520,7 @@ public class KLD_PlayerController : SerializedMonoBehaviour
             rb.velocity += Vector3.up * Physics.gravity.y * (fallMultiplier - 1) * Time.fixedDeltaTime;
         }
         //else if (rb.velocity.y > 0 && !Input.GetButton("Jump"))  //check if we're jumping and gaining height
-        else if (rb.velocity.y > 0 && playerInput.actions.FindAction("Jump").phase == InputActionPhase.Waiting)
+        else if (rb.velocity.y > 0 && !Input.GetButton("Jump"))
         {
             rb.velocity += Vector3.up * Physics.gravity.y * (lowJumpMultiplier - 1) * Time.fixedDeltaTime;
         }
@@ -597,11 +597,11 @@ public class KLD_PlayerController : SerializedMonoBehaviour
 
 
 
-        if (rb.velocity.y < ng_maxVerticalSpeed && playerInput.actions.FindAction("Jump").phase == InputActionPhase.Performed)
+        if (rb.velocity.y < ng_maxVerticalSpeed && Input.GetButton("Jump"))
         {
             rb.AddForce(Vector3.up * ng_verticalImpulseForce, ForceMode.Force);
         }
-        else if (rb.velocity.y > -ng_maxVerticalSpeed && playerInput.actions.FindAction("Crouch").phase == InputActionPhase.Performed)
+        else if (rb.velocity.y > -ng_maxVerticalSpeed && Input.GetButton("Crouch"))
         {
             rb.AddForce(Vector3.down * ng_verticalImpulseForce, ForceMode.Force);
         }
