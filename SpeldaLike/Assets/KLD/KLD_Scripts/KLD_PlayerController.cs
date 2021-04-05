@@ -79,7 +79,6 @@ public class KLD_PlayerController : SerializedMonoBehaviour
         JUMPING,
         FALLING,
 
-        CROUCHING,
         POWERCROUCHING,
         POWERJUMPING,
         POWERFALLING,
@@ -126,6 +125,7 @@ public class KLD_PlayerController : SerializedMonoBehaviour
     void Update()
     {
         UpdatePlayerState();
+        DoPlayerBehavior();
         /*
         //CheckPlayerJump();
         UpdatePlayerGroundPointPosition();
@@ -139,12 +139,12 @@ public class KLD_PlayerController : SerializedMonoBehaviour
 
     private void FixedUpdate()
     {
-        /*
         //axis
         DoDeadZoneRawAxis();
         DoTimedAxis();
         DoNoGravityTimedAxis();
 
+        /*
         if (controllerMode == ControllerMode.GRAVITY)
         {
             DoPlayerMove();
@@ -229,14 +229,19 @@ public class KLD_PlayerController : SerializedMonoBehaviour
     {
         if (curPlayerState == PlayerState.IDLE)
         {
-            if (Input.GetButtonDown("Jump"))
+            if (CheckPlayerJump())
             {
-                print("jumped while idle");
+                curPlayerState = PlayerState.JUMPING;
             }
 
             if (timedAxis.magnitude != 0f)
             {
                 curPlayerState = PlayerState.RUNNING;
+            }
+
+            if (!isGrounded())
+            {
+
             }
         }
         else if (curPlayerState == PlayerState.RUNNING)
@@ -251,10 +256,6 @@ public class KLD_PlayerController : SerializedMonoBehaviour
 
         }
         else if (curPlayerState == PlayerState.FALLING)
-        {
-
-        }
-        else if (curPlayerState == PlayerState.CROUCHING)
         {
 
         }
@@ -276,9 +277,46 @@ public class KLD_PlayerController : SerializedMonoBehaviour
         }
     }
 
+    void DoPlayerBehavior()
+    {
+        switch (curPlayerState)
+        {
+            case PlayerState.IDLE:
+                break;
+
+            case PlayerState.RUNNING:
+                break;
+
+            case PlayerState.JUMPING:
+                break;
+
+            case PlayerState.FALLING:
+                break;
+
+            case PlayerState.POWERCROUCHING:
+                break;
+
+            case PlayerState.POWERJUMPING:
+                break;
+
+            case PlayerState.POWERFALLING:
+                break;
+
+            case PlayerState.FLOATING:
+                break;
+
+            default:
+                Debug.LogError("WHATTTTTATATATATTA");
+                break;
+
+        }
+    }
+
+    #region Axis Computing
+
     void DoDeadZoneRawAxis()
     {
-        //rawAxis = new Vector2(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical")); OLD INPUT
+        rawAxis = new Vector2(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical")); //OLD INPUT
 
         float hori = (Mathf.Abs(rawAxis.x) >= axisDeadZoneMagnitude ? 1f : 0f) * Mathf.Sign(rawAxis.x);
         float vert = (Mathf.Abs(rawAxis.y) >= axisDeadZoneMagnitude ? 1f : 0f) * Mathf.Sign(rawAxis.y);
@@ -390,6 +428,8 @@ public class KLD_PlayerController : SerializedMonoBehaviour
         ng_timedAxis = new Vector2(hori, vert);
     }
 
+    #endregion
+
     void DoPlayerMove()
     {
         //float xSpeed = Input.GetAxis("Horizontal") * Time.fixedDeltaTime * speed * 30f;
@@ -452,21 +492,29 @@ public class KLD_PlayerController : SerializedMonoBehaviour
         }
     }
 
-    void CheckPlayerJump(bool _calledByInput)
-    {
-        if (isGrounded() && (_calledByInput || jumpBuffer))
-        {
-            rb.velocity = new Vector3(rb.velocity.x, 0f, rb.velocity.z);
-            rb.velocity += Vector3.up * jumpSpeed;
-            StartCoroutine(WaitAndApplyHorizontalJumpForce());
 
-            jumpBuffer = false;
-        }
-        else if (_calledByInput)
+    bool CheckPlayerJump()
+    {
+        if (Input.GetButtonDown("Jump") || jumpBuffer)
         {
-            jumpBuffer = true;
-            StartCoroutine(WaitAndDebufferJump());
+            if (isGrounded())
+            {
+                rb.velocity = new Vector3(rb.velocity.x, 0f, rb.velocity.z);
+                rb.velocity += Vector3.up * jumpSpeed;
+                StartCoroutine(WaitAndApplyHorizontalJumpForce());
+
+                jumpBuffer = false;
+
+                return true;
+            }
+            else if (Input.GetButtonDown("Jump"))
+            {
+                jumpBuffer = true;
+                StartCoroutine(WaitAndDebufferJump());
+            }
+            print("jumped while idle");
         }
+        return false;
     }
 
     IEnumerator WaitAndApplyHorizontalJumpForce()
