@@ -126,15 +126,11 @@ public class KLD_PlayerController : SerializedMonoBehaviour
     {
         UpdatePlayerState();
         DoPlayerBehavior();
-        /*
-        //CheckPlayerJump();
+
         UpdatePlayerGroundPointPosition();
         UpdateDampedGroundPointPosition();
 
         UpdatePlayerAnimationState();
-
-        //DoPlayerNoGravityReactorsSize();
-        */
     }
 
     private void FixedUpdate()
@@ -227,7 +223,7 @@ public class KLD_PlayerController : SerializedMonoBehaviour
 
     void UpdatePlayerState()
     {
-        if (curPlayerState == PlayerState.IDLE)
+        if (curPlayerState == PlayerState.IDLE) //________________________________IDLE
         {
             if (CheckPlayerJump())
             {
@@ -241,37 +237,73 @@ public class KLD_PlayerController : SerializedMonoBehaviour
 
             if (!isGrounded())
             {
-
+                curPlayerState = PlayerState.FALLING;
             }
         }
-        else if (curPlayerState == PlayerState.RUNNING)
+        else if (curPlayerState == PlayerState.RUNNING) //_______________________RUNNING
         {
+            if (CheckPlayerJump())
+            {
+                curPlayerState = PlayerState.JUMPING;
+            }
+
             if (timedAxis.magnitude == 0f)
             {
                 curPlayerState = PlayerState.IDLE;
             }
+
+            if (!isGrounded())
+            {
+                curPlayerState = PlayerState.FALLING;
+            }
         }
-        else if (curPlayerState == PlayerState.JUMPING)
+        else if (curPlayerState == PlayerState.JUMPING) //_______________________JUMPING
+        {
+            if (rb.velocity.y < -1f)
+            {
+                curPlayerState = PlayerState.FALLING;
+            }
+
+            if (isGrounded())
+            {
+                if (timedAxis.magnitude != 0f)
+                {
+                    curPlayerState = PlayerState.RUNNING;
+                }
+                else
+                {
+                    curPlayerState = PlayerState.IDLE;
+                }
+            }
+
+        }
+        else if (curPlayerState == PlayerState.FALLING) //_______________________FALLING
+        {
+            if (isGrounded())
+            {
+                if (timedAxis.magnitude != 0f)
+                {
+                    curPlayerState = PlayerState.RUNNING;
+                }
+                else
+                {
+                    curPlayerState = PlayerState.IDLE;
+                }
+            }
+        }
+        else if (curPlayerState == PlayerState.POWERCROUCHING) //________________POWERCROUCHING
         {
 
         }
-        else if (curPlayerState == PlayerState.FALLING)
+        else if (curPlayerState == PlayerState.POWERJUMPING) //__________________POWERJUMPING
         {
 
         }
-        else if (curPlayerState == PlayerState.POWERCROUCHING)
+        else if (curPlayerState == PlayerState.POWERFALLING) //___________________POWERFALLING
         {
 
         }
-        else if (curPlayerState == PlayerState.POWERJUMPING)
-        {
-
-        }
-        else if (curPlayerState == PlayerState.POWERFALLING)
-        {
-
-        }
-        else if (curPlayerState == PlayerState.FLOATING)
+        else if (curPlayerState == PlayerState.FLOATING) //_______________________FLOATING
         {
 
         }
@@ -282,15 +314,25 @@ public class KLD_PlayerController : SerializedMonoBehaviour
         switch (curPlayerState)
         {
             case PlayerState.IDLE:
+                DoPlayerMove();
+                ChangePlayerMaterial();
+                DoPlayerRotation();
                 break;
 
             case PlayerState.RUNNING:
+                DoPlayerMove();
+                ChangePlayerMaterial();
+                DoPlayerRotation();
                 break;
 
             case PlayerState.JUMPING:
+                DoPlayerMove();
+                CheckFall();
                 break;
 
             case PlayerState.FALLING:
+                DoPlayerMove();
+                CheckFall();
                 break;
 
             case PlayerState.POWERCROUCHING:
@@ -677,6 +719,7 @@ public class KLD_PlayerController : SerializedMonoBehaviour
     //DOWN
     //FWD
     //BWD
+    /*
     void DoPlayerNoGravityReactorsSize()
     {
         if (controllerMode == ControllerMode.NO_GRAVITY)
@@ -704,7 +747,7 @@ public class KLD_PlayerController : SerializedMonoBehaviour
                 obj.localScale = new Vector3(1f, 1f, 0f);
             }
         }
-    }
+    }*/
 
     Vector3 FlatAndNormalize(Vector3 _vectorToFlat)
     {
@@ -714,6 +757,7 @@ public class KLD_PlayerController : SerializedMonoBehaviour
 
     #region Animation
 
+    /*
     void UpdatePlayerAnimationState()
     {
         if (controllerMode == ControllerMode.GRAVITY)
@@ -742,6 +786,11 @@ public class KLD_PlayerController : SerializedMonoBehaviour
 
 
         animator?.SetInteger("playerState", (int)playerAnimationState);
+    }*/
+
+    void UpdatePlayerAnimationState()
+    {
+        animator?.SetInteger("playerState", (int)curPlayerState);
     }
 
     #endregion
