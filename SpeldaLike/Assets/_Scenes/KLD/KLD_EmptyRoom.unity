@@ -19253,6 +19253,11 @@ PrefabInstance:
       objectReference: {fileID: 147190480}
     - target: {fileID: 7121690983688771128, guid: a5a884bcbdc112849bf395f7d6814944,
         type: 3}
+      propertyPath: fallMultiplier
+      value: 1.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 7121690983688771128, guid: a5a884bcbdc112849bf395f7d6814944,
+        type: 3}
       propertyPath: dampedGroundPoint
       value: 
       objectReference: {fileID: 1287105602}
@@ -19260,8 +19265,7 @@ PrefabInstance:
         type: 3}
       propertyPath: serializationData.Prefab
       value: 
-      objectReference: {fileID: 7121690983688771128, guid: a5a884bcbdc112849bf395f7d6814944,
-        type: 3}
+      objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 7121690983688771076, guid: a5a884bcbdc112849bf395f7d6814944, type: 3}
     - {fileID: 7121690983688771077, guid: a5a884bcbdc112849bf395f7d6814944, type: 3}

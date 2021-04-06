@@ -105,8 +105,7 @@ public class KLD_PlayerController : SerializedMonoBehaviour
     [SerializeField] Animator animator = null;
 
 
-    //INPUT ACTIONS
-    //bool getJumpActionDown = false;
+    #region Monobehaviour Voids
 
     private void Awake()
     {
@@ -173,6 +172,8 @@ public class KLD_PlayerController : SerializedMonoBehaviour
         GameEvents.Instance.onGravityEnable -= OnGravityEnable;
     }
 
+    #endregion
+
     #region Inputs Callbacks
     /*
     public void OnMovement(InputAction.CallbackContext value)
@@ -220,6 +221,8 @@ public class KLD_PlayerController : SerializedMonoBehaviour
     }
 
     #endregion
+
+    #region StateMachine
 
     void UpdatePlayerState()
     {
@@ -327,11 +330,13 @@ public class KLD_PlayerController : SerializedMonoBehaviour
 
             case PlayerState.JUMPING:
                 DoPlayerMove();
+                DoPlayerRotation();
                 CheckFall();
                 break;
 
             case PlayerState.FALLING:
                 DoPlayerMove();
+                DoPlayerRotation();
                 CheckFall();
                 break;
 
@@ -353,6 +358,8 @@ public class KLD_PlayerController : SerializedMonoBehaviour
 
         }
     }
+
+    #endregion
 
     #region Axis Computing
 
