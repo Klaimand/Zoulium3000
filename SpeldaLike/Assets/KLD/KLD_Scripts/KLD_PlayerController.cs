@@ -49,6 +49,8 @@ public class KLD_PlayerController : SerializedMonoBehaviour
     [SerializeField, Header("Ground Detection"), Range(0.5f, 1f)]
     float sphereRadiusMultiplier = 0.9f;
     [SerializeField] float maxSlopeAngle = 30f;
+    [SerializeField] PhysicMaterial noFrictionMat = null;
+    [SerializeField] PhysicMaterial frictionMat = null;
 
 
     [SerializeField, Header("Jump")]
@@ -118,6 +120,7 @@ public class KLD_PlayerController : SerializedMonoBehaviour
         if (controllerMode == ControllerMode.GRAVITY)
         {
             DoPlayerMove();
+            ChangePlayerMaterial();
             DoPlayerRotation();
 
             m_isGrounded = isGrounded();
@@ -158,6 +161,10 @@ public class KLD_PlayerController : SerializedMonoBehaviour
         if (value.started && controllerMode == ControllerMode.GRAVITY)
         {
             CheckPlayerJump(true);
+        }
+        if (value.canceled)
+        {
+            print("jump button released");
         }
     }
 
@@ -311,7 +318,16 @@ public class KLD_PlayerController : SerializedMonoBehaviour
 
         if (isGrounded())
         {
-            rb.velocity = new Vector3(flatSpeedVector.x, rb.velocity.y, flatSpeedVector.z);
+            //rb.velocity = new Vector3(flatSpeedVector.x, rb.velocity.y, flatSpeedVector.z);
+
+            Vector3 wantedVector = Vector3.ProjectOnPlane(new Vector3(flatSpeedVector.x, rb.velocity.y, flatSpeedVector.z), GetSlopeNormal());
+
+            if (rb.velocity.y >= jumpSpeed * 0.85f)
+            {
+                wantedVector.y = rb.velocity.y;
+            }
+
+            rb.velocity = wantedVector;
         }
         else
         {
@@ -323,8 +339,8 @@ public class KLD_PlayerController : SerializedMonoBehaviour
             {
                 //rb.AddForce(new Vector3(deadZonedRawAxis.x, 0f, deadZonedRawAxis.y) * addAirSpeed);
                 Vector3 inputDirectionVector = ((axisTransform.right * deadZonedRawAxis.x) + (axisTransform.forward * deadZonedRawAxis.y)).normalized;
-                if (!isOnSteepSlope() || (isOnSteepSlope() &&
-                Vector3.Angle(inputDirectionVector, FlatAndNormalize(GetSlopeNormal())) > steepSlopeLockedAngle))
+                if (!isOnSteepSlope())
+                //|| (isOnSteepSlope() && Vector3.Angle(inputDirectionVector, FlatAndNormalize(GetSlopeNormal())) > steepSlopeLockedAngle))
                 //A VERIFIER
                 {
                     rb.AddForce(inputDirectionVector * addAirSpeed);
@@ -338,6 +354,18 @@ public class KLD_PlayerController : SerializedMonoBehaviour
 
         }
 
+    }
+
+    void ChangePlayerMaterial()
+    {
+        if (isGrounded() && Vector3.Angle(Vector3.up, GetSlopeNormal()) > 5f && timedAxis == Vector2.zero)
+        {
+            col.material = frictionMat;
+        }
+        else
+        {
+            col.material = noFrictionMat;
+        }
     }
 
     void CheckPlayerJump(bool _calledByInput)
@@ -378,7 +406,7 @@ public class KLD_PlayerController : SerializedMonoBehaviour
         Physics.Raycast(transform.position + Vector3.up, Vector3.down, out hit, 10f, groundLayer);
         //bool isSlopeCorrect = hit.normal
         bool isSlopeCorrect = Vector3.Angle(Vector3.up, hit.normal) <= maxSlopeAngle;
-        print(Vector3.Angle(Vector3.up, hit.normal));
+        //print(Vector3.Angle(Vector3.up, hit.normal));
         return detectGround && isSlopeCorrect;
     }
 
