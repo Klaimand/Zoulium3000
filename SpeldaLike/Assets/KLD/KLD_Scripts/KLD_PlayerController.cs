@@ -7,7 +7,7 @@ using Sirenix.OdinInspector;
 [RequireComponent(typeof(Rigidbody)), RequireComponent(typeof(CapsuleCollider))]
 public class KLD_PlayerController : SerializedMonoBehaviour
 {
-
+    //
     //[SerializeField] PlayerInput playerInput;
     [SerializeField] Transform axisTransform;
     [SerializeField] Transform playerGroundPoint;
@@ -63,10 +63,10 @@ public class KLD_PlayerController : SerializedMonoBehaviour
     [SerializeField] float maxAirSpeed = 10f;
     [SerializeField] float addAirSpeed = 1f;
     [SerializeField] float jumpHorizontalAddedForce = 3f;
-    [SerializeField] float steepSlopeLockedAngle = 90f;
+    //[SerializeField] float steepSlopeLockedAngle = 90f;
 
     [SerializeField] LayerMask groundLayer;
-    [SerializeField, ReadOnly] bool m_isGrounded = false;
+    //[SerializeField, ReadOnly] bool m_isGrounded = false;
 
     [SerializeField, Header("PowerJump")]
     float powerJumpSpeed = 30f;
@@ -96,13 +96,9 @@ public class KLD_PlayerController : SerializedMonoBehaviour
     [SerializeField] float ng_lockedAngle = 135f;
     [SerializeField] bool ng_lockHorizontalSpeed = true;
     [SerializeField] bool ng_lockVerticalSpeed = true;
-    [SerializeField] Transform[] ng_reactors = null;
 
     [SerializeField, Header("Animation"), Space(20)]
-    float idleVelocityThreshold = 0.1f;
-    public enum PlayerState_obs { IDLE, RUNNING, NO_GRAVITY, JUMPING, FALLING, CROUCHING };
-    [SerializeField] PlayerState_obs playerAnimationState = PlayerState_obs.IDLE;
-    [SerializeField] Animator animator = null;
+    Animator animator = null;
 
 
     #region Monobehaviour Voids
@@ -172,32 +168,6 @@ public class KLD_PlayerController : SerializedMonoBehaviour
         GameEvents.Instance.onGravityEnable -= OnGravityEnable;
     }
 
-    #endregion
-
-    #region Inputs Callbacks
-    /*
-    public void OnMovement(InputAction.CallbackContext value)
-    {
-        rawAxis = value.ReadValue<Vector2>();
-    }
-
-    public void OnJump(InputAction.CallbackContext value)
-    {
-        
-        if (value.started && controllerMode == ControllerMode.GRAVITY)
-        {
-            //CheckPlayerJump(true);
-        }
-        if (value.canceled)
-        {
-            //print("jump button released");
-        }
-        if (value.started)
-        {
-            //getJumpActionDown = true;
-        }
-    }
-    */
     #endregion
 
     #region Events
@@ -719,42 +689,6 @@ public class KLD_PlayerController : SerializedMonoBehaviour
             transform.rotation = Quaternion.Euler(0f, angleToLook, 0f);
         }
     }
-
-    //RIGHT
-    //LEFT
-    //UP
-    //DOWN
-    //FWD
-    //BWD
-    /*
-    void DoPlayerNoGravityReactorsSize()
-    {
-        if (controllerMode == ControllerMode.NO_GRAVITY)
-        {
-            //Vector3 forceDirectionVector = axisTransform.right * ng_timedAxis.x + axisTransform.forward * ng_timedAxis.y;
-            Vector3 forceDirectionVector = new Vector3(ng_timedAxis.x, 0f, ng_timedAxis.y);
-            if (forceDirectionVector.magnitude > 1f)
-            {
-                forceDirectionVector.Normalize();
-            }
-            for (int i = 0; i < 6; i += 2)
-            {
-                if (Mathf.Abs(forceDirectionVector[i / 2]) > 0.05f)
-                {
-                    int negInd = forceDirectionVector[i / 2] > 0f ? 1 : 0;
-                    ng_reactors[i + negInd].localScale = new Vector3(1f, 1f, Mathf.Abs(forceDirectionVector[i / 2]));
-                    ng_reactors[i + (1 - negInd)].localScale = new Vector3(1f, 1f, 0f);
-                }
-            }
-        }
-        else
-        {
-            foreach (Transform obj in ng_reactors)
-            {
-                obj.localScale = new Vector3(1f, 1f, 0f);
-            }
-        }
-    }*/
 
     Vector3 FlatAndNormalize(Vector3 _vectorToFlat)
     {
