@@ -7,7 +7,8 @@ using Sirenix.OdinInspector;
 [RequireComponent(typeof(Rigidbody)), RequireComponent(typeof(CapsuleCollider))]
 public class KLD_PlayerController : SerializedMonoBehaviour
 {
-    //
+    #region Variables
+
     //[SerializeField] PlayerInput playerInput;
     [SerializeField] Transform axisTransform;
     [SerializeField] Transform playerGroundPoint;
@@ -70,13 +71,15 @@ public class KLD_PlayerController : SerializedMonoBehaviour
 
     [SerializeField, Header("PowerJump")]
     float powerJumpSpeed = 30f;
+    [SerializeField] float powerJumpLoadTime = 0.5f;
+    float curPowerJumpLoadTime = 0f;
 
     [SerializeField]
     enum PlayerState
     {
-        IDLE,
-        RUNNING,
-        JUMPING,
+        IDLE, //0
+        RUNNING, //1
+        JUMPING, //2
         FALLING,
 
         POWERCROUCHING,
@@ -100,6 +103,13 @@ public class KLD_PlayerController : SerializedMonoBehaviour
     [SerializeField, Header("Animation"), Space(20)]
     Animator animator = null;
 
+    //CAPACITES
+    [SerializeField]
+    enum PowerUp { POWERJUMP, GRAPPLING_HOOK };
+    [SerializeField] HashSet<PowerUp> curPowerUps = new HashSet<PowerUp>();
+    //[SerializeField] List<PowerUp> curPowerUps = new List<PowerUp>();
+
+    #endregion
 
     #region Monobehaviour Voids
 
@@ -212,6 +222,12 @@ public class KLD_PlayerController : SerializedMonoBehaviour
             {
                 curPlayerState = PlayerState.FALLING;
             }
+
+            if (Input.GetButtonDown("Crouch") && HavePowerUp(PowerUp.POWERJUMP))
+            {
+                curPowerJumpLoadTime = 0f;
+                curPlayerState = PlayerState.POWERCROUCHING;
+            }
         }
         else if (curPlayerState == PlayerState.RUNNING) //_______________________RUNNING
         {
@@ -237,44 +253,42 @@ public class KLD_PlayerController : SerializedMonoBehaviour
                 curPlayerState = PlayerState.FALLING;
             }
 
-            if (isGrounded())
-            {
-                if (timedAxis.magnitude != 0f)
-                {
-                    curPlayerState = PlayerState.RUNNING;
-                }
-                else
-                {
-                    curPlayerState = PlayerState.IDLE;
-                }
-            }
-
+            GroundedRunningIdleCheck();
         }
         else if (curPlayerState == PlayerState.FALLING) //_______________________FALLING
         {
-            if (isGrounded())
-            {
-                if (timedAxis.magnitude != 0f)
-                {
-                    curPlayerState = PlayerState.RUNNING;
-                }
-                else
-                {
-                    curPlayerState = PlayerState.IDLE;
-                }
-            }
+            GroundedRunningIdleCheck();
         }
         else if (curPlayerState == PlayerState.POWERCROUCHING) //________________POWERCROUCHING
         {
+            if (!Input.GetButton("Crouch"))
+            {
+                curPlayerState = PlayerState.IDLE;
+            }
+
+            if (Input.GetButtonDown("Jump"))
+            {
+                if (curPowerJumpLoadTime >= powerJumpLoadTime)
+                {
+                    PowerJump();
+                    curPlayerState = PlayerState.POWERJUMPING;
+                }
+                print("Power Jumped");
+            }
 
         }
         else if (curPlayerState == PlayerState.POWERJUMPING) //__________________POWERJUMPING
         {
+            if (rb.velocity.y < -1f)
+            {
+                curPlayerState = PlayerState.POWERFALLING;
+            }
 
+            GroundedRunningIdleCheck();
         }
         else if (curPlayerState == PlayerState.POWERFALLING) //___________________POWERFALLING
         {
-
+            GroundedRunningIdleCheck();
         }
         else if (curPlayerState == PlayerState.FLOATING) //_______________________FLOATING
         {
@@ -311,12 +325,19 @@ public class KLD_PlayerController : SerializedMonoBehaviour
                 break;
 
             case PlayerState.POWERCROUCHING:
+                curPowerJumpLoadTime += Time.deltaTime;
                 break;
 
             case PlayerState.POWERJUMPING:
+                DoPlayerMove();
+                DoPlayerRotation();
+                CheckFall();
                 break;
 
             case PlayerState.POWERFALLING:
+                DoPlayerMove();
+                DoPlayerRotation();
+                CheckFall();
                 break;
 
             case PlayerState.FLOATING:
@@ -326,6 +347,21 @@ public class KLD_PlayerController : SerializedMonoBehaviour
                 Debug.LogError("WHATTTTTATATATATTA");
                 break;
 
+        }
+    }
+
+    void GroundedRunningIdleCheck()
+    {
+        if (isGrounded())
+        {
+            if (timedAxis.magnitude != 0f)
+            {
+                curPlayerState = PlayerState.RUNNING;
+            }
+            else
+            {
+                curPlayerState = PlayerState.IDLE;
+            }
         }
     }
 
@@ -548,6 +584,15 @@ public class KLD_PlayerController : SerializedMonoBehaviour
         jumpBuffer = false;
     }
 
+    void PowerJump()
+    {
+        rb.velocity = new Vector3(rb.velocity.x, 0f, rb.velocity.z);
+        rb.velocity += Vector3.up * powerJumpSpeed;
+        //StartCoroutine(WaitAndApplyHorizontalJumpForce()); //Horizontal force if needed
+
+        print("Power Jumped");
+    }
+
     bool isGrounded()
     {
         float radius = col.radius * sphereRadiusMultiplier;
@@ -694,6 +739,12 @@ public class KLD_PlayerController : SerializedMonoBehaviour
     {
         Vector3 v = new Vector3(_vectorToFlat.x, 0f, _vectorToFlat.z).normalized;
         return v;
+    }
+
+
+    bool HavePowerUp(PowerUp _powerUp)
+    {
+        return curPowerUps.Contains(_powerUp);
     }
 
     #region Animation
