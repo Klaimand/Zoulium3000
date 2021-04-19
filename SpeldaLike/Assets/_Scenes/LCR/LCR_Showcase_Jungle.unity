@@ -2798,7 +2798,6 @@ MonoBehaviour:
     PrefabModificationsReferencedUnityObjects: []
     PrefabModifications: []
     SerializationNodes: []
-  playerInput: {fileID: 870863132}
   axisTransform: {fileID: 147190480}
   playerGroundPoint: {fileID: 315711106}
   dampedGroundPoint: {fileID: 1287105602}
@@ -2815,6 +2814,8 @@ MonoBehaviour:
   speed: 10
   sphereRadiusMultiplier: 0.85
   maxSlopeAngle: 30
+  noFrictionMat: {fileID: 0}
+  frictionMat: {fileID: 0}
   jumpSpeed: 10
   fallMultiplier: 1.8
   lowJumpMultiplier: 1.8
@@ -2823,11 +2824,12 @@ MonoBehaviour:
   maxAirSpeed: 20
   addAirSpeed: 20
   jumpHorizontalAddedForce: 1
-  steepSlopeLockedAngle: 90
   groundLayer:
     serializedVersion: 2
     m_Bits: 256
-  m_isGrounded: 1
+  powerJumpSpeed: 30
+  powerJumpLoadTime: 0.5
+  curPlayerState: 0
   ng_impulseForce: 2
   ng_verticalImpulseForce: 2
   ng_maxHorizontalSpeed: 5
@@ -2836,15 +2838,6 @@ MonoBehaviour:
   ng_lockedAngle: 0
   ng_lockHorizontalSpeed: 1
   ng_lockVerticalSpeed: 1
-  ng_reactors:
-  - {fileID: 1985311583}
-  - {fileID: 1658297063}
-  - {fileID: 850700111}
-  - {fileID: 1982507538}
-  - {fileID: 281934739}
-  - {fileID: 425239771}
-  idleVelocityThreshold: 0.1
-  playerAnimationState: 0
   animator: {fileID: 370641289}
 --- !u!1 &888073800
 GameObject:
@@ -7187,10 +7180,40 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 5015847761056574083, guid: 380db590fe3a8e6488055b8234216a44,
+        type: 3}
+      propertyPath: randomSeed
+      value: 705940211
+      objectReference: {fileID: 0}
+    - target: {fileID: 5015847761056574083, guid: 380db590fe3a8e6488055b8234216a44,
+        type: 3}
+      propertyPath: autoRandomSeed
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5015847761056574083, guid: 380db590fe3a8e6488055b8234216a44,
+        type: 3}
+      propertyPath: simulationSpeed
+      value: 1.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 5015847761056574083, guid: 380db590fe3a8e6488055b8234216a44,
+        type: 3}
+      propertyPath: ShapeModule.angle
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 5402055005829594949, guid: 380db590fe3a8e6488055b8234216a44,
         type: 3}
       propertyPath: m_Name
       value: Moteur_VFX_SquareOutline
+      objectReference: {fileID: 0}
+    - target: {fileID: 7207304732650338692, guid: 380db590fe3a8e6488055b8234216a44,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 5.29
+      objectReference: {fileID: 0}
+    - target: {fileID: 7207304732650338692, guid: 380db590fe3a8e6488055b8234216a44,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -0.88
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 380db590fe3a8e6488055b8234216a44, type: 3}
