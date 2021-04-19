@@ -1,7 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.InputSystem;
 
 public class RSL_apparitionvfx : MonoBehaviour
 {
@@ -14,7 +13,7 @@ public class RSL_apparitionvfx : MonoBehaviour
 
     void Update()
     {
-        if (Keyboard.current.numpad1Key.wasPressedThisFrame)
+        if (Input.GetKeyDown("space"))
         {
             Instantiate(vfx, transform.position, Quaternion.identity);
         }
