@@ -2,8 +2,6 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.InputSystem;
-
 public class RSL_fadeInShaderHolograme: MonoBehaviour
 
 {
@@ -22,12 +20,12 @@ public class RSL_fadeInShaderHolograme: MonoBehaviour
 
         hologrameMat.SetFloat("_Dissolve", currentStepValue);
 
-        if (Keyboard.current.numpad1Key.wasPressedThisFrame)
+        if (Input.GetKeyDown(KeyCode.Keypad1))
         {
             //Ca le fait apparaitre
             targetStepValue += montantDeStep;
         }
-        if (Keyboard.current.numpad2Key.wasPressedThisFrame)
+        if (Input.GetKeyDown(KeyCode.Keypad2))
         {
             //Ca le fait disparaitre
             targetStepValue = 0f;
