@@ -13,7 +13,7 @@ public class RSL_apparitionvfx : MonoBehaviour
 
     void Update()
     {
-        if (Input.GetKeyDown("space"))
+        if (Input.GetKeyDown(KeyCode.Keypad3))
         {
             Instantiate(vfx, transform.position, Quaternion.identity);
         }

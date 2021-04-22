@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: CustomBlend
   m_EditorClassIdentifier: 
   m_CustomBlends:
-  - m_From: Vcam_topdown
+  - m_From: Vcam_topdownR
     m_To: CM vcam1
     m_Blend:
       m_Style: 6
@@ -25,7 +25,7 @@ MonoBehaviour:
         m_PostInfinity: 0
         m_RotationOrder: 0
   - m_From: CM vcam1
-    m_To: Vcam_topdown
+    m_To: Vcam_topdownR
     m_Blend:
       m_Style: 6
       m_Time: 0.8
@@ -47,9 +47,9 @@ MonoBehaviour:
         m_PostInfinity: 0
         m_RotationOrder: 0
   - m_From: CM vcam2
-    m_To: Vcam_topdown
+    m_To: CM vcam1
     m_Blend:
-      m_Style: 6
+      m_Style: 0
       m_Time: 0.1
       m_CustomCurve:
         serializedVersion: 2
@@ -57,30 +57,30 @@ MonoBehaviour:
         m_PreInfinity: 0
         m_PostInfinity: 0
         m_RotationOrder: 0
-  - m_From: CM vcam1
-    m_To: CM vcam4
+  - m_From: CM vcam2
+    m_To: Vcam_topdownL
     m_Blend:
       m_Style: 6
-      m_Time: 0.2
+      m_Time: 0.6
       m_CustomCurve:
         serializedVersion: 2
         m_Curve: []
         m_PreInfinity: 0
         m_PostInfinity: 0
         m_RotationOrder: 0
-  - m_From: CM vcam4
-    m_To: CM vcam3
+  - m_From: Vcam_topdownL
+    m_To: CM vcam2
     m_Blend:
       m_Style: 6
-      m_Time: 2
+      m_Time: 0.6
       m_CustomCurve:
         serializedVersion: 2
         m_Curve: []
         m_PreInfinity: 0
         m_PostInfinity: 0
         m_RotationOrder: 0
-  - m_From: CM vcam4
-    m_To: Vcam_topdown
+  - m_From: '**ANY CAMERA**'
+    m_To: '**ANY CAMERA**'
     m_Blend:
       m_Style: 6
       m_Time: 0.5
@@ -90,8 +90,8 @@ MonoBehaviour:
         m_PreInfinity: 0
         m_PostInfinity: 0
         m_RotationOrder: 0
-  - m_From: CM vcam3
-    m_To: CM vcam4
+  - m_From: '**ANY CAMERA**'
+    m_To: '**ANY CAMERA**'
     m_Blend:
       m_Style: 6
       m_Time: 2
@@ -101,11 +101,22 @@ MonoBehaviour:
         m_PreInfinity: 0
         m_PostInfinity: 0
         m_RotationOrder: 0
-  - m_From: Vcam_topdown
-    m_To: CM vcam4
+  - m_From: '**ANY CAMERA**'
+    m_To: '**ANY CAMERA**'
     m_Blend:
       m_Style: 1
       m_Time: 0.5
+      m_CustomCurve:
+        serializedVersion: 2
+        m_Curve: []
+        m_PreInfinity: 0
+        m_PostInfinity: 0
+        m_RotationOrder: 0
+  - m_From: '**ANY CAMERA**'
+    m_To: '**ANY CAMERA**'
+    m_Blend:
+      m_Style: 1
+      m_Time: 2
       m_CustomCurve:
         serializedVersion: 2
         m_Curve: []

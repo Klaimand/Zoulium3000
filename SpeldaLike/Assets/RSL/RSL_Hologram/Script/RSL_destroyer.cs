@@ -7,7 +7,7 @@ public class RSL_destroyer : MonoBehaviour
     public float t;
     void Update()
     {
-        if (Input.GetKeyDown("Numpad3"))
+        if (Input.GetKeyDown(KeyCode.Keypad4))
         {
             Destroy(gameObject);
         }

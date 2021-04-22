@@ -2,7 +2,6 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
 public class RSL_fadeInShaderHolograme: MonoBehaviour
 
 {
@@ -30,6 +29,6 @@ public class RSL_fadeInShaderHolograme: MonoBehaviour
         {
             //Ca le fait disparaitre
             targetStepValue = 0f;
-        } 
+        }
     }
 }
