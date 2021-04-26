@@ -73,6 +73,10 @@ public class KLD_PlayerController : SerializedMonoBehaviour
     float powerJumpSpeed = 30f;
     [SerializeField] float powerJumpLoadTime = 0.5f;
     float curPowerJumpLoadTime = 0f;
+    [SerializeField] Vector2 powerJumpDrag = new Vector2(0.04f, 0.1f);
+    [SerializeField] float powerJumpFallMultiplier = 1.02f;
+    [SerializeField] float powerJumpHorizontalSpeed = 10f;
+    [SerializeField] float maxPowerJumpAirSpeed = 20f;
 
     [SerializeField]
     enum PlayerState
@@ -330,15 +334,17 @@ public class KLD_PlayerController : SerializedMonoBehaviour
                 break;
 
             case PlayerState.POWERJUMPING:
-                DoPlayerMove();
+                DoPlayerPowerJumpMove(false);
+                //DoPlayerMove();
                 DoPlayerRotation();
-                CheckFall();
+                //CheckFall();
                 break;
 
             case PlayerState.POWERFALLING:
-                DoPlayerMove();
+                DoPlayerPowerJumpMove(true);
+                //DoPlayerMove();
                 DoPlayerRotation();
-                CheckFall();
+                //CheckFall();
                 break;
 
             case PlayerState.FLOATING:
@@ -576,7 +582,8 @@ public class KLD_PlayerController : SerializedMonoBehaviour
     IEnumerator WaitAndApplyHorizontalJumpForce()
     {
         yield return new WaitForFixedUpdate();
-        rb.velocity += new Vector3(timedAxis.x, 0f, timedAxis.y) * jumpHorizontalAddedForce;
+        //rb.velocity += new Vector3(timedAxis.x, 0f, timedAxis.y) * jumpHorizontalAddedForce;
+        rb.velocity += ((axisTransform.right * timedAxis.x) + (axisTransform.forward * timedAxis.y)) * jumpHorizontalAddedForce;
     }
 
     IEnumerator WaitAndDebufferJump()
@@ -589,9 +596,15 @@ public class KLD_PlayerController : SerializedMonoBehaviour
     {
         rb.velocity = new Vector3(rb.velocity.x, 0f, rb.velocity.z);
         rb.velocity += Vector3.up * powerJumpSpeed;
-        //StartCoroutine(WaitAndApplyHorizontalJumpForce()); //Horizontal force if needed
+        StartCoroutine(WaitAndApplyPowerJumpHorizontalForce()); //Horizontal force if needed
 
-        print("Power Jumped");
+        //print("Power Jumped");
+    }
+
+    IEnumerator WaitAndApplyPowerJumpHorizontalForce()
+    {
+        yield return new WaitForFixedUpdate();
+        rb.velocity += ((axisTransform.right * timedAxis.x) + (axisTransform.forward * timedAxis.y)).normalized * powerJumpHorizontalSpeed;
     }
 
     bool isGrounded()
@@ -677,6 +690,32 @@ public class KLD_PlayerController : SerializedMonoBehaviour
         float endY = playerGroundPoint.position.y;
         float curY = Mathf.SmoothDamp(startY, endY, ref yVelocity, groundPointDampingSpeed, groundPointDampingMaxSpeed, Time.deltaTime);
         dampedGroundPoint.position = new Vector3(playerGroundPoint.position.x, curY, playerGroundPoint.position.z);
+    }
+
+    void DoPlayerPowerJumpMove(bool isFalling)
+    {
+        float dragX = 1f - powerJumpDrag.x;
+        float dragY = 1f - powerJumpDrag.y;
+
+        float yVelocity = (isFalling ? rb.velocity.y * powerJumpFallMultiplier : rb.velocity.y * dragY);
+
+        rb.velocity = new Vector3(rb.velocity.x * dragX, yVelocity, rb.velocity.z * dragX);
+
+        Vector3 horizontalMagnitude = new Vector3(rb.velocity.x, 0f, rb.velocity.z);
+        if (Mathf.Abs(horizontalMagnitude.magnitude) < maxPowerJumpAirSpeed)
+        {
+            //rb.AddForce(new Vector3(deadZonedRawAxis.x, 0f, deadZonedRawAxis.y) * addAirSpeed);
+            Vector3 inputDirectionVector = ((axisTransform.right * deadZonedRawAxis.x) + (axisTransform.forward * deadZonedRawAxis.y)).normalized;
+            if (!isOnSteepSlope())
+            {
+                rb.AddForce(inputDirectionVector * addAirSpeed);
+            }
+        }
+        else if (Mathf.Abs(horizontalMagnitude.magnitude) > maxPowerJumpAirSpeed)
+        {
+            Vector3 maxHorizontalSpeed = new Vector3(rb.velocity.x, 0f, rb.velocity.z).normalized * maxPowerJumpAirSpeed;
+            rb.velocity = new Vector3(maxHorizontalSpeed.x, rb.velocity.y, maxHorizontalSpeed.z);
+        }
     }
 
     void DoPlayerNoGravityMove()
