@@ -102,6 +102,7 @@ public class KLD_PlayerController : SerializedMonoBehaviour
 
     [SerializeField, Header("Animation"), Space(20)]
     Animator animator = null;
+    int animState = 0;
 
     //CAPACITES
     [SerializeField]
@@ -782,7 +783,12 @@ public class KLD_PlayerController : SerializedMonoBehaviour
 
     void UpdatePlayerAnimationState()
     {
-        animator?.SetInteger("playerState", (int)curPlayerState);
+        animator?.SetInteger("lastState", animState);
+
+        animState = (int)curPlayerState;
+
+        animator?.SetInteger("playerState", animState);
+
     }
 
     #endregion
