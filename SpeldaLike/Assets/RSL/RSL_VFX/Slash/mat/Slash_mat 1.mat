@@ -27,7 +27,7 @@ Material:
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 0
   m_DoubleSidedGI: 0
-  m_CustomRenderQueue: -1
+  m_CustomRenderQueue: 3001
   stringTagMap: {}
   disabledShaderPasses: []
   m_SavedProperties:
@@ -54,7 +54,7 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - Texture2D_b3d167c8f8d444039d25a3ea537fdf07:
-        m_Texture: {fileID: 2800000, guid: bafcde251d972884bbdc6c21e31e9b60, type: 3}
+        m_Texture: {fileID: 2800000, guid: de18050bf4f87a443aa5d8759fd0e098, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - Texture2D_be18d4f5cfb0485496a9cd05b03b250d:
@@ -122,9 +122,10 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     m_Floats:
+    - Vector1_07ed89685aa84cbe89e18c15a4ae20a9: 0.42
     - Vector1_0cac628b1ea641c6ac71bfbc419e645f: 0
     - Vector1_15168ef3398744019fb986830b36e64d: 1.02
-    - Vector1_42ab1dcc4abe48a18b61d2cc2c8ed977: 1.94
+    - Vector1_42ab1dcc4abe48a18b61d2cc2c8ed977: 0
     - Vector1_50a4d150916547d7881dd7410a52a335: 0.85
     - Vector1_b0c06fd7cc9f4892b92531fc95ef457b: -0.01
     - Vector1_c521db6ac072470dbcb4ce2504e59407: 0.5
@@ -158,7 +159,7 @@ Material:
     - _ZWrite: 1
     m_Colors:
     - Color_48bc57278d0a43b5b958970ccf57efdb: {r: 42.722507, g: 0, b: 0, a: 1}
-    - Color_69d875be259e47bba5fc4026e4f7dcb0: {r: 38.65042, g: 101.15913, b: 38.65042,
+    - Color_69d875be259e47bba5fc4026e4f7dcb0: {r: 4.0283546, g: 12.530323, b: 21.37266,
         a: 0}
     - Color_79e0f3a6790646d7b4eba8ad849242bf: {r: 1, g: 0.71469426, b: 0.5990566,
         a: 0}
