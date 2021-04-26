@@ -187,7 +187,7 @@ MonoBehaviour:
   noFrictionMat: {fileID: 13400000, guid: 9cac1c0a04f2eed4584436f205edf26c, type: 2}
   frictionMat: {fileID: 13400000, guid: b2b9578a71e8fcc44b76ba3fc6aaf9e9, type: 2}
   jumpSpeed: 10
-  fallMultiplier: 1.8
+  fallMultiplier: 1.4
   lowJumpMultiplier: 1.8
   jumpBufferDuration: 0.5
   normalJumpDrag: 0.04
@@ -197,8 +197,8 @@ MonoBehaviour:
   groundLayer:
     serializedVersion: 2
     m_Bits: 256
-  powerJumpSpeed: 30
-  powerJumpLoadTime: 0.5
+  powerJumpSpeed: 14
+  powerJumpLoadTime: 0.2
   curPlayerState: 0
   ng_impulseForce: 2
   ng_verticalImpulseForce: 2
