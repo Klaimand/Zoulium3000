@@ -27,8 +27,8 @@ MonoBehaviour:
   - m_From: Vcam_topdownBack
     m_To: Vcam_topdownFront
     m_Blend:
-      m_Style: 6
-      m_Time: 2
+      m_Style: 0
+      m_Time: 1
       m_CustomCurve:
         serializedVersion: 2
         m_Curve: []
@@ -82,8 +82,8 @@ MonoBehaviour:
   - m_From: Vcam_topdownFront
     m_To: Vcam_topdownBack
     m_Blend:
-      m_Style: 6
-      m_Time: 2
+      m_Style: 0
+      m_Time: 1
       m_CustomCurve:
         serializedVersion: 2
         m_Curve: []
@@ -139,6 +139,46 @@ MonoBehaviour:
     m_Blend:
       m_Style: 6
       m_Time: 2
+      m_CustomCurve:
+        serializedVersion: 2
+        m_Curve:
+        - serializedVersion: 3
+          time: 0
+          value: 0
+          inSlope: 1.6308962
+          outSlope: 1.6308962
+          tangentMode: 34
+          weightedMode: 0
+          inWeight: 0
+          outWeight: 0.33333334
+        - serializedVersion: 3
+          time: 1
+          value: 1
+          inSlope: 1.6308962
+          outSlope: 1.6308962
+          tangentMode: 34
+          weightedMode: 0
+          inWeight: 0.33333334
+          outWeight: 0
+        m_PreInfinity: 2
+        m_PostInfinity: 2
+        m_RotationOrder: 0
+  - m_From: Vcam_topdownBack
+    m_To: ViewAmelio_Tower
+    m_Blend:
+      m_Style: 6
+      m_Time: 1.5
+      m_CustomCurve:
+        serializedVersion: 2
+        m_Curve: []
+        m_PreInfinity: 0
+        m_PostInfinity: 0
+        m_RotationOrder: 0
+  - m_From: ViewAmelio_Tower
+    m_To: Vcam_topdownBack
+    m_Blend:
+      m_Style: 6
+      m_Time: 1
       m_CustomCurve:
         serializedVersion: 2
         m_Curve: []
