@@ -52,6 +52,7 @@ public class KLD_PlayerController : SerializedMonoBehaviour
     [SerializeField] float maxSlopeAngle = 30f;
     [SerializeField] PhysicMaterial noFrictionMat = null;
     [SerializeField] PhysicMaterial frictionMat = null;
+    bool groundDetectionDisabled = false;
 
 
     [SerializeField, Header("Jump")]
@@ -277,8 +278,8 @@ public class KLD_PlayerController : SerializedMonoBehaviour
                 {
                     PowerJump();
                     curPlayerState = PlayerState.POWERJUMPING;
+                    //print("Power Jumped");
                 }
-                print("Power Jumped");
             }
 
         }
@@ -359,7 +360,7 @@ public class KLD_PlayerController : SerializedMonoBehaviour
 
     void GroundedRunningIdleCheck()
     {
-        if (isGrounded())
+        if (isGrounded() && !groundDetectionDisabled)
         {
             if (timedAxis.magnitude != 0f)
             {
@@ -369,6 +370,7 @@ public class KLD_PlayerController : SerializedMonoBehaviour
             {
                 curPlayerState = PlayerState.IDLE;
             }
+            print("gotgrounded");
         }
     }
 
@@ -579,6 +581,16 @@ public class KLD_PlayerController : SerializedMonoBehaviour
         return false;
     }
 
+    IEnumerator DisableGroundDetection(int _fixedFrames)
+    {
+        groundDetectionDisabled = true;
+        for (int i = 0; i < _fixedFrames; i++)
+        {
+            yield return new WaitForFixedUpdate();
+        }
+        groundDetectionDisabled = false;
+    }
+
     IEnumerator WaitAndApplyHorizontalJumpForce()
     {
         yield return new WaitForFixedUpdate();
@@ -594,6 +606,8 @@ public class KLD_PlayerController : SerializedMonoBehaviour
 
     void PowerJump()
     {
+        StartCoroutine(DisableGroundDetection(2));
+
         rb.velocity = new Vector3(rb.velocity.x, 0f, rb.velocity.z);
         rb.velocity += Vector3.up * powerJumpSpeed;
         StartCoroutine(WaitAndApplyPowerJumpHorizontalForce()); //Horizontal force if needed

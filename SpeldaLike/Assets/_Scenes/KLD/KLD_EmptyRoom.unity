@@ -20585,18 +20585,23 @@ PrefabInstance:
     - target: {fileID: 7121690983688771128, guid: a5a884bcbdc112849bf395f7d6814944,
         type: 3}
       propertyPath: powerJumpSpeed
-      value: 15
+      value: 50
       objectReference: {fileID: 0}
     - target: {fileID: 7121690983688771128, guid: a5a884bcbdc112849bf395f7d6814944,
         type: 3}
       propertyPath: powerJumpDrag.y
-      value: 0.07
+      value: 0.05
       objectReference: {fileID: 0}
     - target: {fileID: 7121690983688771128, guid: a5a884bcbdc112849bf395f7d6814944,
         type: 3}
       propertyPath: dampedGroundPoint
       value: 
       objectReference: {fileID: 1287105602}
+    - target: {fileID: 7121690983688771128, guid: a5a884bcbdc112849bf395f7d6814944,
+        type: 3}
+      propertyPath: powerJumpFallMultiplier
+      value: 1.05
+      objectReference: {fileID: 0}
     - target: {fileID: 7121690983688771128, guid: a5a884bcbdc112849bf395f7d6814944,
         type: 3}
       propertyPath: jumpHorizontalAddedForce
