@@ -1638,6 +1638,9 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+  OnPlayerExit:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!65 &447705441
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -1738,6 +1741,9 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+  OnPlayerExit:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!65 &468236164
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -5892,6 +5898,9 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+  OnPlayerExit:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!65 &1182054348
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -6043,6 +6052,9 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+  OnPlayerExit:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!65 &1247586983
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -7530,6 +7542,157 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 28
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1801967399
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1801967403}
+  - component: {fileID: 1801967402}
+  - component: {fileID: 1801967401}
+  - component: {fileID: 1801967400}
+  - component: {fileID: 1801967405}
+  - component: {fileID: 1801967404}
+  m_Layer: 2
+  m_Name: NoGravityZone
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!65 &1801967400
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1801967399}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 1, y: 1, z: 1}
+  m_Center: {x: 0, y: 0, z: 0}
+--- !u!23 &1801967401
+MeshRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1801967399}
+  m_Enabled: 1
+  m_CastShadows: 1
+  m_ReceiveShadows: 1
+  m_DynamicOccludee: 1
+  m_MotionVectors: 1
+  m_LightProbeUsage: 1
+  m_ReflectionProbeUsage: 1
+  m_RayTracingMode: 2
+  m_RayTraceProcedural: 0
+  m_RenderingLayerMask: 1
+  m_RendererPriority: 0
+  m_Materials:
+  - {fileID: 2100000, guid: 9837e50c7d34303469aad3b3dd3e5e88, type: 2}
+  m_StaticBatchInfo:
+    firstSubMesh: 0
+    subMeshCount: 0
+  m_StaticBatchRoot: {fileID: 0}
+  m_ProbeAnchor: {fileID: 0}
+  m_LightProbeVolumeOverride: {fileID: 0}
+  m_ScaleInLightmap: 1
+  m_ReceiveGI: 1
+  m_PreserveUVs: 0
+  m_IgnoreNormalsForChartDetection: 0
+  m_ImportantGI: 0
+  m_StitchLightmapSeams: 1
+  m_SelectedEditorRenderState: 3
+  m_MinimumChartSize: 4
+  m_AutoUVMaxDistance: 0.5
+  m_AutoUVMaxAngle: 89
+  m_LightmapParameters: {fileID: 0}
+  m_SortingLayerID: 0
+  m_SortingLayer: 0
+  m_SortingOrder: 0
+  m_AdditionalVertexStreams: {fileID: 0}
+--- !u!33 &1801967402
+MeshFilter:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1801967399}
+  m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!4 &1801967403
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1801967399}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 27.99, y: 0.8553829, z: -17.47}
+  m_LocalScale: {x: 5, y: 5, z: 5}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 30
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1801967404
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1801967399}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 74f558f401112df4f9bb1e9fe4a04341, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &1801967405
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1801967399}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 608489f2235cd434d8ad4a117c73b562, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  OnPlayerEnter:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 1801967404}
+        m_TargetAssemblyTypeName: KLD_GravityEventCaller, Assembly-CSharp
+        m_MethodName: DisableGravity
+        m_Mode: 3
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+  OnPlayerExit:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 1801967404}
+        m_TargetAssemblyTypeName: KLD_GravityEventCaller, Assembly-CSharp
+        m_MethodName: EnableGravity
+        m_Mode: 3
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &1805944807
 GameObject:
   m_ObjectHideFlags: 0
@@ -20559,38 +20722,13 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7121690983688771128, guid: a5a884bcbdc112849bf395f7d6814944,
         type: 3}
-      propertyPath: addAirSpeed
-      value: 17
-      objectReference: {fileID: 0}
-    - target: {fileID: 7121690983688771128, guid: a5a884bcbdc112849bf395f7d6814944,
-        type: 3}
-      propertyPath: maxAirSpeed
-      value: 15
-      objectReference: {fileID: 0}
-    - target: {fileID: 7121690983688771128, guid: a5a884bcbdc112849bf395f7d6814944,
-        type: 3}
       propertyPath: axisTransform
       value: 
       objectReference: {fileID: 147190480}
     - target: {fileID: 7121690983688771128, guid: a5a884bcbdc112849bf395f7d6814944,
         type: 3}
-      propertyPath: fallMultiplier
-      value: 1.4
-      objectReference: {fileID: 0}
-    - target: {fileID: 7121690983688771128, guid: a5a884bcbdc112849bf395f7d6814944,
-        type: 3}
-      propertyPath: normalJumpDrag
-      value: 0.055
-      objectReference: {fileID: 0}
-    - target: {fileID: 7121690983688771128, guid: a5a884bcbdc112849bf395f7d6814944,
-        type: 3}
-      propertyPath: powerJumpSpeed
-      value: 50
-      objectReference: {fileID: 0}
-    - target: {fileID: 7121690983688771128, guid: a5a884bcbdc112849bf395f7d6814944,
-        type: 3}
-      propertyPath: powerJumpDrag.y
-      value: 0.05
+      propertyPath: powerJumpDrag.x
+      value: 0.03
       objectReference: {fileID: 0}
     - target: {fileID: 7121690983688771128, guid: a5a884bcbdc112849bf395f7d6814944,
         type: 3}
@@ -20599,19 +20737,10 @@ PrefabInstance:
       objectReference: {fileID: 1287105602}
     - target: {fileID: 7121690983688771128, guid: a5a884bcbdc112849bf395f7d6814944,
         type: 3}
-      propertyPath: powerJumpFallMultiplier
-      value: 1.05
-      objectReference: {fileID: 0}
-    - target: {fileID: 7121690983688771128, guid: a5a884bcbdc112849bf395f7d6814944,
-        type: 3}
-      propertyPath: jumpHorizontalAddedForce
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 7121690983688771128, guid: a5a884bcbdc112849bf395f7d6814944,
-        type: 3}
       propertyPath: serializationData.Prefab
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 7121690983688771128, guid: a5a884bcbdc112849bf395f7d6814944,
+        type: 3}
     - target: {fileID: 7305812479954554117, guid: a5a884bcbdc112849bf395f7d6814944,
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.x

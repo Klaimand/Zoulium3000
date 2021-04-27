@@ -193,12 +193,16 @@ MonoBehaviour:
   normalJumpDrag: 0.055
   maxAirSpeed: 15
   addAirSpeed: 17
-  jumpHorizontalAddedForce: 0
+  jumpHorizontalAddedForce: 2
   groundLayer:
     serializedVersion: 2
     m_Bits: 256
-  powerJumpSpeed: 14
+  powerJumpSpeed: 50
   powerJumpLoadTime: 0.2
+  powerJumpDrag: {x: 0.03, y: 0.05}
+  powerJumpFallMultiplier: 1.05
+  powerJumpHorizontalSpeed: 10
+  maxPowerJumpAirSpeed: 20
   curPlayerState: 0
   ng_impulseForce: 2
   ng_verticalImpulseForce: 2

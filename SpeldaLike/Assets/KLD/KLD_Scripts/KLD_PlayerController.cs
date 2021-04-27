@@ -44,6 +44,9 @@ public class KLD_PlayerController : SerializedMonoBehaviour
 
     Vector2 axisVector; //normalized direction where the player moves
 
+    bool LT_GetKey = false;
+    bool LT_GetKeyDown = false;
+
     [SerializeField, Header("Movement")]
     float speed = 10f;
 
@@ -54,6 +57,7 @@ public class KLD_PlayerController : SerializedMonoBehaviour
     [SerializeField] PhysicMaterial frictionMat = null;
     bool groundDetectionDisabled = false;
 
+    Vector3 lastGroundedPosition = Vector3.zero;
 
     [SerializeField, Header("Jump")]
     float jumpSpeed = 10f;
@@ -135,6 +139,8 @@ public class KLD_PlayerController : SerializedMonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        DoTriggerInputProcessing();
+
         UpdatePlayerState();
         DoPlayerBehavior();
 
@@ -142,6 +148,8 @@ public class KLD_PlayerController : SerializedMonoBehaviour
         UpdateDampedGroundPointPosition();
 
         UpdatePlayerAnimationState();
+
+        ResetPlayerOnVoidFall(); //hard debug
     }
 
     private void FixedUpdate()
@@ -150,7 +158,7 @@ public class KLD_PlayerController : SerializedMonoBehaviour
         DoDeadZoneRawAxis();
         DoTimedAxis();
         DoNoGravityTimedAxis();
-
+        //print(Input.GetAxisRaw("LeftTrigger"));
         /*
         if (controllerMode == ControllerMode.GRAVITY)
         {
@@ -193,6 +201,7 @@ public class KLD_PlayerController : SerializedMonoBehaviour
         if (controllerMode != ControllerMode.GRAVITY)
         {
             controllerMode = ControllerMode.GRAVITY;
+            curPlayerState = PlayerState.FALLING;
             rb.useGravity = true;
         }
     }
@@ -202,6 +211,7 @@ public class KLD_PlayerController : SerializedMonoBehaviour
         if (controllerMode != ControllerMode.NO_GRAVITY)
         {
             controllerMode = ControllerMode.NO_GRAVITY;
+            curPlayerState = PlayerState.FLOATING;
             rb.useGravity = false;
         }
     }
@@ -229,7 +239,7 @@ public class KLD_PlayerController : SerializedMonoBehaviour
                 curPlayerState = PlayerState.FALLING;
             }
 
-            if (Input.GetButtonDown("Crouch") && HavePowerUp(PowerUp.POWERJUMP))
+            if ((Input.GetButtonDown("Crouch") || LT_GetKeyDown) && HavePowerUp(PowerUp.POWERJUMP))
             {
                 curPowerJumpLoadTime = 0f;
                 curPlayerState = PlayerState.POWERCROUCHING;
@@ -267,7 +277,7 @@ public class KLD_PlayerController : SerializedMonoBehaviour
         }
         else if (curPlayerState == PlayerState.POWERCROUCHING) //________________POWERCROUCHING
         {
-            if (!Input.GetButton("Crouch"))
+            if (!Input.GetButton("Crouch") && !LT_GetKey)
             {
                 curPlayerState = PlayerState.IDLE;
             }
@@ -349,6 +359,8 @@ public class KLD_PlayerController : SerializedMonoBehaviour
                 break;
 
             case PlayerState.FLOATING:
+                DoPlayerNoGravityMove();
+                DoPlayerNoGravityRotation();
                 break;
 
             default:
@@ -370,7 +382,6 @@ public class KLD_PlayerController : SerializedMonoBehaviour
             {
                 curPlayerState = PlayerState.IDLE;
             }
-            print("gotgrounded");
         }
     }
 
@@ -490,6 +501,15 @@ public class KLD_PlayerController : SerializedMonoBehaviour
         vert = Mathf.Clamp(vert, -1f, 1f);
 
         ng_timedAxis = new Vector2(hori, vert);
+    }
+
+    void DoTriggerInputProcessing()
+    {
+        bool frameLT = Input.GetAxisRaw("LeftTrigger") >= 0.9f;
+
+        LT_GetKeyDown = frameLT && !LT_GetKey;
+
+        LT_GetKey = frameLT;
     }
 
     #endregion
@@ -631,6 +651,12 @@ public class KLD_PlayerController : SerializedMonoBehaviour
         //bool isSlopeCorrect = hit.normal
         bool isSlopeCorrect = Vector3.Angle(Vector3.up, hit.normal) <= maxSlopeAngle;
         //print(Vector3.Angle(Vector3.up, hit.normal));
+
+        if (detectGround && isSlopeCorrect)
+        {
+            lastGroundedPosition = transform.position;
+        }
+
         return detectGround && isSlopeCorrect;
     }
 
@@ -748,7 +774,7 @@ public class KLD_PlayerController : SerializedMonoBehaviour
         }
         else
         {
-            print(Vector3.Angle(rbHorizontalMagnitude, forceDirectionVector));
+            //print(Vector3.Angle(rbHorizontalMagnitude, forceDirectionVector));
             if (forceDirectionVector != Vector3.zero && Vector3.Angle(rbHorizontalMagnitude, forceDirectionVector) > ng_lockedAngle)
             {
                 rb.AddForce(forceDirectionVector * ng_impulseForce, ForceMode.Force);
@@ -767,7 +793,7 @@ public class KLD_PlayerController : SerializedMonoBehaviour
         {
             rb.AddForce(Vector3.up * ng_verticalImpulseForce, ForceMode.Force);
         }
-        else if (rb.velocity.y > -ng_maxVerticalSpeed && Input.GetButton("Crouch"))
+        else if (rb.velocity.y > -ng_maxVerticalSpeed && (Input.GetButton("Crouch") || LT_GetKey))
         {
             rb.AddForce(Vector3.down * ng_verticalImpulseForce, ForceMode.Force);
         }
@@ -842,6 +868,19 @@ public class KLD_PlayerController : SerializedMonoBehaviour
 
         animator?.SetInteger("playerState", animState);
 
+    }
+
+    #endregion
+
+    #region Debug
+
+    void ResetPlayerOnVoidFall()
+    {
+        if (transform.position.y < -1000f)
+        {
+            rb.velocity = Vector3.zero;
+            transform.position = lastGroundedPosition + Vector3.up;
+        }
     }
 
     #endregion
