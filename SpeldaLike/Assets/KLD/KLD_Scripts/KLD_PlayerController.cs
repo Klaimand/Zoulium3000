@@ -44,6 +44,9 @@ public class KLD_PlayerController : SerializedMonoBehaviour
 
     Vector2 axisVector; //normalized direction where the player moves
 
+    bool LT_GetKey = false;
+    bool LT_GetKeyDown = false;
+
     [SerializeField, Header("Movement")]
     float speed = 10f;
 
@@ -52,7 +55,9 @@ public class KLD_PlayerController : SerializedMonoBehaviour
     [SerializeField] float maxSlopeAngle = 30f;
     [SerializeField] PhysicMaterial noFrictionMat = null;
     [SerializeField] PhysicMaterial frictionMat = null;
+    bool groundDetectionDisabled = false;
 
+    Vector3 lastGroundedPosition = Vector3.zero;
 
     [SerializeField, Header("Jump")]
     float jumpSpeed = 10f;
@@ -73,6 +78,10 @@ public class KLD_PlayerController : SerializedMonoBehaviour
     float powerJumpSpeed = 30f;
     [SerializeField] float powerJumpLoadTime = 0.5f;
     float curPowerJumpLoadTime = 0f;
+    [SerializeField] Vector2 powerJumpDrag = new Vector2(0.04f, 0.1f);
+    [SerializeField] float powerJumpFallMultiplier = 1.02f;
+    [SerializeField] float powerJumpHorizontalSpeed = 10f;
+    [SerializeField] float maxPowerJumpAirSpeed = 20f;
 
     [SerializeField]
     enum PlayerState
@@ -106,7 +115,7 @@ public class KLD_PlayerController : SerializedMonoBehaviour
 
     //CAPACITES
     [SerializeField]
-    enum PowerUp { POWERJUMP, GRAPPLING_HOOK };
+    public enum PowerUp { POWERJUMP, GRAPPLING_HOOK };
     [SerializeField] HashSet<PowerUp> curPowerUps = new HashSet<PowerUp>();
     //[SerializeField] List<PowerUp> curPowerUps = new List<PowerUp>();
 
@@ -130,6 +139,8 @@ public class KLD_PlayerController : SerializedMonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        DoTriggerInputProcessing();
+
         UpdatePlayerState();
         DoPlayerBehavior();
 
@@ -137,6 +148,8 @@ public class KLD_PlayerController : SerializedMonoBehaviour
         UpdateDampedGroundPointPosition();
 
         UpdatePlayerAnimationState();
+
+        ResetPlayerOnVoidFall(); //hard debug
     }
 
     private void FixedUpdate()
@@ -145,7 +158,7 @@ public class KLD_PlayerController : SerializedMonoBehaviour
         DoDeadZoneRawAxis();
         DoTimedAxis();
         DoNoGravityTimedAxis();
-
+        //print(Input.GetAxisRaw("LeftTrigger"));
         /*
         if (controllerMode == ControllerMode.GRAVITY)
         {
@@ -188,6 +201,7 @@ public class KLD_PlayerController : SerializedMonoBehaviour
         if (controllerMode != ControllerMode.GRAVITY)
         {
             controllerMode = ControllerMode.GRAVITY;
+            curPlayerState = PlayerState.FALLING;
             rb.useGravity = true;
         }
     }
@@ -197,6 +211,7 @@ public class KLD_PlayerController : SerializedMonoBehaviour
         if (controllerMode != ControllerMode.NO_GRAVITY)
         {
             controllerMode = ControllerMode.NO_GRAVITY;
+            curPlayerState = PlayerState.FLOATING;
             rb.useGravity = false;
         }
     }
@@ -224,7 +239,7 @@ public class KLD_PlayerController : SerializedMonoBehaviour
                 curPlayerState = PlayerState.FALLING;
             }
 
-            if (Input.GetButtonDown("Crouch") && HavePowerUp(PowerUp.POWERJUMP))
+            if ((Input.GetButtonDown("Crouch") || LT_GetKeyDown) && HavePowerUp(PowerUp.POWERJUMP))
             {
                 curPowerJumpLoadTime = 0f;
                 curPlayerState = PlayerState.POWERCROUCHING;
@@ -262,7 +277,7 @@ public class KLD_PlayerController : SerializedMonoBehaviour
         }
         else if (curPlayerState == PlayerState.POWERCROUCHING) //________________POWERCROUCHING
         {
-            if (!Input.GetButton("Crouch"))
+            if (!Input.GetButton("Crouch") && !LT_GetKey)
             {
                 curPlayerState = PlayerState.IDLE;
             }
@@ -273,8 +288,8 @@ public class KLD_PlayerController : SerializedMonoBehaviour
                 {
                     PowerJump();
                     curPlayerState = PlayerState.POWERJUMPING;
+                    //print("Power Jumped");
                 }
-                print("Power Jumped");
             }
 
         }
@@ -330,18 +345,22 @@ public class KLD_PlayerController : SerializedMonoBehaviour
                 break;
 
             case PlayerState.POWERJUMPING:
-                DoPlayerMove();
+                DoPlayerPowerJumpMove(false);
+                //DoPlayerMove();
                 DoPlayerRotation();
-                CheckFall();
+                //CheckFall();
                 break;
 
             case PlayerState.POWERFALLING:
-                DoPlayerMove();
+                DoPlayerPowerJumpMove(true);
+                //DoPlayerMove();
                 DoPlayerRotation();
-                CheckFall();
+                //CheckFall();
                 break;
 
             case PlayerState.FLOATING:
+                DoPlayerNoGravityMove();
+                DoPlayerNoGravityRotation();
                 break;
 
             default:
@@ -353,7 +372,7 @@ public class KLD_PlayerController : SerializedMonoBehaviour
 
     void GroundedRunningIdleCheck()
     {
-        if (isGrounded())
+        if (isGrounded() && !groundDetectionDisabled)
         {
             if (timedAxis.magnitude != 0f)
             {
@@ -484,6 +503,15 @@ public class KLD_PlayerController : SerializedMonoBehaviour
         ng_timedAxis = new Vector2(hori, vert);
     }
 
+    void DoTriggerInputProcessing()
+    {
+        bool frameLT = Input.GetAxisRaw("LeftTrigger") >= 0.9f;
+
+        LT_GetKeyDown = frameLT && !LT_GetKey;
+
+        LT_GetKey = frameLT;
+    }
+
     #endregion
 
     void DoPlayerMove()
@@ -573,10 +601,21 @@ public class KLD_PlayerController : SerializedMonoBehaviour
         return false;
     }
 
+    IEnumerator DisableGroundDetection(int _fixedFrames)
+    {
+        groundDetectionDisabled = true;
+        for (int i = 0; i < _fixedFrames; i++)
+        {
+            yield return new WaitForFixedUpdate();
+        }
+        groundDetectionDisabled = false;
+    }
+
     IEnumerator WaitAndApplyHorizontalJumpForce()
     {
         yield return new WaitForFixedUpdate();
-        rb.velocity += new Vector3(timedAxis.x, 0f, timedAxis.y) * jumpHorizontalAddedForce;
+        //rb.velocity += new Vector3(timedAxis.x, 0f, timedAxis.y) * jumpHorizontalAddedForce;
+        rb.velocity += ((axisTransform.right * timedAxis.x) + (axisTransform.forward * timedAxis.y)) * jumpHorizontalAddedForce;
     }
 
     IEnumerator WaitAndDebufferJump()
@@ -587,11 +626,19 @@ public class KLD_PlayerController : SerializedMonoBehaviour
 
     void PowerJump()
     {
+        StartCoroutine(DisableGroundDetection(2));
+
         rb.velocity = new Vector3(rb.velocity.x, 0f, rb.velocity.z);
         rb.velocity += Vector3.up * powerJumpSpeed;
-        //StartCoroutine(WaitAndApplyHorizontalJumpForce()); //Horizontal force if needed
+        StartCoroutine(WaitAndApplyPowerJumpHorizontalForce()); //Horizontal force if needed
 
-        print("Power Jumped");
+        //print("Power Jumped");
+    }
+
+    IEnumerator WaitAndApplyPowerJumpHorizontalForce()
+    {
+        yield return new WaitForFixedUpdate();
+        rb.velocity += ((axisTransform.right * timedAxis.x) + (axisTransform.forward * timedAxis.y)).normalized * powerJumpHorizontalSpeed;
     }
 
     bool isGrounded()
@@ -604,6 +651,12 @@ public class KLD_PlayerController : SerializedMonoBehaviour
         //bool isSlopeCorrect = hit.normal
         bool isSlopeCorrect = Vector3.Angle(Vector3.up, hit.normal) <= maxSlopeAngle;
         //print(Vector3.Angle(Vector3.up, hit.normal));
+
+        if (detectGround && isSlopeCorrect)
+        {
+            lastGroundedPosition = transform.position;
+        }
+
         return detectGround && isSlopeCorrect;
     }
 
@@ -679,6 +732,32 @@ public class KLD_PlayerController : SerializedMonoBehaviour
         dampedGroundPoint.position = new Vector3(playerGroundPoint.position.x, curY, playerGroundPoint.position.z);
     }
 
+    void DoPlayerPowerJumpMove(bool isFalling)
+    {
+        float dragX = 1f - powerJumpDrag.x;
+        float dragY = 1f - powerJumpDrag.y;
+
+        float yVelocity = (isFalling ? rb.velocity.y * powerJumpFallMultiplier : rb.velocity.y * dragY);
+
+        rb.velocity = new Vector3(rb.velocity.x * dragX, yVelocity, rb.velocity.z * dragX);
+
+        Vector3 horizontalMagnitude = new Vector3(rb.velocity.x, 0f, rb.velocity.z);
+        if (Mathf.Abs(horizontalMagnitude.magnitude) < maxPowerJumpAirSpeed)
+        {
+            //rb.AddForce(new Vector3(deadZonedRawAxis.x, 0f, deadZonedRawAxis.y) * addAirSpeed);
+            Vector3 inputDirectionVector = ((axisTransform.right * deadZonedRawAxis.x) + (axisTransform.forward * deadZonedRawAxis.y)).normalized;
+            if (!isOnSteepSlope())
+            {
+                rb.AddForce(inputDirectionVector * addAirSpeed);
+            }
+        }
+        else if (Mathf.Abs(horizontalMagnitude.magnitude) > maxPowerJumpAirSpeed)
+        {
+            Vector3 maxHorizontalSpeed = new Vector3(rb.velocity.x, 0f, rb.velocity.z).normalized * maxPowerJumpAirSpeed;
+            rb.velocity = new Vector3(maxHorizontalSpeed.x, rb.velocity.y, maxHorizontalSpeed.z);
+        }
+    }
+
     void DoPlayerNoGravityMove()
     {
         Vector2 rbHorizontalMagnitude = new Vector2(rb.velocity.x, rb.velocity.z);
@@ -695,7 +774,7 @@ public class KLD_PlayerController : SerializedMonoBehaviour
         }
         else
         {
-            print(Vector3.Angle(rbHorizontalMagnitude, forceDirectionVector));
+            //print(Vector3.Angle(rbHorizontalMagnitude, forceDirectionVector));
             if (forceDirectionVector != Vector3.zero && Vector3.Angle(rbHorizontalMagnitude, forceDirectionVector) > ng_lockedAngle)
             {
                 rb.AddForce(forceDirectionVector * ng_impulseForce, ForceMode.Force);
@@ -714,7 +793,7 @@ public class KLD_PlayerController : SerializedMonoBehaviour
         {
             rb.AddForce(Vector3.up * ng_verticalImpulseForce, ForceMode.Force);
         }
-        else if (rb.velocity.y > -ng_maxVerticalSpeed && Input.GetButton("Crouch"))
+        else if (rb.velocity.y > -ng_maxVerticalSpeed && (Input.GetButton("Crouch") || LT_GetKey))
         {
             rb.AddForce(Vector3.down * ng_verticalImpulseForce, ForceMode.Force);
         }
@@ -746,6 +825,11 @@ public class KLD_PlayerController : SerializedMonoBehaviour
     bool HavePowerUp(PowerUp _powerUp)
     {
         return curPowerUps.Contains(_powerUp);
+    }
+
+    public void GivePowerUp(PowerUp _powerUpToGive)
+    {
+        curPowerUps.Add(_powerUpToGive);
     }
 
     #region Animation
@@ -789,6 +873,19 @@ public class KLD_PlayerController : SerializedMonoBehaviour
 
         animator?.SetInteger("playerState", animState);
 
+    }
+
+    #endregion
+
+    #region Debug
+
+    void ResetPlayerOnVoidFall()
+    {
+        if (transform.position.y < -1000f)
+        {
+            rb.velocity = Vector3.zero;
+            transform.position = lastGroundedPosition + Vector3.up;
+        }
     }
 
     #endregion
