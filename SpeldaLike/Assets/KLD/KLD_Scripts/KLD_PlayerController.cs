@@ -115,7 +115,7 @@ public class KLD_PlayerController : SerializedMonoBehaviour
 
     //CAPACITES
     [SerializeField]
-    enum PowerUp { POWERJUMP, GRAPPLING_HOOK };
+    public enum PowerUp { POWERJUMP, GRAPPLING_HOOK };
     [SerializeField] HashSet<PowerUp> curPowerUps = new HashSet<PowerUp>();
     //[SerializeField] List<PowerUp> curPowerUps = new List<PowerUp>();
 
@@ -825,6 +825,11 @@ public class KLD_PlayerController : SerializedMonoBehaviour
     bool HavePowerUp(PowerUp _powerUp)
     {
         return curPowerUps.Contains(_powerUp);
+    }
+
+    public void GivePowerUp(PowerUp _powerUpToGive)
+    {
+        curPowerUps.Add(_powerUpToGive);
     }
 
     #region Animation
