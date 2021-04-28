@@ -44,9 +44,9 @@
       "dependencies": {},
       "url": "https://packages.unity.com"
     },
-    "com.unity.inputsystem": {
-      "version": "1.0.2",
-      "depth": 0,
+    "com.unity.mathematics": {
+      "version": "1.1.0",
+      "depth": 1,
       "source": "registry",
       "dependencies": {},
       "url": "https://packages.unity.com"
@@ -59,13 +59,12 @@
       "url": "https://packages.unity.com"
     },
     "com.unity.polybrush": {
-      "version": "1.0.2",
+      "version": "file:../../com.unity.polybrush",
       "depth": 0,
-      "source": "registry",
+      "source": "local",
       "dependencies": {
         "com.unity.settings-manager": "1.0.3"
-      },
-      "url": "https://packages.unity.com"
+      }
     },
     "com.unity.probuilder": {
       "version": "4.4.0",
@@ -76,6 +75,18 @@
       },
       "url": "https://packages.unity.com"
     },
+<<<<<<< HEAD
+=======
+    "com.unity.recorder": {
+      "version": "2.5.5",
+      "depth": 0,
+      "source": "registry",
+      "dependencies": {
+        "com.unity.timeline": "1.0.0"
+      },
+      "url": "https://packages.unity.com"
+    },
+>>>>>>> origin/KLD_Develop
     "com.unity.render-pipelines.core": {
       "version": "10.2.2",
       "depth": 1,
