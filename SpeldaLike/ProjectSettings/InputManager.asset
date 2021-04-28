@@ -11,7 +11,7 @@ InputManager:
     descriptiveNegativeName: 
     negativeButton: left
     positiveButton: right
-    altNegativeButton: q
+    altNegativeButton: a
     altPositiveButton: d
     gravity: 3
     dead: 0.001
@@ -28,7 +28,7 @@ InputManager:
     negativeButton: down
     positiveButton: up
     altNegativeButton: s
-    altPositiveButton: z
+    altPositiveButton: w
     gravity: 3
     dead: 0.001
     sensitivity: 3
@@ -198,13 +198,13 @@ InputManager:
     axis: 0
     joyNum: 0
   - serializedVersion: 3
-    m_Name: Crouch
+    m_Name: Fire2
     descriptiveName: 
     descriptiveNegativeName: 
     negativeButton: 
     positiveButton: joystick button 1
     altNegativeButton: 
-    altPositiveButton: e
+    altPositiveButton: 
     gravity: 1000
     dead: 0.001
     sensitivity: 1000
@@ -234,7 +234,7 @@ InputManager:
     descriptiveName: 
     descriptiveNegativeName: 
     negativeButton: 
-    positiveButton: joystick button 0
+    positiveButton: joystick button 3
     altNegativeButton: 
     altPositiveButton: 
     gravity: 1000
@@ -294,7 +294,6 @@ InputManager:
     axis: 0
     joyNum: 0
   - serializedVersion: 3
-<<<<<<< HEAD
     m_Name: Enable Debug Button 1
     descriptiveName: 
     descriptiveNegativeName: 
@@ -302,31 +301,6 @@ InputManager:
     positiveButton: left ctrl
     altNegativeButton: 
     altPositiveButton: joystick button 8
-=======
-    m_Name: LeftTrigger
-    descriptiveName: 
-    descriptiveNegativeName: 
-    negativeButton: 
-    positiveButton: 
-    altNegativeButton: 
-    altPositiveButton: 
-    gravity: -1000
-    dead: 0.2
-    sensitivity: -1000
-    snap: 1
-    invert: 1
-    type: 2
-    axis: 8
-    joyNum: 0
-  - serializedVersion: 3
-    m_Name: Enable Debug Button 2
-    descriptiveName: 
-    descriptiveNegativeName: 
-    negativeButton: 
-    positiveButton: backspace
-    altNegativeButton: 
-    altPositiveButton: joystick button 9
->>>>>>> origin/KLD_Develop
     gravity: 0
     dead: 0
     sensitivity: 0
@@ -336,7 +310,6 @@ InputManager:
     axis: 0
     joyNum: 0
   - serializedVersion: 3
-<<<<<<< HEAD
     m_Name: Enable Debug Button 2
     descriptiveName: 
     descriptiveNegativeName: 
@@ -344,15 +317,6 @@ InputManager:
     positiveButton: backspace
     altNegativeButton: 
     altPositiveButton: joystick button 9
-=======
-    m_Name: Enable Debug Button 1
-    descriptiveName: 
-    descriptiveNegativeName: 
-    negativeButton: 
-    positiveButton: left ctrl
-    altNegativeButton: 
-    altPositiveButton: joystick button 8
->>>>>>> origin/KLD_Develop
     gravity: 0
     dead: 0
     sensitivity: 0
