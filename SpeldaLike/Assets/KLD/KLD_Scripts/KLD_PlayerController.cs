@@ -82,6 +82,7 @@ public class KLD_PlayerController : SerializedMonoBehaviour
     [SerializeField] float powerJumpFallMultiplier = 1.02f;
     [SerializeField] float powerJumpHorizontalSpeed = 10f;
     [SerializeField] float maxPowerJumpAirSpeed = 20f;
+    [SerializeField] float powerJumpAddAirSpeed = 20f;
 
     [SerializeField]
     enum PlayerState
@@ -748,7 +749,7 @@ public class KLD_PlayerController : SerializedMonoBehaviour
             Vector3 inputDirectionVector = ((axisTransform.right * deadZonedRawAxis.x) + (axisTransform.forward * deadZonedRawAxis.y)).normalized;
             if (!isOnSteepSlope())
             {
-                rb.AddForce(inputDirectionVector * addAirSpeed);
+                rb.AddForce(inputDirectionVector * powerJumpAddAirSpeed);
             }
         }
         else if (Mathf.Abs(horizontalMagnitude.magnitude) > maxPowerJumpAirSpeed)
