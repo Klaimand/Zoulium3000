@@ -186,6 +186,12 @@ MonoBehaviour:
   maxSlopeAngle: 42
   noFrictionMat: {fileID: 13400000, guid: 9cac1c0a04f2eed4584436f205edf26c, type: 2}
   frictionMat: {fileID: 13400000, guid: b2b9578a71e8fcc44b76ba3fc6aaf9e9, type: 2}
+  groundLayer:
+    serializedVersion: 2
+    m_Bits: 256
+  groundPointLayer:
+    serializedVersion: 2
+    m_Bits: 768
   jumpSpeed: 10
   fallMultiplier: 1.4
   lowJumpMultiplier: 1.8
@@ -194,15 +200,13 @@ MonoBehaviour:
   maxAirSpeed: 15
   addAirSpeed: 17
   jumpHorizontalAddedForce: 2
-  groundLayer:
-    serializedVersion: 2
-    m_Bits: 256
   powerJumpSpeed: 50
   powerJumpLoadTime: 0.2
   powerJumpDrag: {x: 0.03, y: 0.05}
   powerJumpFallMultiplier: 1.05
   powerJumpHorizontalSpeed: 10
   maxPowerJumpAirSpeed: 20
+  powerJumpAddAirSpeed: 22
   curPlayerState: 0
   ng_impulseForce: 2
   ng_verticalImpulseForce: 2
