@@ -90,11 +90,11 @@ public class KLD_PlayerController : SerializedMonoBehaviour
         IDLE, //0
         RUNNING, //1
         JUMPING, //2
-        FALLING,
+        FALLING, //3
 
-        POWERCROUCHING,
-        POWERJUMPING,
-        POWERFALLING,
+        POWERCROUCHING, //4
+        POWERJUMPING, //5
+        POWERFALLING, //6
 
         FLOATING
     };

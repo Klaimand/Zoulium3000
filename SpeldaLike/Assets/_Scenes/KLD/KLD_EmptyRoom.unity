@@ -20727,6 +20727,11 @@ PrefabInstance:
       objectReference: {fileID: 147190480}
     - target: {fileID: 7121690983688771128, guid: a5a884bcbdc112849bf395f7d6814944,
         type: 3}
+      propertyPath: powerJumpSpeed
+      value: 30
+      objectReference: {fileID: 0}
+    - target: {fileID: 7121690983688771128, guid: a5a884bcbdc112849bf395f7d6814944,
+        type: 3}
       propertyPath: powerJumpDrag.x
       value: 0.03
       objectReference: {fileID: 0}
@@ -20737,6 +20742,11 @@ PrefabInstance:
       objectReference: {fileID: 1287105602}
     - target: {fileID: 7121690983688771128, guid: a5a884bcbdc112849bf395f7d6814944,
         type: 3}
+      propertyPath: lowJumpMultiplier
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7121690983688771128, guid: a5a884bcbdc112849bf395f7d6814944,
+        type: 3}
       propertyPath: powerJumpAddAirSpeed
       value: 22
       objectReference: {fileID: 0}
@@ -20744,8 +20754,7 @@ PrefabInstance:
         type: 3}
       propertyPath: serializationData.Prefab
       value: 
-      objectReference: {fileID: 7121690983688771128, guid: a5a884bcbdc112849bf395f7d6814944,
-        type: 3}
+      objectReference: {fileID: 0}
     - target: {fileID: 7305812479954554117, guid: a5a884bcbdc112849bf395f7d6814944,
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
