@@ -117,8 +117,9 @@ public class KLD_PlayerController : SerializedMonoBehaviour
 
     //CAPACITES
     [SerializeField]
-    public enum PowerUp { POWERJUMP, GRAPPLING_HOOK };
-    [SerializeField] HashSet<PowerUp> curPowerUps = new HashSet<PowerUp>();
+    public enum PowerUp { DEFAULT, POWERJUMP, GRAPPLING_HOOK };
+    [SerializeField] HashSet<PowerUp> curPowerUps; //= new HashSet<PowerUp>();
+
     //[SerializeField] List<PowerUp> curPowerUps = new List<PowerUp>();
 
     #endregion
