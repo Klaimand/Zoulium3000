@@ -7,19 +7,31 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: grey_mat
-  m_Shader: {fileID: 4800000, guid: 933532a4fcc9baf4fa0491de14d08ed7, type: 3}
+  m_Name: Turret_Trail_mat
+  m_Shader: {fileID: -6465566751694194690, guid: dee5ab5a2af9b1b4899407ac0b0fa8a7,
+    type: 3}
   m_ShaderKeywords: 
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 0
   m_DoubleSidedGI: 0
-  m_CustomRenderQueue: 2000
-  stringTagMap:
-    RenderType: Opaque
+  m_CustomRenderQueue: 3000
+  stringTagMap: {}
   disabledShaderPasses: []
   m_SavedProperties:
     serializedVersion: 3
     m_TexEnvs:
+    - Texture2D_3a08f8a562774de6a6d7204037022ef9:
+        m_Texture: {fileID: 2800000, guid: e77426414dd3ea44b9f62d171543f7c0, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - Texture2D_86eef39bfbab40eea3ef2360c825e068:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - Texture2D_9f5f047dea9e469aa8964304adf0cadd:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
     - _BaseMap:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
@@ -77,6 +89,16 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     m_Floats:
+    - Vector1_05fa82744f7f4e348aa37e63166294b7: 5
+    - Vector1_2c2bdf5301b54b1797f0bbc369ee3d8a: 1
+    - Vector1_37273edb7a934286a30ff7d647f4819d: 0.838
+    - Vector1_4489e01325904cbfb799c6e1533b052b: 3.8
+    - Vector1_4f1a5d8a3e334df58627ebb41d7e68df: 4.5
+    - Vector1_60270bad57fb44b8ad7f8cf8f0d54e64: 0.357
+    - Vector1_8cc2fcef165e4ff1af5670ad24d5882b: -1
+    - Vector1_b67547761ace4103b4cb7cd37ece7da2: 0.5
+    - Vector1_b6c6480d3a054c3483035ce50e40af74: 0
+    - Vector1_def85d8c07274bb4952c44265fe7bc9d: 5.48
     - _AlphaClip: 0
     - _Blend: 0
     - _BumpScale: 1
@@ -104,12 +126,16 @@ Material:
     - _WorkflowMode: 1
     - _ZWrite: 1
     m_Colors:
+    - Color_39cd5e35189a40f9a173a0ffc160e24b: {r: 1, g: 1, b: 1, a: 1}
+    - Color_d2c3f6d8ba474eb6909d0000b1e1c5cf: {r: 1, g: 1, b: 1, a: 1}
+    - Color_ed779ca220d8440daad6b15657fe776c: {r: 2.9960785, g: 2.9960785, b: 2.9960785,
+        a: 1}
     - _BaseColor: {r: 1, g: 1, b: 1, a: 1}
     - _Color: {r: 1, g: 1, b: 1, a: 1}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
     - _SpecColor: {r: 0.2, g: 0.2, b: 0.2, a: 1}
   m_BuildTextureStacks: []
---- !u!114 &4598583906052815322
+--- !u!114 &5518116014359521034
 MonoBehaviour:
   m_ObjectHideFlags: 11
   m_CorrespondingSourceObject: {fileID: 0}
