@@ -118,9 +118,8 @@ public class KLD_PlayerController : SerializedMonoBehaviour
     //CAPACITES
     [SerializeField]
     public enum PowerUp { DEFAULT, POWERJUMP, GRAPPLING_HOOK };
-    [SerializeField] HashSet<PowerUp> curPowerUps; //= new HashSet<PowerUp>();
-
-    //[SerializeField] List<PowerUp> curPowerUps = new List<PowerUp>();
+    [SerializeField] HashSet<PowerUp> curPowerUps = new HashSet<PowerUp>();
+    [SerializeField] List<PowerUp> startPowerUps = new List<PowerUp>(); //I must use an init list because hashset clears on start
 
     #endregion
 
@@ -137,6 +136,7 @@ public class KLD_PlayerController : SerializedMonoBehaviour
     {
         UpdatePlayerGroundPointPosition();
         dampedGroundPoint.position = playerGroundPoint.position;
+        GiveStartPups();
     }
 
     // Update is called once per frame
@@ -145,7 +145,7 @@ public class KLD_PlayerController : SerializedMonoBehaviour
         DoTriggerInputProcessing();
 
         UpdatePlayerState();
-        DoPlayerBehavior();
+        //DoPlayerBehavior(); //moved to fixedupdate
 
         UpdatePlayerGroundPointPosition();
         UpdateDampedGroundPointPosition();
@@ -161,6 +161,9 @@ public class KLD_PlayerController : SerializedMonoBehaviour
         DoDeadZoneRawAxis();
         DoTimedAxis();
         DoNoGravityTimedAxis();
+
+        DoPlayerBehavior();
+        //DoFixedUpdatePlayerBehavior();
         //print(Input.GetAxisRaw("LeftTrigger"));
         /*
         if (controllerMode == ControllerMode.GRAVITY)
@@ -298,7 +301,7 @@ public class KLD_PlayerController : SerializedMonoBehaviour
         }
         else if (curPlayerState == PlayerState.POWERJUMPING) //__________________POWERJUMPING
         {
-            if (rb.velocity.y < -1f)
+            if (rb.velocity.y < 0f)
             {
                 curPlayerState = PlayerState.POWERFALLING;
             }
@@ -348,14 +351,14 @@ public class KLD_PlayerController : SerializedMonoBehaviour
                 break;
 
             case PlayerState.POWERJUMPING:
-                DoPlayerPowerJumpMove(false);
+                DoPlayerPowerJumpMove(false); //moved to fixed
                 //DoPlayerMove();
                 DoPlayerRotation();
                 //CheckFall();
                 break;
 
             case PlayerState.POWERFALLING:
-                DoPlayerPowerJumpMove(true);
+                //DoPlayerPowerJumpMove(true);
                 //DoPlayerMove();
                 DoPlayerRotation();
                 //CheckFall();
@@ -364,6 +367,43 @@ public class KLD_PlayerController : SerializedMonoBehaviour
             case PlayerState.FLOATING:
                 DoPlayerNoGravityMove();
                 DoPlayerNoGravityRotation();
+                break;
+
+            default:
+                Debug.LogError("WHATTTTTATATATATTA");
+                break;
+
+        }
+    }
+
+    void DoFixedUpdatePlayerBehavior()
+    {
+        switch (curPlayerState)
+        {
+            case PlayerState.IDLE:
+                break;
+
+            case PlayerState.RUNNING:
+                break;
+
+            case PlayerState.JUMPING:
+                break;
+
+            case PlayerState.FALLING:
+                break;
+
+            case PlayerState.POWERCROUCHING:
+                break;
+
+            case PlayerState.POWERJUMPING:
+                DoPlayerPowerJumpMove(false);
+                break;
+
+            case PlayerState.POWERFALLING:
+                DoPlayerPowerJumpMove(true);
+                break;
+
+            case PlayerState.FLOATING:
                 break;
 
             default:
@@ -838,6 +878,14 @@ public class KLD_PlayerController : SerializedMonoBehaviour
     public void GivePowerUp(PowerUp _powerUpToGive)
     {
         curPowerUps.Add(_powerUpToGive);
+    }
+
+    void GiveStartPups()
+    {
+        foreach (var pup in startPowerUps)
+        {
+            GivePowerUp(pup);
+        }
     }
 
     #region Animation
