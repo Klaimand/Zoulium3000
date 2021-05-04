@@ -42,6 +42,7 @@ public class KLD_PlayerController : SerializedMonoBehaviour
     [SerializeField] float axisZeroingDeadzone = 0.05f;
     [SerializeField] bool snapAxis = true;
 
+    Vector3 flatSpeedVector; //non normalized direction where the player moves
     Vector2 axisVector; //normalized direction where the player moves
 
     bool LT_GetKey = false;
@@ -160,6 +161,8 @@ public class KLD_PlayerController : SerializedMonoBehaviour
         DoDeadZoneRawAxis();
         DoTimedAxis();
         DoNoGravityTimedAxis();
+
+        CalculateAxisVector();
 
         DoPlayerBehavior();
 
@@ -342,31 +345,36 @@ public class KLD_PlayerController : SerializedMonoBehaviour
 
             case PlayerState.JUMPING:
                 DoPlayerMove();
-                DoPlayerRotation();
+                //DoPlayerRotation();
+                DoPlayerVelocityRotation();
                 CheckFall();
                 break;
 
             case PlayerState.FALLING:
                 DoPlayerMove();
-                DoPlayerRotation();
+                //DoPlayerRotation();
+                DoPlayerVelocityRotation();
                 CheckFall();
                 break;
 
             case PlayerState.POWERCROUCHING:
+                DoPlayerRotation();
                 curPowerJumpLoadTime += Time.deltaTime;
                 break;
 
             case PlayerState.POWERJUMPING:
                 DoPlayerPowerJumpMove(false); //moved to fixed
                 //DoPlayerMove();
-                DoPlayerRotation();
+                //DoPlayerRotation();
+                DoPlayerVelocityRotation();
                 //CheckFall();
                 break;
 
             case PlayerState.POWERFALLING:
                 DoPlayerPowerJumpMove(true);
                 //DoPlayerMove();
-                DoPlayerRotation();
+                //DoPlayerRotation();
+                DoPlayerVelocityRotation();
                 //CheckFall();
                 break;
 
@@ -526,11 +534,8 @@ public class KLD_PlayerController : SerializedMonoBehaviour
 
     #endregion
 
-    void DoPlayerMove()
+    void CalculateAxisVector()
     {
-        //float xSpeed = Input.GetAxis("Horizontal") * Time.fixedDeltaTime * speed * 30f;
-        //float zSpeed = Input.GetAxis("Vertical") * Time.fixedDeltaTime * speed * 30f;
-
         Vector2 clampedTimedAxis = timedAxis;
         if (clampedTimedAxis.sqrMagnitude > 1f)
         {
@@ -540,8 +545,16 @@ public class KLD_PlayerController : SerializedMonoBehaviour
         float xSpeed = clampedTimedAxis.x * Time.fixedDeltaTime * speed * 30f;
         float zSpeed = clampedTimedAxis.y * Time.fixedDeltaTime * speed * 30f;
 
-        Vector3 flatSpeedVector = axisTransform.right * xSpeed + axisTransform.forward * zSpeed;
+        flatSpeedVector = axisTransform.right * xSpeed + axisTransform.forward * zSpeed;
         axisVector = new Vector2(flatSpeedVector.x, flatSpeedVector.z).normalized;
+    }
+
+    void DoPlayerMove()
+    {
+        //float xSpeed = Input.GetAxis("Horizontal") * Time.fixedDeltaTime * speed * 30f;
+        //float zSpeed = Input.GetAxis("Vertical") * Time.fixedDeltaTime * speed * 30f;
+
+        //calc axis v
 
         if (isGrounded())
         {
@@ -717,6 +730,20 @@ public class KLD_PlayerController : SerializedMonoBehaviour
         {
             float angleToLook = Vector3.SignedAngle(Vector3.forward, new Vector3(axisVector.x, 0f, axisVector.y), Vector3.up);
             //print(axisVector + "\n" + angleToLook);
+            transform.rotation = Quaternion.Euler(0f, angleToLook, 0f);
+        }
+    }
+
+    void DoPlayerVelocityRotation()
+    {
+        Vector3 v = rb.velocity;
+        v.y = 0f;
+
+        float o = 0.1f;
+
+        if (v.sqrMagnitude > o * o)
+        {
+            float angleToLook = Vector3.SignedAngle(Vector3.forward, v, Vector3.up);
             transform.rotation = Quaternion.Euler(0f, angleToLook, 0f);
         }
     }
