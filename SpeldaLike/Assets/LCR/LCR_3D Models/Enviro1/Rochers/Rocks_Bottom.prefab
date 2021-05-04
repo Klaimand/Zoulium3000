@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 4355486087157722189}
   - component: {fileID: 4858015181101189247}
   - component: {fileID: 4555818922509376829}
+  - component: {fileID: 2206665001621971156}
   m_Layer: 0
   m_Name: GeoSphere005
   m_TagString: Untagged
@@ -104,11 +105,25 @@ LODGroup:
     fadeTransitionWidth: 0
     renderers:
     - renderer: {fileID: 4858015181101189247}
-  - screenRelativeHeight: 0.1
+  - screenRelativeHeight: 0.0067121233
     fadeTransitionWidth: 0
     renderers:
     - renderer: {fileID: 4858015181101189247}
   m_Enabled: 1
+--- !u!64 &2206665001621971156
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5549903654134555898}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 4
+  m_Convex: 0
+  m_CookingOptions: 30
+  m_Mesh: {fileID: -8099949705845188443, guid: 4b2015dddf1a85a49b8ba8e878c2d6ca, type: 3}
 --- !u!1 &6592776197251956132
 GameObject:
   m_ObjectHideFlags: 0
@@ -121,6 +136,7 @@ GameObject:
   - component: {fileID: 4739910281963311192}
   - component: {fileID: 3470802021132685704}
   - component: {fileID: 5666286918203950688}
+  - component: {fileID: 8979923045779485239}
   m_Layer: 0
   m_Name: GeoSphere006
   m_TagString: Untagged
@@ -213,11 +229,25 @@ LODGroup:
     fadeTransitionWidth: 0
     renderers:
     - renderer: {fileID: 3470802021132685704}
-  - screenRelativeHeight: 0.1
+  - screenRelativeHeight: 0.0016001331
     fadeTransitionWidth: 0
     renderers:
     - renderer: {fileID: 3470802021132685704}
   m_Enabled: 1
+--- !u!64 &8979923045779485239
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6592776197251956132}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 4
+  m_Convex: 0
+  m_CookingOptions: 30
+  m_Mesh: {fileID: -6552630041216397055, guid: 4b2015dddf1a85a49b8ba8e878c2d6ca, type: 3}
 --- !u!1 &8627476775549781441
 GameObject:
   m_ObjectHideFlags: 0
