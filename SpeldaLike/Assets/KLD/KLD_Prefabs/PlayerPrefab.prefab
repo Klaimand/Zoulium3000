@@ -193,16 +193,16 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 768
   jumpSpeed: 10
-  fallMultiplier: 1.4
+  fallMultiplier: 1.8
   lowJumpMultiplier: 1
   jumpBufferDuration: 0.5
   normalJumpDrag: 0.055
-  maxAirSpeed: 15
-  addAirSpeed: 17
-  jumpHorizontalAddedForce: 2
-  powerJumpSpeed: 50
+  maxAirSpeed: 8
+  addAirSpeed: 30
+  jumpHorizontalAddedForce: 0
+  powerJumpSpeed: 40
   powerJumpLoadTime: 0.2
-  powerJumpDrag: {x: 0.03, y: 0.05}
+  powerJumpDrag: {x: 0.03, y: 0.1}
   powerJumpFallMultiplier: 1.05
   powerJumpHorizontalSpeed: 10
   maxPowerJumpAirSpeed: 20
@@ -217,6 +217,7 @@ MonoBehaviour:
   ng_lockHorizontalSpeed: 1
   ng_lockVerticalSpeed: 1
   animator: {fileID: 4419005568464463209}
+  startPowerUps: 
 --- !u!1 &7121690983789461290
 GameObject:
   m_ObjectHideFlags: 0

@@ -145,7 +145,6 @@ public class KLD_PlayerController : SerializedMonoBehaviour
         DoTriggerInputProcessing();
 
         UpdatePlayerState();
-        //DoPlayerBehavior(); //moved to fixedupdate
 
         UpdatePlayerGroundPointPosition();
         UpdateDampedGroundPointPosition();
@@ -163,7 +162,7 @@ public class KLD_PlayerController : SerializedMonoBehaviour
         DoNoGravityTimedAxis();
 
         DoPlayerBehavior();
-        //DoFixedUpdatePlayerBehavior();
+
         //print(Input.GetAxisRaw("LeftTrigger"));
         /*
         if (controllerMode == ControllerMode.GRAVITY)
@@ -270,15 +269,22 @@ public class KLD_PlayerController : SerializedMonoBehaviour
         }
         else if (curPlayerState == PlayerState.JUMPING) //_______________________JUMPING
         {
-            if (rb.velocity.y < -1f)
+            if (rb.velocity.y < 0f)
             {
                 curPlayerState = PlayerState.FALLING;
             }
+
+            CheckPlayerJump();
 
             GroundedRunningIdleCheck();
         }
         else if (curPlayerState == PlayerState.FALLING) //_______________________FALLING
         {
+            if (CheckPlayerJump())
+            {
+                curPlayerState = PlayerState.JUMPING;
+            }
+
             GroundedRunningIdleCheck();
         }
         else if (curPlayerState == PlayerState.POWERCROUCHING) //________________POWERCROUCHING
@@ -358,7 +364,7 @@ public class KLD_PlayerController : SerializedMonoBehaviour
                 break;
 
             case PlayerState.POWERFALLING:
-                //DoPlayerPowerJumpMove(true);
+                DoPlayerPowerJumpMove(true);
                 //DoPlayerMove();
                 DoPlayerRotation();
                 //CheckFall();
@@ -367,43 +373,6 @@ public class KLD_PlayerController : SerializedMonoBehaviour
             case PlayerState.FLOATING:
                 DoPlayerNoGravityMove();
                 DoPlayerNoGravityRotation();
-                break;
-
-            default:
-                Debug.LogError("WHATTTTTATATATATTA");
-                break;
-
-        }
-    }
-
-    void DoFixedUpdatePlayerBehavior()
-    {
-        switch (curPlayerState)
-        {
-            case PlayerState.IDLE:
-                break;
-
-            case PlayerState.RUNNING:
-                break;
-
-            case PlayerState.JUMPING:
-                break;
-
-            case PlayerState.FALLING:
-                break;
-
-            case PlayerState.POWERCROUCHING:
-                break;
-
-            case PlayerState.POWERJUMPING:
-                DoPlayerPowerJumpMove(false);
-                break;
-
-            case PlayerState.POWERFALLING:
-                DoPlayerPowerJumpMove(true);
-                break;
-
-            case PlayerState.FLOATING:
                 break;
 
             default:
@@ -561,8 +530,15 @@ public class KLD_PlayerController : SerializedMonoBehaviour
     {
         //float xSpeed = Input.GetAxis("Horizontal") * Time.fixedDeltaTime * speed * 30f;
         //float zSpeed = Input.GetAxis("Vertical") * Time.fixedDeltaTime * speed * 30f;
-        float xSpeed = timedAxis.x * Time.fixedDeltaTime * speed * 30f;
-        float zSpeed = timedAxis.y * Time.fixedDeltaTime * speed * 30f;
+
+        Vector2 clampedTimedAxis = timedAxis;
+        if (clampedTimedAxis.sqrMagnitude > 1f)
+        {
+            clampedTimedAxis.Normalize();
+        }
+
+        float xSpeed = clampedTimedAxis.x * Time.fixedDeltaTime * speed * 30f;
+        float zSpeed = clampedTimedAxis.y * Time.fixedDeltaTime * speed * 30f;
 
         Vector3 flatSpeedVector = axisTransform.right * xSpeed + axisTransform.forward * zSpeed;
         axisVector = new Vector2(flatSpeedVector.x, flatSpeedVector.z).normalized;
@@ -570,11 +546,6 @@ public class KLD_PlayerController : SerializedMonoBehaviour
         if (isGrounded())
         {
             //rb.velocity = new Vector3(flatSpeedVector.x, rb.velocity.y, flatSpeedVector.z);
-
-            if (flatSpeedVector.magnitude > speed)
-            {
-                flatSpeedVector = flatSpeedVector.normalized * speed;
-            }
 
             Vector3 wantedVector = Vector3.ProjectOnPlane(new Vector3(flatSpeedVector.x, rb.velocity.y, flatSpeedVector.z), GetSlopeNormal());
 
@@ -644,7 +615,7 @@ public class KLD_PlayerController : SerializedMonoBehaviour
                 jumpBuffer = true;
                 StartCoroutine(WaitAndDebufferJump());
             }
-            print("jumped while idle");
+            //print("jumped while idle");
         }
         return false;
     }
