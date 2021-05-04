@@ -11,6 +11,8 @@ GameObject:
   - component: {fileID: 3790851129287230692}
   - component: {fileID: 230832094635543361}
   - component: {fileID: 2652870700621250443}
+  - component: {fileID: 5378158268244599558}
+  - component: {fileID: 1843287807117189937}
   m_Layer: 0
   m_Name: RockHoles
   m_TagString: Untagged
@@ -81,3 +83,42 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!205 &5378158268244599558
+LODGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4598210030108253790}
+  serializedVersion: 2
+  m_LocalReferencePoint: {x: 0.0218378, y: 0.32157436, z: 0.033108935}
+  m_Size: 0.6342105
+  m_FadeMode: 0
+  m_AnimateCrossFading: 0
+  m_LastLODIsBillboard: 0
+  m_LODs:
+  - screenRelativeHeight: 0.036778223
+    fadeTransitionWidth: 0
+    renderers:
+    - renderer: {fileID: 2652870700621250443}
+  - screenRelativeHeight: 0.018837335
+    fadeTransitionWidth: 0
+    renderers: []
+  - screenRelativeHeight: 0.0123386225
+    fadeTransitionWidth: 0
+    renderers: []
+  m_Enabled: 1
+--- !u!64 &1843287807117189937
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4598210030108253790}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 4
+  m_Convex: 0
+  m_CookingOptions: 30
+  m_Mesh: {fileID: 5060444177187149915, guid: 8c52e58901c1f3348b218a7161862c51, type: 3}

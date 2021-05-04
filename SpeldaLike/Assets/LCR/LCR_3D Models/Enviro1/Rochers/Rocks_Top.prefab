@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 4355486087157722189}
   - component: {fileID: 4858015181101189247}
   - component: {fileID: 4555818922509376829}
+  - component: {fileID: 6486374899771315127}
   m_Layer: 0
   m_Name: GeoSphere005
   m_TagString: Untagged
@@ -90,23 +91,37 @@ LODGroup:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5549903654134555898}
   serializedVersion: 2
-  m_LocalReferencePoint: {x: 0.069410086, y: 0.017447472, z: 0.1420548}
-  m_Size: 2.1232314
+  m_LocalReferencePoint: {x: 0.04326105, y: 0.04199016, z: 0.06668091}
+  m_Size: 2.3344789
   m_FadeMode: 0
   m_AnimateCrossFading: 0
   m_LastLODIsBillboard: 0
   m_LODs:
-  - screenRelativeHeight: 0.6
+  - screenRelativeHeight: 0.025693115
     fadeTransitionWidth: 0
     renderers:
-    - renderer: {fileID: 4858015181101189247}
-  - screenRelativeHeight: 0.3
+    - renderer: {fileID: 3470802021132685704}
+  - screenRelativeHeight: 0.009283674
     fadeTransitionWidth: 0
     renderers: []
-  - screenRelativeHeight: 0.1
+  - screenRelativeHeight: 0.0018645109
     fadeTransitionWidth: 0
     renderers: []
   m_Enabled: 1
+--- !u!64 &6486374899771315127
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5549903654134555898}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 4
+  m_Convex: 0
+  m_CookingOptions: 30
+  m_Mesh: {fileID: -8099949705845188443, guid: 4b2015dddf1a85a49b8ba8e878c2d6ca, type: 3}
 --- !u!1 &6592776197251956132
 GameObject:
   m_ObjectHideFlags: 0
@@ -119,6 +134,7 @@ GameObject:
   - component: {fileID: 4739910281963311192}
   - component: {fileID: 3470802021132685704}
   - component: {fileID: 5666286918203950688}
+  - component: {fileID: 4301790199262963449}
   m_Layer: 0
   m_Name: GeoSphere006
   m_TagString: Untagged
@@ -203,17 +219,31 @@ LODGroup:
   m_AnimateCrossFading: 0
   m_LastLODIsBillboard: 0
   m_LODs:
-  - screenRelativeHeight: 0.6
+  - screenRelativeHeight: 0.025693115
     fadeTransitionWidth: 0
     renderers:
     - renderer: {fileID: 3470802021132685704}
-  - screenRelativeHeight: 0.3
+  - screenRelativeHeight: 0.009283674
     fadeTransitionWidth: 0
     renderers: []
-  - screenRelativeHeight: 0.1
+  - screenRelativeHeight: 0.0018645109
     fadeTransitionWidth: 0
     renderers: []
   m_Enabled: 1
+--- !u!64 &4301790199262963449
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6592776197251956132}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 4
+  m_Convex: 0
+  m_CookingOptions: 30
+  m_Mesh: {fileID: -6552630041216397055, guid: 4b2015dddf1a85a49b8ba8e878c2d6ca, type: 3}
 --- !u!1 &8627476775549781441
 GameObject:
   m_ObjectHideFlags: 0
@@ -224,8 +254,6 @@ GameObject:
   m_Component:
   - component: {fileID: 9003017564391186299}
   - component: {fileID: -7938006913461331292}
-  - component: {fileID: 8521062659249622661}
-  - component: {fileID: -5102887241798029574}
   m_Layer: 0
   m_Name: Rocks_Top
   m_TagString: Untagged
@@ -263,46 +291,19 @@ LODGroup:
   m_AnimateCrossFading: 0
   m_LastLODIsBillboard: 0
   m_LODs:
-  - screenRelativeHeight: 0.6
+  - screenRelativeHeight: 0.04625898
     fadeTransitionWidth: 0
     renderers:
     - renderer: {fileID: 4858015181101189247}
     - renderer: {fileID: 3470802021132685704}
-  - screenRelativeHeight: 0.3
+  - screenRelativeHeight: 0.018966917
     fadeTransitionWidth: 0
     renderers:
     - renderer: {fileID: 4858015181101189247}
     - renderer: {fileID: 3470802021132685704}
-  - screenRelativeHeight: 0.1
+  - screenRelativeHeight: 0.008569943
     fadeTransitionWidth: 0
     renderers:
     - renderer: {fileID: 4858015181101189247}
     - renderer: {fileID: 3470802021132685704}
   m_Enabled: 0
---- !u!64 &8521062659249622661
-MeshCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8627476775549781441}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 4
-  m_Convex: 0
-  m_CookingOptions: 30
-  m_Mesh: {fileID: -6552630041216397055, guid: 4b2015dddf1a85a49b8ba8e878c2d6ca, type: 3}
---- !u!65 &-5102887241798029574
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8627476775549781441}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 1, y: 1, z: 1}
-  m_Center: {x: 0, y: 0, z: 0}

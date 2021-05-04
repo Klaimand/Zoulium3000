@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 5234832431924828790}
   - component: {fileID: 8016736182526422716}
   - component: {fileID: 8040241900327544604}
+  - component: {fileID: 5578954037949759346}
   m_Layer: 0
   m_Name: Arbre_Tordu
   m_TagString: Untagged
@@ -109,3 +110,17 @@ LODGroup:
     renderers:
     - renderer: {fileID: 8016736182526422716}
   m_Enabled: 1
+--- !u!64 &5578954037949759346
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8377213612140105577}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 4
+  m_Convex: 0
+  m_CookingOptions: 30
+  m_Mesh: {fileID: 849032210722914114, guid: 5eaf8724914782e4e8df5b2e226777d9, type: 3}

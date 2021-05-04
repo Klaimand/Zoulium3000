@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 3992792119204463004}
   - component: {fileID: 1192829443026564438}
   - component: {fileID: -5115896288328300779}
+  - component: {fileID: 2233548062336895369}
   m_Layer: 0
   m_Name: ArbreGrossesFeuilles_LOD
   m_TagString: Untagged
@@ -109,3 +110,17 @@ LODGroup:
     renderers:
     - renderer: {fileID: 1192829443026564438}
   m_Enabled: 1
+--- !u!64 &2233548062336895369
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 832379225319543939}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 4
+  m_Convex: 0
+  m_CookingOptions: 30
+  m_Mesh: {fileID: 8770075895707656714, guid: 58e3979b1a538a544ad6b194f0078922, type: 3}
