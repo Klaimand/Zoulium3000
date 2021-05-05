@@ -42,6 +42,7 @@ public class KLD_PlayerController : SerializedMonoBehaviour
     [SerializeField] float axisZeroingDeadzone = 0.05f;
     [SerializeField] bool snapAxis = true;
 
+    Vector3 flatSpeedVector; //non normalized direction where the player moves
     Vector2 axisVector; //normalized direction where the player moves
 
     bool LT_GetKey = false;
@@ -117,9 +118,9 @@ public class KLD_PlayerController : SerializedMonoBehaviour
 
     //CAPACITES
     [SerializeField]
-    public enum PowerUp { POWERJUMP, GRAPPLING_HOOK };
+    public enum PowerUp { DEFAULT, POWERJUMP, GRAPPLING_HOOK };
     [SerializeField] HashSet<PowerUp> curPowerUps = new HashSet<PowerUp>();
-    //[SerializeField] List<PowerUp> curPowerUps = new List<PowerUp>();
+    [SerializeField] List<PowerUp> startPowerUps = new List<PowerUp>(); //I must use an init list because hashset clears on start
 
     #endregion
 
@@ -136,6 +137,7 @@ public class KLD_PlayerController : SerializedMonoBehaviour
     {
         UpdatePlayerGroundPointPosition();
         dampedGroundPoint.position = playerGroundPoint.position;
+        GiveStartPups();
     }
 
     // Update is called once per frame
@@ -144,7 +146,6 @@ public class KLD_PlayerController : SerializedMonoBehaviour
         DoTriggerInputProcessing();
 
         UpdatePlayerState();
-        DoPlayerBehavior();
 
         UpdatePlayerGroundPointPosition();
         UpdateDampedGroundPointPosition();
@@ -160,6 +161,11 @@ public class KLD_PlayerController : SerializedMonoBehaviour
         DoDeadZoneRawAxis();
         DoTimedAxis();
         DoNoGravityTimedAxis();
+
+        CalculateAxisVector();
+
+        DoPlayerBehavior();
+
         //print(Input.GetAxisRaw("LeftTrigger"));
         /*
         if (controllerMode == ControllerMode.GRAVITY)
@@ -266,15 +272,22 @@ public class KLD_PlayerController : SerializedMonoBehaviour
         }
         else if (curPlayerState == PlayerState.JUMPING) //_______________________JUMPING
         {
-            if (rb.velocity.y < -1f)
+            if (rb.velocity.y < 0f)
             {
                 curPlayerState = PlayerState.FALLING;
             }
+
+            CheckPlayerJump();
 
             GroundedRunningIdleCheck();
         }
         else if (curPlayerState == PlayerState.FALLING) //_______________________FALLING
         {
+            if (CheckPlayerJump())
+            {
+                curPlayerState = PlayerState.JUMPING;
+            }
+
             GroundedRunningIdleCheck();
         }
         else if (curPlayerState == PlayerState.POWERCROUCHING) //________________POWERCROUCHING
@@ -297,7 +310,7 @@ public class KLD_PlayerController : SerializedMonoBehaviour
         }
         else if (curPlayerState == PlayerState.POWERJUMPING) //__________________POWERJUMPING
         {
-            if (rb.velocity.y < -1f)
+            if (rb.velocity.y < 0f)
             {
                 curPlayerState = PlayerState.POWERFALLING;
             }
@@ -332,31 +345,36 @@ public class KLD_PlayerController : SerializedMonoBehaviour
 
             case PlayerState.JUMPING:
                 DoPlayerMove();
-                DoPlayerRotation();
+                //DoPlayerRotation();
+                DoPlayerVelocityRotation();
                 CheckFall();
                 break;
 
             case PlayerState.FALLING:
                 DoPlayerMove();
-                DoPlayerRotation();
+                //DoPlayerRotation();
+                DoPlayerVelocityRotation();
                 CheckFall();
                 break;
 
             case PlayerState.POWERCROUCHING:
+                DoPlayerRotation();
                 curPowerJumpLoadTime += Time.deltaTime;
                 break;
 
             case PlayerState.POWERJUMPING:
-                DoPlayerPowerJumpMove(false);
+                DoPlayerPowerJumpMove(false); //moved to fixed
                 //DoPlayerMove();
-                DoPlayerRotation();
+                //DoPlayerRotation();
+                DoPlayerVelocityRotation();
                 //CheckFall();
                 break;
 
             case PlayerState.POWERFALLING:
                 DoPlayerPowerJumpMove(true);
                 //DoPlayerMove();
-                DoPlayerRotation();
+                //DoPlayerRotation();
+                DoPlayerVelocityRotation();
                 //CheckFall();
                 break;
 
@@ -516,24 +534,31 @@ public class KLD_PlayerController : SerializedMonoBehaviour
 
     #endregion
 
+    void CalculateAxisVector()
+    {
+        Vector2 clampedTimedAxis = timedAxis;
+        if (clampedTimedAxis.sqrMagnitude > 1f)
+        {
+            clampedTimedAxis.Normalize();
+        }
+
+        float xSpeed = clampedTimedAxis.x * Time.fixedDeltaTime * speed * 30f;
+        float zSpeed = clampedTimedAxis.y * Time.fixedDeltaTime * speed * 30f;
+
+        flatSpeedVector = axisTransform.right * xSpeed + axisTransform.forward * zSpeed;
+        axisVector = new Vector2(flatSpeedVector.x, flatSpeedVector.z).normalized;
+    }
+
     void DoPlayerMove()
     {
         //float xSpeed = Input.GetAxis("Horizontal") * Time.fixedDeltaTime * speed * 30f;
         //float zSpeed = Input.GetAxis("Vertical") * Time.fixedDeltaTime * speed * 30f;
-        float xSpeed = timedAxis.x * Time.fixedDeltaTime * speed * 30f;
-        float zSpeed = timedAxis.y * Time.fixedDeltaTime * speed * 30f;
 
-        Vector3 flatSpeedVector = axisTransform.right * xSpeed + axisTransform.forward * zSpeed;
-        axisVector = new Vector2(flatSpeedVector.x, flatSpeedVector.z).normalized;
+        //calc axis v
 
         if (isGrounded())
         {
             //rb.velocity = new Vector3(flatSpeedVector.x, rb.velocity.y, flatSpeedVector.z);
-
-            if (flatSpeedVector.magnitude > speed)
-            {
-                flatSpeedVector = flatSpeedVector.normalized * speed;
-            }
 
             Vector3 wantedVector = Vector3.ProjectOnPlane(new Vector3(flatSpeedVector.x, rb.velocity.y, flatSpeedVector.z), GetSlopeNormal());
 
@@ -603,7 +628,7 @@ public class KLD_PlayerController : SerializedMonoBehaviour
                 jumpBuffer = true;
                 StartCoroutine(WaitAndDebufferJump());
             }
-            print("jumped while idle");
+            //print("jumped while idle");
         }
         return false;
     }
@@ -705,6 +730,20 @@ public class KLD_PlayerController : SerializedMonoBehaviour
         {
             float angleToLook = Vector3.SignedAngle(Vector3.forward, new Vector3(axisVector.x, 0f, axisVector.y), Vector3.up);
             //print(axisVector + "\n" + angleToLook);
+            transform.rotation = Quaternion.Euler(0f, angleToLook, 0f);
+        }
+    }
+
+    void DoPlayerVelocityRotation()
+    {
+        Vector3 v = rb.velocity;
+        v.y = 0f;
+
+        float o = 0.1f;
+
+        if (v.sqrMagnitude > o * o)
+        {
+            float angleToLook = Vector3.SignedAngle(Vector3.forward, v, Vector3.up);
             transform.rotation = Quaternion.Euler(0f, angleToLook, 0f);
         }
     }
@@ -837,6 +876,14 @@ public class KLD_PlayerController : SerializedMonoBehaviour
     public void GivePowerUp(PowerUp _powerUpToGive)
     {
         curPowerUps.Add(_powerUpToGive);
+    }
+
+    void GiveStartPups()
+    {
+        foreach (var pup in startPowerUps)
+        {
+            GivePowerUp(pup);
+        }
     }
 
     #region Animation
