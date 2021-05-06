@@ -56,6 +56,8 @@ public class KLD_PlayerController : SerializedMonoBehaviour
     [SerializeField] PhysicMaterial noFrictionMat = null;
     [SerializeField] PhysicMaterial frictionMat = null;
     bool groundDetectionDisabled = false;
+    [SerializeField] LayerMask groundLayer;
+    [SerializeField] LayerMask groundPointLayer;
 
     Vector3 lastGroundedPosition = Vector3.zero;
 
@@ -71,7 +73,6 @@ public class KLD_PlayerController : SerializedMonoBehaviour
     [SerializeField] float jumpHorizontalAddedForce = 3f;
     //[SerializeField] float steepSlopeLockedAngle = 90f;
 
-    [SerializeField] LayerMask groundLayer;
     //[SerializeField, ReadOnly] bool m_isGrounded = false;
 
     [SerializeField, Header("PowerJump")]
@@ -82,6 +83,7 @@ public class KLD_PlayerController : SerializedMonoBehaviour
     [SerializeField] float powerJumpFallMultiplier = 1.02f;
     [SerializeField] float powerJumpHorizontalSpeed = 10f;
     [SerializeField] float maxPowerJumpAirSpeed = 20f;
+    [SerializeField] float powerJumpAddAirSpeed = 20f;
 
     [SerializeField]
     enum PlayerState
@@ -89,11 +91,11 @@ public class KLD_PlayerController : SerializedMonoBehaviour
         IDLE, //0
         RUNNING, //1
         JUMPING, //2
-        FALLING,
+        FALLING, //3
 
-        POWERCROUCHING,
-        POWERJUMPING,
-        POWERFALLING,
+        POWERCROUCHING, //4
+        POWERJUMPING, //5
+        POWERFALLING, //6
 
         FLOATING
     };
@@ -528,6 +530,11 @@ public class KLD_PlayerController : SerializedMonoBehaviour
         {
             //rb.velocity = new Vector3(flatSpeedVector.x, rb.velocity.y, flatSpeedVector.z);
 
+            if (flatSpeedVector.magnitude > speed)
+            {
+                flatSpeedVector = flatSpeedVector.normalized * speed;
+            }
+
             Vector3 wantedVector = Vector3.ProjectOnPlane(new Vector3(flatSpeedVector.x, rb.velocity.y, flatSpeedVector.z), GetSlopeNormal());
 
             if (rb.velocity.y >= jumpSpeed * 0.85f)
@@ -712,7 +719,7 @@ public class KLD_PlayerController : SerializedMonoBehaviour
         else
         {*/
         RaycastHit hit;
-        Physics.Raycast(transform.position + Vector3.up, Vector3.down, out hit, 200f, groundLayer);
+        Physics.Raycast(transform.position + Vector3.up, Vector3.down, out hit, 200f, groundPointLayer);
         if (hit.point != Vector3.zero)
         {
             playerGroundPoint.position = hit.point;
@@ -748,7 +755,7 @@ public class KLD_PlayerController : SerializedMonoBehaviour
             Vector3 inputDirectionVector = ((axisTransform.right * deadZonedRawAxis.x) + (axisTransform.forward * deadZonedRawAxis.y)).normalized;
             if (!isOnSteepSlope())
             {
-                rb.AddForce(inputDirectionVector * addAirSpeed);
+                rb.AddForce(inputDirectionVector * powerJumpAddAirSpeed);
             }
         }
         else if (Mathf.Abs(horizontalMagnitude.magnitude) > maxPowerJumpAirSpeed)
