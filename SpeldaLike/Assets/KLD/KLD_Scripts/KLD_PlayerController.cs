@@ -98,7 +98,7 @@ public class KLD_PlayerController : SerializedMonoBehaviour
         POWERJUMPING, //5
         POWERFALLING, //6
 
-        FLOATING
+        FLOATING //7
     };
     [SerializeField] PlayerState curPlayerState = PlayerState.IDLE;
 
