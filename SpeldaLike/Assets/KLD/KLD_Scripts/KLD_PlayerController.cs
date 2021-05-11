@@ -18,6 +18,7 @@ public class KLD_PlayerController : SerializedMonoBehaviour
     float yVelocity = 0f;
     Rigidbody rb;
     CapsuleCollider col;
+    Camera mainCamera;
 
     public enum ControllerMode
     {
@@ -86,6 +87,15 @@ public class KLD_PlayerController : SerializedMonoBehaviour
     [SerializeField] float maxPowerJumpAirSpeed = 20f;
     [SerializeField] float powerJumpAddAirSpeed = 20f;
 
+    [SerializeField, Header("Grappling Hook")]
+    float gh_speed = 5f;
+    [SerializeField] LayerMask anchorDetectionRayMask;
+    Transform[] anchors;
+    [SerializeField] float maxAnchorDist = 30f;
+    [ReadOnly, SerializeField] Transform selectedAnchor;
+    List<Transform> anchorsListBuffer = new List<Transform>();
+    [SerializeField] float maxAnchorAngle = 60f;
+
     [SerializeField]
     enum PlayerState
     {
@@ -98,7 +108,9 @@ public class KLD_PlayerController : SerializedMonoBehaviour
         POWERJUMPING, //5
         POWERFALLING, //6
 
-        FLOATING //7
+        FLOATING, //7
+
+        GRAPPLING //8
     };
     [SerializeField] PlayerState curPlayerState = PlayerState.IDLE;
 
@@ -135,15 +147,22 @@ public class KLD_PlayerController : SerializedMonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        mainCamera = Camera.main;
         UpdatePlayerGroundPointPosition();
         dampedGroundPoint.position = playerGroundPoint.position;
         GiveStartPups();
+        anchors = GetAnchors();
     }
 
     // Update is called once per frame
     void Update()
     {
         DoTriggerInputProcessing();
+
+        if (HavePowerUp(PowerUp.GRAPPLING_HOOK))
+        {
+            UpdateSelectedAnchor();
+        }
 
         UpdatePlayerState();
 
@@ -884,6 +903,67 @@ public class KLD_PlayerController : SerializedMonoBehaviour
         {
             GivePowerUp(pup);
         }
+    }
+
+    Transform[] GetAnchors()
+    {
+        GameObject[] anchorObjs = GameObject.FindGameObjectsWithTag("Anchor");
+
+        if (anchorObjs.Length == 0)
+            return null;
+
+        Transform[] anchorsBuffer = new Transform[anchorObjs.Length];
+
+        for (int i = 0; i < anchorObjs.Length; i++)
+        {
+            anchorsBuffer[i] = anchorObjs[i].transform;
+        }
+
+        return anchorsBuffer;
+    }
+
+    void UpdateSelectedAnchor()
+    {
+        anchorsListBuffer.Clear();
+
+        foreach (var anchor in anchors)
+        {
+            Vector3 playerToAnchor = anchor.position - transform.position;
+            Vector3 cameraToAnchor = anchor.position - mainCamera.transform.position;
+
+            float ptaMagnitude = playerToAnchor.magnitude;
+            float ctaMagnitude = cameraToAnchor.magnitude;
+
+            if (playerToAnchor.sqrMagnitude < maxAnchorDist * maxAnchorDist)
+            {
+                if (!Physics.Raycast(transform.position, playerToAnchor, ptaMagnitude, anchorDetectionRayMask) &&
+                !Physics.Raycast(mainCamera.transform.position, cameraToAnchor, ctaMagnitude, anchorDetectionRayMask))
+                {
+                    anchorsListBuffer.Add(anchor);
+                }
+            }
+
+            float minAngle = 999f;
+            int minAngleIndex = 0;
+
+            for (int i = 0; i < anchorsListBuffer.Count; i++)
+            {
+                Vector3 anchorDirection = playerToAnchor;
+                anchorDirection.y = 0f;
+
+                float curAngle = Vector3.Angle(transform.forward, anchorDirection);
+
+                if (curAngle < minAngle)
+                {
+                    minAngle = curAngle;
+                    minAngleIndex = i;
+                }
+            }
+
+            selectedAnchor = minAngle < maxAnchorAngle ? anchorsListBuffer[minAngleIndex] : null;
+
+        }
+
     }
 
     #region Animation
