@@ -183,27 +183,6 @@ public class KLD_PlayerController : SerializedMonoBehaviour
         CalculateAxisVector();
 
         DoPlayerBehavior();
-
-        //print(Input.GetAxisRaw("LeftTrigger"));
-        /*
-        if (controllerMode == ControllerMode.GRAVITY)
-        {
-            DoPlayerMove();
-            ChangePlayerMaterial();
-            DoPlayerRotation();
-
-            m_isGrounded = isGrounded();
-
-            CheckPlayerJump(false);
-            CheckFall();
-        }
-        else if (controllerMode == ControllerMode.NO_GRAVITY)
-        {
-            DoPlayerNoGravityMove();
-            DoPlayerNoGravityRotation();
-        }
-
-        */
     }
 
     private void OnEnable()
@@ -406,14 +385,14 @@ public class KLD_PlayerController : SerializedMonoBehaviour
                 DoPlayerMove();
                 ChangePlayerMaterial();
                 DoPlayerRotation();
-                UpdateSelectedAnchor();
+                UpdateSelectedAnchorIfPup();
                 break;
 
             case PlayerState.RUNNING:
                 DoPlayerMove();
                 ChangePlayerMaterial();
                 DoPlayerRotation();
-                UpdateSelectedAnchor();
+                UpdateSelectedAnchorIfPup();
                 break;
 
             case PlayerState.JUMPING:
@@ -421,6 +400,7 @@ public class KLD_PlayerController : SerializedMonoBehaviour
                 //DoPlayerRotation();
                 DoPlayerVelocityRotation();
                 CheckFall();
+                UpdateSelectedAnchorIfPup();
                 break;
 
             case PlayerState.FALLING:
@@ -428,6 +408,7 @@ public class KLD_PlayerController : SerializedMonoBehaviour
                 //DoPlayerRotation();
                 DoPlayerVelocityRotation();
                 CheckFall();
+                UpdateSelectedAnchorIfPup();
                 break;
 
             case PlayerState.POWERCROUCHING:
@@ -441,6 +422,7 @@ public class KLD_PlayerController : SerializedMonoBehaviour
                 //DoPlayerRotation();
                 DoPlayerVelocityRotation();
                 //CheckFall();
+                UpdateSelectedAnchorIfPup();
                 break;
 
             case PlayerState.POWERFALLING:
@@ -449,18 +431,20 @@ public class KLD_PlayerController : SerializedMonoBehaviour
                 //DoPlayerRotation();
                 DoPlayerVelocityRotation();
                 //CheckFall();
+                UpdateSelectedAnchorIfPup();
                 break;
 
             case PlayerState.FLOATING:
                 DoPlayerNoGravityMove();
                 DoPlayerNoGravityRotation();
+                UpdateSelectedAnchorIfPup();
                 break;
 
             case PlayerState.GRAPPLING:
                 break;
 
             case PlayerState.GRAPPLING_GRABBED:
-                UpdateSelectedAnchor();
+                UpdateSelectedAnchorIfPup();
                 break;
 
             default:
@@ -985,8 +969,11 @@ public class KLD_PlayerController : SerializedMonoBehaviour
         return anchorsBuffer;
     }
 
-    void UpdateSelectedAnchor()
+    void UpdateSelectedAnchorIfPup()
     {
+
+        if (!HavePowerUp(PowerUp.GRAPPLING_HOOK))
+            return;
 
         float minAngle = 999f;
         int minAngleIndex = 0;
