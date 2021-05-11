@@ -90,10 +90,10 @@ public class KLD_PlayerController : SerializedMonoBehaviour
     [SerializeField, Header("Grappling Hook")]
     float gh_speed = 5f;
     [SerializeField] LayerMask anchorDetectionRayMask;
-    Transform[] anchors;
+    KLD_Anchor[] anchors;
     [SerializeField] float maxAnchorDist = 30f;
-    [ReadOnly, SerializeField] Transform selectedAnchor;
-    List<Transform> anchorsListBuffer = new List<Transform>();
+    [ReadOnly, SerializeField] KLD_Anchor selectedAnchor;
+    //List<KLD_Anchor> anchorsListBuffer = new List<KLD_Anchor>();
     [SerializeField] float maxAnchorAngle = 60f;
 
     [SerializeField]
@@ -110,7 +110,8 @@ public class KLD_PlayerController : SerializedMonoBehaviour
 
         FLOATING, //7
 
-        GRAPPLING //8
+        GRAPPLING, //8
+        GRAPPLING_GRABBED //9
     };
     [SerializeField] PlayerState curPlayerState = PlayerState.IDLE;
 
@@ -905,18 +906,18 @@ public class KLD_PlayerController : SerializedMonoBehaviour
         }
     }
 
-    Transform[] GetAnchors()
+    KLD_Anchor[] GetAnchors()
     {
         GameObject[] anchorObjs = GameObject.FindGameObjectsWithTag("Anchor");
 
         if (anchorObjs.Length == 0)
             return null;
 
-        Transform[] anchorsBuffer = new Transform[anchorObjs.Length];
+        KLD_Anchor[] anchorsBuffer = new KLD_Anchor[anchorObjs.Length];
 
         for (int i = 0; i < anchorObjs.Length; i++)
         {
-            anchorsBuffer[i] = anchorObjs[i].transform;
+            anchorsBuffer[i] = anchorObjs[i].GetComponent<KLD_Anchor>();
         }
 
         return anchorsBuffer;
@@ -924,44 +925,52 @@ public class KLD_PlayerController : SerializedMonoBehaviour
 
     void UpdateSelectedAnchor()
     {
-        anchorsListBuffer.Clear();
 
-        foreach (var anchor in anchors)
+        float minAngle = 999f;
+        int minAngleIndex = 0;
+
+        for (int i = 0; i < anchors.Length; i++)
         {
-            Vector3 playerToAnchor = anchor.position - transform.position;
-            Vector3 cameraToAnchor = anchor.position - mainCamera.transform.position;
-
-            float ptaMagnitude = playerToAnchor.magnitude;
-            float ctaMagnitude = cameraToAnchor.magnitude;
+            Vector3 playerToAnchor = anchors[i].transform.position - transform.position;
 
             if (playerToAnchor.sqrMagnitude < maxAnchorDist * maxAnchorDist)
             {
-                if (!Physics.Raycast(transform.position, playerToAnchor, ptaMagnitude, anchorDetectionRayMask) &&
-                !Physics.Raycast(mainCamera.transform.position, cameraToAnchor, ctaMagnitude, anchorDetectionRayMask))
+                Vector3 cameraToAnchor = anchors[i].transform.position - mainCamera.transform.position;
+                float ptaMagnitude = playerToAnchor.magnitude;
+                float ctaMagnitude = cameraToAnchor.magnitude;
+
+                if (!Physics.Raycast(transform.position, playerToAnchor, ptaMagnitude, anchorDetectionRayMask))
                 {
-                    anchorsListBuffer.Add(anchor);
+                    if (!Physics.Raycast(mainCamera.transform.position, cameraToAnchor, ctaMagnitude, anchorDetectionRayMask))
+                    {
+
+                        Vector3 anchorDirection = playerToAnchor;
+                        anchorDirection.y = 0f;
+
+                        float curAngle = Vector3.Angle(transform.forward, anchorDirection);
+
+                        if (curAngle < minAngle)
+                        {
+                            minAngle = curAngle;
+                            minAngleIndex = i;
+                        }
+                    }
                 }
             }
+        }
 
-            float minAngle = 999f;
-            int minAngleIndex = 0;
+        selectedAnchor = minAngle < maxAnchorAngle ? anchors[minAngleIndex] : null;
 
-            for (int i = 0; i < anchorsListBuffer.Count; i++)
+        for (int i = 0; i < anchors.Length; i++)
+        {
+            if (selectedAnchor != null && i == minAngleIndex)
             {
-                Vector3 anchorDirection = playerToAnchor;
-                anchorDirection.y = 0f;
-
-                float curAngle = Vector3.Angle(transform.forward, anchorDirection);
-
-                if (curAngle < minAngle)
-                {
-                    minAngle = curAngle;
-                    minAngleIndex = i;
-                }
+                anchors[i].curState = KLD_Anchor.AnchorState.SELECTED;
             }
-
-            selectedAnchor = minAngle < maxAnchorAngle ? anchorsListBuffer[minAngleIndex] : null;
-
+            else
+            {
+                anchors[i].curState = KLD_Anchor.AnchorState.FREE;
+            }
         }
 
     }
