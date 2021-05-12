@@ -91,11 +91,15 @@ public class KLD_PlayerController : SerializedMonoBehaviour
     [SerializeField] float powerJumpAddAirSpeed = 20f;
 
     [SerializeField, Header("Grappling Hook")]
-    float gh_speed = 5f;
+    float gh_time = 5f;
+    float gh_curTime = 0f;
+    Vector3 gh_startPos;
+    [SerializeField] AnimationCurve gh_speedCurve;
     [SerializeField] LayerMask anchorDetectionRayMask;
     KLD_Anchor[] anchors;
     [SerializeField] float maxAnchorDist = 30f;
     [ReadOnly, SerializeField] KLD_Anchor selectedAnchor;
+    [ReadOnly, SerializeField] KLD_Anchor grabbedAnchor;
     //List<KLD_Anchor> anchorsListBuffer = new List<KLD_Anchor>();
     [SerializeField] float maxAnchorAngle = 60f;
 
@@ -253,6 +257,9 @@ public class KLD_PlayerController : SerializedMonoBehaviour
             if ((Input.GetButtonDown("Grapple") || RT_GetKeyDown) && HavePowerUp(PowerUp.GRAPPLING_HOOK) && selectedAnchor != null)
             {
                 curPlayerState = PlayerState.GRAPPLING;
+                gh_curTime = 0f;
+                gh_startPos = transform.position;
+                grabbedAnchor = selectedAnchor;
             }
         }
         else if (curPlayerState == PlayerState.RUNNING) //_______________________RUNNING
@@ -275,6 +282,9 @@ public class KLD_PlayerController : SerializedMonoBehaviour
             if ((Input.GetButtonDown("Grapple") || RT_GetKeyDown) && HavePowerUp(PowerUp.GRAPPLING_HOOK) && selectedAnchor != null)
             {
                 curPlayerState = PlayerState.GRAPPLING;
+                gh_curTime = 0f;
+                gh_startPos = transform.position;
+                grabbedAnchor = selectedAnchor;
             }
         }
         else if (curPlayerState == PlayerState.JUMPING) //_______________________JUMPING
@@ -289,6 +299,9 @@ public class KLD_PlayerController : SerializedMonoBehaviour
             if ((Input.GetButtonDown("Grapple") || RT_GetKeyDown) && HavePowerUp(PowerUp.GRAPPLING_HOOK) && selectedAnchor != null)
             {
                 curPlayerState = PlayerState.GRAPPLING;
+                gh_curTime = 0f;
+                gh_startPos = transform.position;
+                grabbedAnchor = selectedAnchor;
             }
 
             GroundedRunningIdleCheck();
@@ -303,6 +316,9 @@ public class KLD_PlayerController : SerializedMonoBehaviour
             if ((Input.GetButtonDown("Grapple") || RT_GetKeyDown) && HavePowerUp(PowerUp.GRAPPLING_HOOK) && selectedAnchor != null)
             {
                 curPlayerState = PlayerState.GRAPPLING;
+                gh_curTime = 0f;
+                gh_startPos = transform.position;
+                grabbedAnchor = selectedAnchor;
             }
 
             GroundedRunningIdleCheck();
@@ -335,6 +351,9 @@ public class KLD_PlayerController : SerializedMonoBehaviour
             if ((Input.GetButtonDown("Grapple") || RT_GetKeyDown) && HavePowerUp(PowerUp.GRAPPLING_HOOK) && selectedAnchor != null)
             {
                 curPlayerState = PlayerState.GRAPPLING;
+                gh_curTime = 0f;
+                gh_startPos = transform.position;
+                grabbedAnchor = selectedAnchor;
             }
 
             GroundedRunningIdleCheck();
@@ -344,6 +363,9 @@ public class KLD_PlayerController : SerializedMonoBehaviour
             if ((Input.GetButtonDown("Grapple") || RT_GetKeyDown) && HavePowerUp(PowerUp.GRAPPLING_HOOK) && selectedAnchor != null)
             {
                 curPlayerState = PlayerState.GRAPPLING;
+                gh_curTime = 0f;
+                gh_startPos = transform.position;
+                grabbedAnchor = selectedAnchor;
             }
 
             GroundedRunningIdleCheck();
@@ -363,6 +385,7 @@ public class KLD_PlayerController : SerializedMonoBehaviour
             if (!Input.GetButton("Grapple") && !RT_GetKey)
             {
                 curPlayerState = PlayerState.IDLE;
+                grabbedAnchor = null;
                 UpdatePlayerState();
             }
         }
@@ -372,7 +395,17 @@ public class KLD_PlayerController : SerializedMonoBehaviour
             {
                 rb.isKinematic = false;
                 curPlayerState = PlayerState.IDLE;
+                grabbedAnchor = null;
                 UpdatePlayerState();
+            }
+
+            if (Input.GetButtonDown("Jump") && selectedAnchor != null)
+            {
+                rb.isKinematic = false;
+                curPlayerState = PlayerState.GRAPPLING;
+                gh_curTime = 0f;
+                gh_startPos = transform.position;
+                grabbedAnchor = selectedAnchor;
             }
         }
     }
@@ -445,6 +478,7 @@ public class KLD_PlayerController : SerializedMonoBehaviour
 
             case PlayerState.GRAPPLING_GRABBED:
                 UpdateSelectedAnchorIfPup();
+                DoGrabbedRotation();
                 break;
 
             default:
@@ -980,25 +1014,44 @@ public class KLD_PlayerController : SerializedMonoBehaviour
 
         for (int i = 0; i < anchors.Length; i++)
         {
+
             Vector3 playerToAnchor = anchors[i].transform.position - transform.position;
 
-            if (playerToAnchor.sqrMagnitude < maxAnchorDist * maxAnchorDist)
+            if (playerToAnchor.sqrMagnitude < maxAnchorDist * maxAnchorDist) //dist player-anchor check
             {
                 Vector3 cameraToAnchor = anchors[i].transform.position - mainCamera.transform.position;
                 float ptaMagnitude = playerToAnchor.magnitude;
                 float ctaMagnitude = cameraToAnchor.magnitude;
 
-                if (!Physics.Raycast(transform.position, playerToAnchor, ptaMagnitude, anchorDetectionRayMask))
+                if (!Physics.Raycast(transform.position, playerToAnchor, ptaMagnitude, anchorDetectionRayMask)) //ray player-anchor
                 {
-                    if (!Physics.Raycast(mainCamera.transform.position, cameraToAnchor, ctaMagnitude, anchorDetectionRayMask))
+                    if (!Physics.Raycast(mainCamera.transform.position, cameraToAnchor, ctaMagnitude, anchorDetectionRayMask)) //ray camera-anchor
                     {
 
                         Vector3 anchorDirection = playerToAnchor;
-                        anchorDirection.y = 0f;
 
-                        float curAngle = Vector3.Angle(transform.forward, anchorDirection);
+                        if (curPlayerState == PlayerState.GRAPPLING_GRABBED)
+                        {
+                            anchorDirection = Vector3.ProjectOnPlane(anchorDirection, axisTransform.forward);
+                        }
+                        else
+                        {
+                            anchorDirection.y = 0f; //maybe remove this A TESTER
+                        }
 
-                        if (anchors[i].curState != KLD_Anchor.AnchorState.GRABBED && curAngle < minAngle)
+                        Vector3 referenceDirection = curPlayerState == PlayerState.GRAPPLING_GRABBED ?
+                                                                        (Vector3)axisVector :
+                                                                        transform.forward;
+
+                        if (referenceDirection == Vector3.zero)
+                            continue;
+
+                        Debug.DrawRay(transform.position + Vector3.up * 2f, referenceDirection, Color.red);
+                        Debug.DrawRay(transform.position + Vector3.up * 2f, anchorDirection, Color.green);
+
+                        float curAngle = Vector3.Angle(referenceDirection, anchorDirection);
+
+                        if (curAngle < minAngle && anchors[i].curState != KLD_Anchor.AnchorState.GRABBED)
                         {
                             minAngle = curAngle;
                             minAngleIndex = i;
@@ -1012,7 +1065,11 @@ public class KLD_PlayerController : SerializedMonoBehaviour
 
         for (int i = 0; i < anchors.Length; i++)
         {
-            if (selectedAnchor != null && i == minAngleIndex)
+            if (anchors[i] == grabbedAnchor)
+            {
+                anchors[i].curState = KLD_Anchor.AnchorState.GRABBED;
+            }
+            else if (selectedAnchor != null && i == minAngleIndex)
             {
                 anchors[i].curState = KLD_Anchor.AnchorState.SELECTED;
             }
@@ -1026,9 +1083,24 @@ public class KLD_PlayerController : SerializedMonoBehaviour
 
     bool CheckGrabbed()
     {
-        transform.position = selectedAnchor.transform.position;
+        //transform.position = selectedAnchor.transform.position;
 
-        return true;
+        transform.position = Vector3.Lerp(gh_startPos, grabbedAnchor.transform.position, gh_speedCurve.Evaluate(gh_curTime / gh_time));
+
+        gh_curTime += Time.deltaTime;
+
+        bool done = gh_curTime >= gh_time;
+
+        if (done)
+            transform.position = grabbedAnchor.transform.position;
+
+        return done;
+
+    }
+
+    void DoGrabbedRotation()
+    {
+        transform.LookAt(grabbedAnchor.transform.position + grabbedAnchor.transform.forward);
     }
 
     #region Animation
