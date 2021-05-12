@@ -18,6 +18,7 @@ public class KLD_PlayerController : SerializedMonoBehaviour
     float yVelocity = 0f;
     Rigidbody rb;
     CapsuleCollider col;
+    Camera mainCamera;
 
     public enum ControllerMode
     {
@@ -47,6 +48,9 @@ public class KLD_PlayerController : SerializedMonoBehaviour
 
     bool LT_GetKey = false;
     bool LT_GetKeyDown = false;
+
+    bool RT_GetKey = false;
+    bool RT_GetKeyDown = false;
 
     [SerializeField, Header("Movement")]
     float speed = 10f;
@@ -86,6 +90,15 @@ public class KLD_PlayerController : SerializedMonoBehaviour
     [SerializeField] float maxPowerJumpAirSpeed = 20f;
     [SerializeField] float powerJumpAddAirSpeed = 20f;
 
+    [SerializeField, Header("Grappling Hook")]
+    float gh_speed = 5f;
+    [SerializeField] LayerMask anchorDetectionRayMask;
+    KLD_Anchor[] anchors;
+    [SerializeField] float maxAnchorDist = 30f;
+    [ReadOnly, SerializeField] KLD_Anchor selectedAnchor;
+    //List<KLD_Anchor> anchorsListBuffer = new List<KLD_Anchor>();
+    [SerializeField] float maxAnchorAngle = 60f;
+
     [SerializeField]
     enum PlayerState
     {
@@ -98,7 +111,10 @@ public class KLD_PlayerController : SerializedMonoBehaviour
         POWERJUMPING, //5
         POWERFALLING, //6
 
-        FLOATING
+        FLOATING, //7
+
+        GRAPPLING, //8
+        GRAPPLING_GRABBED //9
     };
     [SerializeField] PlayerState curPlayerState = PlayerState.IDLE;
 
@@ -135,9 +151,11 @@ public class KLD_PlayerController : SerializedMonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        mainCamera = Camera.main;
         UpdatePlayerGroundPointPosition();
         dampedGroundPoint.position = playerGroundPoint.position;
         GiveStartPups();
+        anchors = GetAnchors();
     }
 
     // Update is called once per frame
@@ -165,27 +183,6 @@ public class KLD_PlayerController : SerializedMonoBehaviour
         CalculateAxisVector();
 
         DoPlayerBehavior();
-
-        //print(Input.GetAxisRaw("LeftTrigger"));
-        /*
-        if (controllerMode == ControllerMode.GRAVITY)
-        {
-            DoPlayerMove();
-            ChangePlayerMaterial();
-            DoPlayerRotation();
-
-            m_isGrounded = isGrounded();
-
-            CheckPlayerJump(false);
-            CheckFall();
-        }
-        else if (controllerMode == ControllerMode.NO_GRAVITY)
-        {
-            DoPlayerNoGravityMove();
-            DoPlayerNoGravityRotation();
-        }
-
-        */
     }
 
     private void OnEnable()
@@ -252,6 +249,11 @@ public class KLD_PlayerController : SerializedMonoBehaviour
                 curPowerJumpLoadTime = 0f;
                 curPlayerState = PlayerState.POWERCROUCHING;
             }
+
+            if ((Input.GetButtonDown("Grapple") || RT_GetKeyDown) && HavePowerUp(PowerUp.GRAPPLING_HOOK) && selectedAnchor != null)
+            {
+                curPlayerState = PlayerState.GRAPPLING;
+            }
         }
         else if (curPlayerState == PlayerState.RUNNING) //_______________________RUNNING
         {
@@ -269,6 +271,11 @@ public class KLD_PlayerController : SerializedMonoBehaviour
             {
                 curPlayerState = PlayerState.FALLING;
             }
+
+            if ((Input.GetButtonDown("Grapple") || RT_GetKeyDown) && HavePowerUp(PowerUp.GRAPPLING_HOOK) && selectedAnchor != null)
+            {
+                curPlayerState = PlayerState.GRAPPLING;
+            }
         }
         else if (curPlayerState == PlayerState.JUMPING) //_______________________JUMPING
         {
@@ -279,6 +286,11 @@ public class KLD_PlayerController : SerializedMonoBehaviour
 
             CheckPlayerJump();
 
+            if ((Input.GetButtonDown("Grapple") || RT_GetKeyDown) && HavePowerUp(PowerUp.GRAPPLING_HOOK) && selectedAnchor != null)
+            {
+                curPlayerState = PlayerState.GRAPPLING;
+            }
+
             GroundedRunningIdleCheck();
         }
         else if (curPlayerState == PlayerState.FALLING) //_______________________FALLING
@@ -286,6 +298,11 @@ public class KLD_PlayerController : SerializedMonoBehaviour
             if (CheckPlayerJump())
             {
                 curPlayerState = PlayerState.JUMPING;
+            }
+
+            if ((Input.GetButtonDown("Grapple") || RT_GetKeyDown) && HavePowerUp(PowerUp.GRAPPLING_HOOK) && selectedAnchor != null)
+            {
+                curPlayerState = PlayerState.GRAPPLING;
             }
 
             GroundedRunningIdleCheck();
@@ -315,15 +332,48 @@ public class KLD_PlayerController : SerializedMonoBehaviour
                 curPlayerState = PlayerState.POWERFALLING;
             }
 
+            if ((Input.GetButtonDown("Grapple") || RT_GetKeyDown) && HavePowerUp(PowerUp.GRAPPLING_HOOK) && selectedAnchor != null)
+            {
+                curPlayerState = PlayerState.GRAPPLING;
+            }
+
             GroundedRunningIdleCheck();
         }
         else if (curPlayerState == PlayerState.POWERFALLING) //___________________POWERFALLING
         {
+            if ((Input.GetButtonDown("Grapple") || RT_GetKeyDown) && HavePowerUp(PowerUp.GRAPPLING_HOOK) && selectedAnchor != null)
+            {
+                curPlayerState = PlayerState.GRAPPLING;
+            }
+
             GroundedRunningIdleCheck();
         }
         else if (curPlayerState == PlayerState.FLOATING) //_______________________FLOATING
         {
 
+        }
+        else if (curPlayerState == PlayerState.GRAPPLING) //______________________GRAPPLING
+        {
+            if (CheckGrabbed())
+            {
+                curPlayerState = PlayerState.GRAPPLING_GRABBED;
+                rb.isKinematic = true;
+            }
+
+            if (!Input.GetButton("Grapple") && !RT_GetKey)
+            {
+                curPlayerState = PlayerState.IDLE;
+                UpdatePlayerState();
+            }
+        }
+        else if (curPlayerState == PlayerState.GRAPPLING_GRABBED) //______________GRAPPLING_GRABBED
+        {
+            if (!Input.GetButton("Grapple") && !RT_GetKey)
+            {
+                rb.isKinematic = false;
+                curPlayerState = PlayerState.IDLE;
+                UpdatePlayerState();
+            }
         }
     }
 
@@ -335,12 +385,14 @@ public class KLD_PlayerController : SerializedMonoBehaviour
                 DoPlayerMove();
                 ChangePlayerMaterial();
                 DoPlayerRotation();
+                UpdateSelectedAnchorIfPup();
                 break;
 
             case PlayerState.RUNNING:
                 DoPlayerMove();
                 ChangePlayerMaterial();
                 DoPlayerRotation();
+                UpdateSelectedAnchorIfPup();
                 break;
 
             case PlayerState.JUMPING:
@@ -348,6 +400,7 @@ public class KLD_PlayerController : SerializedMonoBehaviour
                 //DoPlayerRotation();
                 DoPlayerVelocityRotation();
                 CheckFall();
+                UpdateSelectedAnchorIfPup();
                 break;
 
             case PlayerState.FALLING:
@@ -355,6 +408,7 @@ public class KLD_PlayerController : SerializedMonoBehaviour
                 //DoPlayerRotation();
                 DoPlayerVelocityRotation();
                 CheckFall();
+                UpdateSelectedAnchorIfPup();
                 break;
 
             case PlayerState.POWERCROUCHING:
@@ -368,6 +422,7 @@ public class KLD_PlayerController : SerializedMonoBehaviour
                 //DoPlayerRotation();
                 DoPlayerVelocityRotation();
                 //CheckFall();
+                UpdateSelectedAnchorIfPup();
                 break;
 
             case PlayerState.POWERFALLING:
@@ -376,11 +431,20 @@ public class KLD_PlayerController : SerializedMonoBehaviour
                 //DoPlayerRotation();
                 DoPlayerVelocityRotation();
                 //CheckFall();
+                UpdateSelectedAnchorIfPup();
                 break;
 
             case PlayerState.FLOATING:
                 DoPlayerNoGravityMove();
                 DoPlayerNoGravityRotation();
+                UpdateSelectedAnchorIfPup();
+                break;
+
+            case PlayerState.GRAPPLING:
+                break;
+
+            case PlayerState.GRAPPLING_GRABBED:
+                UpdateSelectedAnchorIfPup();
                 break;
 
             default:
@@ -526,10 +590,12 @@ public class KLD_PlayerController : SerializedMonoBehaviour
     void DoTriggerInputProcessing()
     {
         bool frameLT = Input.GetAxisRaw("LeftTrigger") >= 0.9f;
-
         LT_GetKeyDown = frameLT && !LT_GetKey;
-
         LT_GetKey = frameLT;
+
+        bool frameRT = Input.GetAxisRaw("RightTrigger") >= 0.9f;
+        RT_GetKeyDown = frameRT && !RT_GetKey;
+        RT_GetKey = frameRT;
     }
 
     #endregion
@@ -884,6 +950,85 @@ public class KLD_PlayerController : SerializedMonoBehaviour
         {
             GivePowerUp(pup);
         }
+    }
+
+    KLD_Anchor[] GetAnchors()
+    {
+        GameObject[] anchorObjs = GameObject.FindGameObjectsWithTag("Anchor");
+
+        if (anchorObjs.Length == 0)
+            return null;
+
+        KLD_Anchor[] anchorsBuffer = new KLD_Anchor[anchorObjs.Length];
+
+        for (int i = 0; i < anchorObjs.Length; i++)
+        {
+            anchorsBuffer[i] = anchorObjs[i].GetComponent<KLD_Anchor>();
+        }
+
+        return anchorsBuffer;
+    }
+
+    void UpdateSelectedAnchorIfPup()
+    {
+
+        if (!HavePowerUp(PowerUp.GRAPPLING_HOOK))
+            return;
+
+        float minAngle = 999f;
+        int minAngleIndex = 0;
+
+        for (int i = 0; i < anchors.Length; i++)
+        {
+            Vector3 playerToAnchor = anchors[i].transform.position - transform.position;
+
+            if (playerToAnchor.sqrMagnitude < maxAnchorDist * maxAnchorDist)
+            {
+                Vector3 cameraToAnchor = anchors[i].transform.position - mainCamera.transform.position;
+                float ptaMagnitude = playerToAnchor.magnitude;
+                float ctaMagnitude = cameraToAnchor.magnitude;
+
+                if (!Physics.Raycast(transform.position, playerToAnchor, ptaMagnitude, anchorDetectionRayMask))
+                {
+                    if (!Physics.Raycast(mainCamera.transform.position, cameraToAnchor, ctaMagnitude, anchorDetectionRayMask))
+                    {
+
+                        Vector3 anchorDirection = playerToAnchor;
+                        anchorDirection.y = 0f;
+
+                        float curAngle = Vector3.Angle(transform.forward, anchorDirection);
+
+                        if (anchors[i].curState != KLD_Anchor.AnchorState.GRABBED && curAngle < minAngle)
+                        {
+                            minAngle = curAngle;
+                            minAngleIndex = i;
+                        }
+                    }
+                }
+            }
+        }
+
+        selectedAnchor = minAngle < maxAnchorAngle ? anchors[minAngleIndex] : null;
+
+        for (int i = 0; i < anchors.Length; i++)
+        {
+            if (selectedAnchor != null && i == minAngleIndex)
+            {
+                anchors[i].curState = KLD_Anchor.AnchorState.SELECTED;
+            }
+            else
+            {
+                anchors[i].curState = KLD_Anchor.AnchorState.FREE;
+            }
+        }
+
+    }
+
+    bool CheckGrabbed()
+    {
+        transform.position = selectedAnchor.transform.position;
+
+        return true;
     }
 
     #region Animation
