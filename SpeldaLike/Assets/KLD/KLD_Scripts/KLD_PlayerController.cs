@@ -454,6 +454,7 @@ public class KLD_PlayerController : SerializedMonoBehaviour
 
             case PlayerState.GRAPPLING_GRABBED:
                 UpdateSelectedAnchorIfPup();
+                DoGrabbedRotation();
                 break;
 
             default:
@@ -1004,16 +1005,29 @@ public class KLD_PlayerController : SerializedMonoBehaviour
                     {
 
                         Vector3 anchorDirection = playerToAnchor;
-                        //anchorDirection.y = 0f; //maybe remove this A TESTER
+
+                        if (curPlayerState == PlayerState.GRAPPLING_GRABBED)
+                        {
+                            anchorDirection = Vector3.ProjectOnPlane(anchorDirection, axisTransform.forward);
+                        }
+                        else
+                        {
+                            anchorDirection.y = 0f; //maybe remove this A TESTER
+                        }
+
                         Vector3 referenceDirection = curPlayerState == PlayerState.GRAPPLING_GRABBED ?
                                                                         (Vector3)axisVector :
                                                                         transform.forward;
 
+                        if (referenceDirection == Vector3.zero)
+                            continue;
+
                         Debug.DrawRay(transform.position + Vector3.up * 2f, referenceDirection, Color.red);
+                        Debug.DrawRay(transform.position + Vector3.up * 2f, anchorDirection, Color.green);
 
                         float curAngle = Vector3.Angle(referenceDirection, anchorDirection);
 
-                        if (curAngle < minAngle)
+                        if (curAngle < minAngle && anchors[i].curState != KLD_Anchor.AnchorState.GRABBED)
                         {
                             minAngle = curAngle;
                             minAngleIndex = i;
@@ -1048,6 +1062,11 @@ public class KLD_PlayerController : SerializedMonoBehaviour
         transform.position = selectedAnchor.transform.position;
 
         return true;
+    }
+
+    void DoGrabbedRotation()
+    {
+        transform.LookAt(grabbedAnchor.transform.position + grabbedAnchor.transform.forward);
     }
 
     #region Animation
