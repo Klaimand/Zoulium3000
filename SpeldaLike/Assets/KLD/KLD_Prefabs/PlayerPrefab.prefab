@@ -207,12 +207,37 @@ MonoBehaviour:
   powerJumpHorizontalSpeed: 10
   maxPowerJumpAirSpeed: 20
   powerJumpAddAirSpeed: 22
-  gh_speed: 5
+  gh_time: 0.4
+  gh_speedCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    - serializedVersion: 3
+      time: 1
+      value: 1
+      inSlope: 2
+      outSlope: 2
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
   anchorDetectionRayMask:
     serializedVersion: 2
     m_Bits: 305
   maxAnchorDist: 30
   selectedAnchor: {fileID: 0}
+  grabbedAnchor: {fileID: 0}
   maxAnchorAngle: 60
   curPlayerState: 0
   ng_impulseForce: 2

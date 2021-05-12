@@ -91,7 +91,10 @@ public class KLD_PlayerController : SerializedMonoBehaviour
     [SerializeField] float powerJumpAddAirSpeed = 20f;
 
     [SerializeField, Header("Grappling Hook")]
-    float gh_speed = 5f;
+    float gh_time = 5f;
+    float gh_curTime = 0f;
+    Vector3 gh_startPos;
+    [SerializeField] AnimationCurve gh_speedCurve;
     [SerializeField] LayerMask anchorDetectionRayMask;
     KLD_Anchor[] anchors;
     [SerializeField] float maxAnchorDist = 30f;
@@ -254,6 +257,8 @@ public class KLD_PlayerController : SerializedMonoBehaviour
             if ((Input.GetButtonDown("Grapple") || RT_GetKeyDown) && HavePowerUp(PowerUp.GRAPPLING_HOOK) && selectedAnchor != null)
             {
                 curPlayerState = PlayerState.GRAPPLING;
+                gh_curTime = 0f;
+                gh_startPos = transform.position;
                 grabbedAnchor = selectedAnchor;
             }
         }
@@ -277,6 +282,8 @@ public class KLD_PlayerController : SerializedMonoBehaviour
             if ((Input.GetButtonDown("Grapple") || RT_GetKeyDown) && HavePowerUp(PowerUp.GRAPPLING_HOOK) && selectedAnchor != null)
             {
                 curPlayerState = PlayerState.GRAPPLING;
+                gh_curTime = 0f;
+                gh_startPos = transform.position;
                 grabbedAnchor = selectedAnchor;
             }
         }
@@ -292,6 +299,8 @@ public class KLD_PlayerController : SerializedMonoBehaviour
             if ((Input.GetButtonDown("Grapple") || RT_GetKeyDown) && HavePowerUp(PowerUp.GRAPPLING_HOOK) && selectedAnchor != null)
             {
                 curPlayerState = PlayerState.GRAPPLING;
+                gh_curTime = 0f;
+                gh_startPos = transform.position;
                 grabbedAnchor = selectedAnchor;
             }
 
@@ -307,6 +316,8 @@ public class KLD_PlayerController : SerializedMonoBehaviour
             if ((Input.GetButtonDown("Grapple") || RT_GetKeyDown) && HavePowerUp(PowerUp.GRAPPLING_HOOK) && selectedAnchor != null)
             {
                 curPlayerState = PlayerState.GRAPPLING;
+                gh_curTime = 0f;
+                gh_startPos = transform.position;
                 grabbedAnchor = selectedAnchor;
             }
 
@@ -340,6 +351,8 @@ public class KLD_PlayerController : SerializedMonoBehaviour
             if ((Input.GetButtonDown("Grapple") || RT_GetKeyDown) && HavePowerUp(PowerUp.GRAPPLING_HOOK) && selectedAnchor != null)
             {
                 curPlayerState = PlayerState.GRAPPLING;
+                gh_curTime = 0f;
+                gh_startPos = transform.position;
                 grabbedAnchor = selectedAnchor;
             }
 
@@ -350,6 +363,8 @@ public class KLD_PlayerController : SerializedMonoBehaviour
             if ((Input.GetButtonDown("Grapple") || RT_GetKeyDown) && HavePowerUp(PowerUp.GRAPPLING_HOOK) && selectedAnchor != null)
             {
                 curPlayerState = PlayerState.GRAPPLING;
+                gh_curTime = 0f;
+                gh_startPos = transform.position;
                 grabbedAnchor = selectedAnchor;
             }
 
@@ -382,6 +397,15 @@ public class KLD_PlayerController : SerializedMonoBehaviour
                 curPlayerState = PlayerState.IDLE;
                 grabbedAnchor = null;
                 UpdatePlayerState();
+            }
+
+            if (Input.GetButtonDown("Jump") && selectedAnchor != null)
+            {
+                rb.isKinematic = false;
+                curPlayerState = PlayerState.GRAPPLING;
+                gh_curTime = 0f;
+                gh_startPos = transform.position;
+                grabbedAnchor = selectedAnchor;
             }
         }
     }
@@ -1059,9 +1083,19 @@ public class KLD_PlayerController : SerializedMonoBehaviour
 
     bool CheckGrabbed()
     {
-        transform.position = selectedAnchor.transform.position;
+        //transform.position = selectedAnchor.transform.position;
 
-        return true;
+        transform.position = Vector3.Lerp(gh_startPos, grabbedAnchor.transform.position, gh_speedCurve.Evaluate(gh_curTime / gh_time));
+
+        gh_curTime += Time.deltaTime;
+
+        bool done = gh_curTime >= gh_time;
+
+        if (done)
+            transform.position = grabbedAnchor.transform.position;
+
+        return done;
+
     }
 
     void DoGrabbedRotation()
