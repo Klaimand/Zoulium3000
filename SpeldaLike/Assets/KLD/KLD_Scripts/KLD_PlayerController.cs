@@ -117,7 +117,6 @@ public class KLD_PlayerController : SerializedMonoBehaviour
     [SerializeField] float attackComboLoseTime = 2f;
     float timeSinceLastAttack = 0f;
     float timeSinceLastCombo = 0f;
-
     enum Attack { DEFAULT, FIRST_ATTACK, SECOND_ATTACK, THIRD_ATTACK };
     Attack curAttack = Attack.DEFAULT;
 
