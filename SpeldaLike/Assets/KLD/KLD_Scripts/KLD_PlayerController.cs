@@ -112,6 +112,15 @@ public class KLD_PlayerController : SerializedMonoBehaviour
     [SerializeField] float dodgeCooldown = 1f;
     float dodgeCurCooldown = 0f;
 
+    [SerializeField, Header("Attack")]
+    float attackComboCooldown = 3f;
+    [SerializeField] float attackComboLoseTime = 2f;
+    float timeSinceLastAttack = 0f;
+    float timeSinceLastCombo = 0f;
+
+    enum Attack { DEFAULT, FIRST_ATTACK, SECOND_ATTACK, THIRD_ATTACK };
+    Attack curAttack = Attack.DEFAULT;
+
     [SerializeField]
     enum PlayerState
     {
@@ -279,6 +288,11 @@ public class KLD_PlayerController : SerializedMonoBehaviour
             {
                 curPlayerState = PlayerState.DODGING;
             }
+
+            if (Input.GetButtonDown("Attack"))
+            {
+                animator.SetTrigger("Attack");
+            }
         }
         else if (curPlayerState == PlayerState.RUNNING) //_______________________RUNNING
         {
@@ -308,6 +322,11 @@ public class KLD_PlayerController : SerializedMonoBehaviour
             if (CheckDodge())
             {
                 curPlayerState = PlayerState.DODGING;
+            }
+
+            if (Input.GetButtonDown("Attack"))
+            {
+                animator.SetTrigger("Attack");
             }
         }
         else if (curPlayerState == PlayerState.JUMPING) //_______________________JUMPING
