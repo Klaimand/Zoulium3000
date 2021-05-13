@@ -103,6 +103,15 @@ public class KLD_PlayerController : SerializedMonoBehaviour
     //List<KLD_Anchor> anchorsListBuffer = new List<KLD_Anchor>();
     [SerializeField] float maxAnchorAngle = 60f;
 
+    [SerializeField, Header("Dodge")]
+    float dodgeForce = 10f;
+    [SerializeField] float dodgeMinJoystickMagnitude = 0.5f;
+    [SerializeField] float dodgeTime = 1f;
+    float dodgeCurTime = 0f;
+    [SerializeField] float dodgeDrag = 0.05f;
+    [SerializeField] float dodgeCooldown = 1f;
+    float dodgeCurCooldown = 0f;
+
     [SerializeField]
     enum PlayerState
     {
@@ -118,9 +127,11 @@ public class KLD_PlayerController : SerializedMonoBehaviour
         FLOATING, //7
 
         GRAPPLING, //8
-        GRAPPLING_GRABBED //9
+        GRAPPLING_GRABBED, //9
+
+        DODGING //10
     };
-    [SerializeField] PlayerState curPlayerState = PlayerState.IDLE;
+    [SerializeField, Space(10)] PlayerState curPlayerState = PlayerState.IDLE;
 
     [SerializeField, Header("NO GRAVITY CONTROLLER"), Space(20)]
     float ng_impulseForce = 3f;
@@ -175,6 +186,8 @@ public class KLD_PlayerController : SerializedMonoBehaviour
         UpdatePlayerAnimationState();
 
         ResetPlayerOnVoidFall(); //hard debug
+
+        dodgeCurCooldown -= Time.deltaTime;
     }
 
     private void FixedUpdate()
@@ -261,6 +274,11 @@ public class KLD_PlayerController : SerializedMonoBehaviour
                 gh_startPos = transform.position;
                 grabbedAnchor = selectedAnchor;
             }
+
+            if (CheckDodge())
+            {
+                curPlayerState = PlayerState.DODGING;
+            }
         }
         else if (curPlayerState == PlayerState.RUNNING) //_______________________RUNNING
         {
@@ -285,6 +303,11 @@ public class KLD_PlayerController : SerializedMonoBehaviour
                 gh_curTime = 0f;
                 gh_startPos = transform.position;
                 grabbedAnchor = selectedAnchor;
+            }
+
+            if (CheckDodge())
+            {
+                curPlayerState = PlayerState.DODGING;
             }
         }
         else if (curPlayerState == PlayerState.JUMPING) //_______________________JUMPING
@@ -408,6 +431,16 @@ public class KLD_PlayerController : SerializedMonoBehaviour
                 grabbedAnchor = selectedAnchor;
             }
         }
+        else if (curPlayerState == PlayerState.DODGING)
+        {
+            dodgeCurTime += Time.deltaTime;
+
+            if (dodgeCurTime >= dodgeTime)
+            {
+                curPlayerState = PlayerState.IDLE;
+                UpdatePlayerState();
+            }
+        }
     }
 
     void DoPlayerBehavior()
@@ -479,6 +512,10 @@ public class KLD_PlayerController : SerializedMonoBehaviour
             case PlayerState.GRAPPLING_GRABBED:
                 UpdateSelectedAnchorIfPup();
                 DoGrabbedRotation();
+                break;
+
+            case PlayerState.DODGING:
+                DoPlayerDodge();
                 break;
 
             default:
@@ -1101,6 +1138,35 @@ public class KLD_PlayerController : SerializedMonoBehaviour
     void DoGrabbedRotation()
     {
         transform.LookAt(grabbedAnchor.transform.position + grabbedAnchor.transform.forward);
+    }
+
+    /// <summary>
+    /// Check if dodge input is pressed and apply velocity
+    /// </summary>
+    /// <returns></returns>
+    bool CheckDodge()
+    {
+        if (Input.GetButtonDown("Dodge") && timedAxis.sqrMagnitude > dodgeMinJoystickMagnitude * dodgeMinJoystickMagnitude && dodgeCurCooldown < 0f)
+        {
+            rb.velocity += ((axisTransform.right * timedAxis.x) + (axisTransform.forward * timedAxis.y)).normalized * dodgeForce;
+            dodgeCurTime = 0f;
+            dodgeCurCooldown = dodgeCooldown;
+            return true;
+        }
+
+        return false;
+    }
+
+    void DoPlayerDodge()
+    {
+        float drag = 1f - dodgeDrag;
+
+        Vector3 vel;
+        vel = rb.velocity;
+        vel.x *= drag;
+        vel.z *= drag;
+
+        rb.velocity = vel;
     }
 
     #region Animation
