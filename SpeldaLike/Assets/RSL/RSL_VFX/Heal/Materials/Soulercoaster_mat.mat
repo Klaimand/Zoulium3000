@@ -1,0 +1,45 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!21 &2100000
+Material:
+  serializedVersion: 6
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: Soulercoaster_mat
+  m_Shader: {fileID: -6465566751694194690, guid: fb3664150638a3348af3399504aba778,
+    type: 3}
+  m_ShaderKeywords: 
+  m_LightmapFlags: 4
+  m_EnableInstancingVariants: 0
+  m_DoubleSidedGI: 0
+  m_CustomRenderQueue: -1
+  stringTagMap: {}
+  disabledShaderPasses: []
+  m_SavedProperties:
+    serializedVersion: 3
+    m_TexEnvs:
+    - Texture2D_2fc7892af5784204a4dd01a4f4144c3d:
+        m_Texture: {fileID: 2800000, guid: 95ca76f475a99b445a3847071f3bc945, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - unity_Lightmaps:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - unity_LightmapsInd:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - unity_ShadowMasks:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    m_Floats:
+    - Vector1_55bff5fe2a5f49b79012635b3bae3d49: -1
+    m_Colors:
+    - Color_94c8df0c6bb546559e5df104fe5a9ed9: {r: 4, g: 0, b: 0.09411765, a: 0}
+    - Color_c95aed1710434e49b6744b6a25606ccd: {r: 3.482353, g: 2.3843138, b: 0.5803922,
+        a: 0}
+  m_BuildTextureStacks: []
