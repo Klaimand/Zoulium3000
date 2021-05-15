@@ -119,9 +119,10 @@ public class KLD_PlayerController : SerializedMonoBehaviour
     float timeSinceLastCombo = 0f;
     enum Attack { DEFAULT, FIRST_ATTACK, SECOND_ATTACK, THIRD_ATTACK };
     Attack curAttack = Attack.DEFAULT;
-    float[] attacksTime = { 0.6f, 0.25f, 0.5f };
+    float[] attacksTime = { 0.5f, 0.25f, 0.5f };
     int attackState = 0;
     bool attackBuffer = false;
+    [SerializeField] float attackBufferLenght = 0.3f;
 
     [SerializeField]
     enum PlayerState
@@ -1210,12 +1211,27 @@ public class KLD_PlayerController : SerializedMonoBehaviour
                     didAttack = true;
                     attackBuffer = false;
                 }
+
+                if (!didAttack && !attackBuffer)
+                {
+                    attackBuffer = true;
+                }
             }
 
-            if (!didAttack && !attackBuffer)
+            if (!didAttack && !attackBuffer && curAttack == Attack.DEFAULT)
             {
                 attackBuffer = true;
+                StartCoroutine(WaitAndDisableAttackBuffer());
             }
+        }
+    }
+
+    IEnumerator WaitAndDisableAttackBuffer()
+    {
+        yield return new WaitForSeconds(attackBufferLenght);
+        if (curAttack == Attack.DEFAULT)
+        {
+            attackBuffer = false;
         }
     }
 
