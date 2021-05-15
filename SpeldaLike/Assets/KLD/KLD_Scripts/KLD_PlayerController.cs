@@ -102,6 +102,9 @@ public class KLD_PlayerController : SerializedMonoBehaviour
     [ReadOnly, SerializeField] KLD_Anchor grabbedAnchor;
     //List<KLD_Anchor> anchorsListBuffer = new List<KLD_Anchor>();
     [SerializeField] float maxAnchorAngle = 60f;
+    [SerializeField] Transform grapplingStartPoint;
+    [SerializeField] GameObject grapplingLrObject;
+    LineRenderer lr;
 
     [SerializeField, Header("Dodge")]
     float dodgeForce = 10f;
@@ -123,6 +126,7 @@ public class KLD_PlayerController : SerializedMonoBehaviour
     int attackState = 0;
     bool attackBuffer = false;
     [SerializeField] float attackBufferLenght = 0.3f;
+    [SerializeField] GameObject[] attacksFxPrefabs;
 
     [SerializeField]
     enum PlayerState
@@ -178,6 +182,9 @@ public class KLD_PlayerController : SerializedMonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        lr = grapplingLrObject.GetComponent<LineRenderer>();
+        grapplingLrObject.SetActive(false);
+
         mainCamera = Camera.main;
         UpdatePlayerGroundPointPosition();
         dampedGroundPoint.position = playerGroundPoint.position;
@@ -286,6 +293,7 @@ public class KLD_PlayerController : SerializedMonoBehaviour
             if ((Input.GetButtonDown("Grapple") || RT_GetKeyDown) && HavePowerUp(PowerUp.GRAPPLING_HOOK) && selectedAnchor != null)
             {
                 curPlayerState = PlayerState.GRAPPLING;
+                grapplingLrObject.SetActive(true);
                 gh_curTime = 0f;
                 gh_startPos = transform.position;
                 grabbedAnchor = selectedAnchor;
@@ -318,6 +326,7 @@ public class KLD_PlayerController : SerializedMonoBehaviour
             if ((Input.GetButtonDown("Grapple") || RT_GetKeyDown) && HavePowerUp(PowerUp.GRAPPLING_HOOK) && selectedAnchor != null)
             {
                 curPlayerState = PlayerState.GRAPPLING;
+                grapplingLrObject.SetActive(true);
                 gh_curTime = 0f;
                 gh_startPos = transform.position;
                 grabbedAnchor = selectedAnchor;
@@ -342,6 +351,7 @@ public class KLD_PlayerController : SerializedMonoBehaviour
             if ((Input.GetButtonDown("Grapple") || RT_GetKeyDown) && HavePowerUp(PowerUp.GRAPPLING_HOOK) && selectedAnchor != null)
             {
                 curPlayerState = PlayerState.GRAPPLING;
+                grapplingLrObject.SetActive(true);
                 gh_curTime = 0f;
                 gh_startPos = transform.position;
                 grabbedAnchor = selectedAnchor;
@@ -359,6 +369,7 @@ public class KLD_PlayerController : SerializedMonoBehaviour
             if ((Input.GetButtonDown("Grapple") || RT_GetKeyDown) && HavePowerUp(PowerUp.GRAPPLING_HOOK) && selectedAnchor != null)
             {
                 curPlayerState = PlayerState.GRAPPLING;
+                grapplingLrObject.SetActive(true);
                 gh_curTime = 0f;
                 gh_startPos = transform.position;
                 grabbedAnchor = selectedAnchor;
@@ -394,6 +405,7 @@ public class KLD_PlayerController : SerializedMonoBehaviour
             if ((Input.GetButtonDown("Grapple") || RT_GetKeyDown) && HavePowerUp(PowerUp.GRAPPLING_HOOK) && selectedAnchor != null)
             {
                 curPlayerState = PlayerState.GRAPPLING;
+                grapplingLrObject.SetActive(true);
                 gh_curTime = 0f;
                 gh_startPos = transform.position;
                 grabbedAnchor = selectedAnchor;
@@ -406,6 +418,7 @@ public class KLD_PlayerController : SerializedMonoBehaviour
             if ((Input.GetButtonDown("Grapple") || RT_GetKeyDown) && HavePowerUp(PowerUp.GRAPPLING_HOOK) && selectedAnchor != null)
             {
                 curPlayerState = PlayerState.GRAPPLING;
+                grapplingLrObject.SetActive(true);
                 gh_curTime = 0f;
                 gh_startPos = transform.position;
                 grabbedAnchor = selectedAnchor;
@@ -423,12 +436,14 @@ public class KLD_PlayerController : SerializedMonoBehaviour
             {
                 curPlayerState = PlayerState.GRAPPLING_GRABBED;
                 rb.isKinematic = true;
+                grapplingLrObject.SetActive(false);
             }
 
             if (!Input.GetButton("Grapple") && !RT_GetKey)
             {
                 curPlayerState = PlayerState.IDLE;
                 grabbedAnchor = null;
+                grapplingLrObject.SetActive(false);
                 UpdatePlayerState();
             }
         }
@@ -527,6 +542,8 @@ public class KLD_PlayerController : SerializedMonoBehaviour
                 break;
 
             case PlayerState.GRAPPLING:
+                lr.SetPosition(0, grapplingStartPoint.position);
+                lr.SetPosition(1, selectedAnchor.transform.position);
                 break;
 
             case PlayerState.GRAPPLING_GRABBED:
@@ -1197,6 +1214,7 @@ public class KLD_PlayerController : SerializedMonoBehaviour
             if (curAttack == Attack.DEFAULT && timeSinceLastCombo >= attacksTime[2] + attackComboCooldown)
             {
                 curAttack = Attack.FIRST_ATTACK;
+                InstantiateAttackVFX(0);
                 timeSinceLastAttack = 0f;
                 didAttack = true;
                 attackBuffer = false;
@@ -1207,6 +1225,7 @@ public class KLD_PlayerController : SerializedMonoBehaviour
                 if (timeSinceLastAttack > attacksTime[i] && timeSinceLastAttack < attacksTime[i] + attackComboLoseTime)
                 {
                     curAttack = (Attack)(i + 2);
+                    InstantiateAttackVFX(i);
                     timeSinceLastAttack = 0f;
                     didAttack = true;
                     attackBuffer = false;
@@ -1256,6 +1275,11 @@ public class KLD_PlayerController : SerializedMonoBehaviour
 
         timeSinceLastAttack += Time.deltaTime;
         timeSinceLastCombo += Time.deltaTime;
+    }
+
+    void InstantiateAttackVFX(int _attackIndex)
+    {
+        Instantiate(attacksFxPrefabs[_attackIndex], transform.position, transform.rotation, transform);
     }
 
     #region Animation

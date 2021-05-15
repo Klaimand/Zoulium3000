@@ -11385,7 +11385,8 @@ PrefabInstance:
         type: 3}
       propertyPath: serializationData.Prefab
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 7121690983688771128, guid: a5a884bcbdc112849bf395f7d6814944,
+        type: 3}
     - target: {fileID: 7121690983688771128, guid: a5a884bcbdc112849bf395f7d6814944,
         type: 3}
       propertyPath: startPowerUps.Array.size
@@ -11395,6 +11396,11 @@ PrefabInstance:
         type: 3}
       propertyPath: dodgeMinJoystickMagnitude
       value: 0.1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7121690983688771128, guid: a5a884bcbdc112849bf395f7d6814944,
+        type: 3}
+      propertyPath: attacksFxPrefabs.Array.size
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 7121690983688771128, guid: a5a884bcbdc112849bf395f7d6814944,
         type: 3}
@@ -11411,6 +11417,24 @@ PrefabInstance:
       propertyPath: anchorDetectionRayMask.m_Bits
       value: 305
       objectReference: {fileID: 0}
+    - target: {fileID: 7121690983688771128, guid: a5a884bcbdc112849bf395f7d6814944,
+        type: 3}
+      propertyPath: attacksFxPrefabs.Array.data[0]
+      value: 
+      objectReference: {fileID: 7719330888422656180, guid: 838dcac7b1a60ff4fb2cbd6a4d5bbfe8,
+        type: 3}
+    - target: {fileID: 7121690983688771128, guid: a5a884bcbdc112849bf395f7d6814944,
+        type: 3}
+      propertyPath: attacksFxPrefabs.Array.data[1]
+      value: 
+      objectReference: {fileID: 7642301446228593333, guid: 559b33e24f9959740bfe5f1edb864ee5,
+        type: 3}
+    - target: {fileID: 7121690983688771128, guid: a5a884bcbdc112849bf395f7d6814944,
+        type: 3}
+      propertyPath: attacksFxPrefabs.Array.data[2]
+      value: 
+      objectReference: {fileID: 6145889630751459364, guid: e746e9bad1766ac48bf5f39628e38511,
+        type: 3}
     - target: {fileID: 7121690983688771128, guid: a5a884bcbdc112849bf395f7d6814944,
         type: 3}
       propertyPath: gh_speedCurve.m_Curve.Array.size
