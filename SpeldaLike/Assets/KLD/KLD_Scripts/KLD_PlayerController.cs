@@ -112,6 +112,18 @@ public class KLD_PlayerController : SerializedMonoBehaviour
     [SerializeField] float dodgeCooldown = 1f;
     float dodgeCurCooldown = 0f;
 
+    [SerializeField, Header("Attack")]
+    float attackComboCooldown = 3f;
+    [SerializeField] float attackComboLoseTime = 1f;
+    float timeSinceLastAttack = 0f;
+    float timeSinceLastCombo = 0f;
+    enum Attack { DEFAULT, FIRST_ATTACK, SECOND_ATTACK, THIRD_ATTACK };
+    Attack curAttack = Attack.DEFAULT;
+    float[] attacksTime = { 0.5f, 0.25f, 0.5f };
+    int attackState = 0;
+    bool attackBuffer = false;
+    [SerializeField] float attackBufferLenght = 0.3f;
+
     [SerializeField]
     enum PlayerState
     {
@@ -171,6 +183,9 @@ public class KLD_PlayerController : SerializedMonoBehaviour
         dampedGroundPoint.position = playerGroundPoint.position;
         GiveStartPups();
         anchors = GetAnchors();
+
+        timeSinceLastCombo = 99f;
+        timeSinceLastAttack = 99f;
     }
 
     // Update is called once per frame
@@ -188,6 +203,7 @@ public class KLD_PlayerController : SerializedMonoBehaviour
         ResetPlayerOnVoidFall(); //hard debug
 
         dodgeCurCooldown -= Time.deltaTime;
+        AttackCooldownsManager();
     }
 
     private void FixedUpdate()
@@ -279,6 +295,8 @@ public class KLD_PlayerController : SerializedMonoBehaviour
             {
                 curPlayerState = PlayerState.DODGING;
             }
+
+            CheckAttack();
         }
         else if (curPlayerState == PlayerState.RUNNING) //_______________________RUNNING
         {
@@ -309,6 +327,8 @@ public class KLD_PlayerController : SerializedMonoBehaviour
             {
                 curPlayerState = PlayerState.DODGING;
             }
+
+            CheckAttack();
         }
         else if (curPlayerState == PlayerState.JUMPING) //_______________________JUMPING
         {
@@ -1169,38 +1189,76 @@ public class KLD_PlayerController : SerializedMonoBehaviour
         rb.velocity = vel;
     }
 
-    #region Animation
-
-    /*
-    void UpdatePlayerAnimationState()
+    void CheckAttack()
     {
-        if (controllerMode == ControllerMode.GRAVITY)
+        if (Input.GetButtonDown("Attack") || attackBuffer)
         {
-            if (isGrounded())
+            bool didAttack = false;
+            if (curAttack == Attack.DEFAULT && timeSinceLastCombo >= attacksTime[2] + attackComboCooldown)
             {
-                if (new Vector2(rb.velocity.x, rb.velocity.z).magnitude >= idleVelocityThreshold)
+                curAttack = Attack.FIRST_ATTACK;
+                timeSinceLastAttack = 0f;
+                didAttack = true;
+                attackBuffer = false;
+            }
+            else if (curAttack != Attack.DEFAULT && curAttack != Attack.THIRD_ATTACK)
+            {
+                int i = (int)curAttack - 1;
+                if (timeSinceLastAttack > attacksTime[i] && timeSinceLastAttack < attacksTime[i] + attackComboLoseTime)
                 {
-                    playerAnimationState = PlayerState_obs.RUNNING;
+                    curAttack = (Attack)(i + 2);
+                    timeSinceLastAttack = 0f;
+                    didAttack = true;
+                    attackBuffer = false;
                 }
-                else
+
+                if (!didAttack && !attackBuffer)
                 {
-                    playerAnimationState = PlayerState_obs.IDLE;
+                    attackBuffer = true;
                 }
             }
-            else
+
+            if (!didAttack && !attackBuffer && curAttack == Attack.DEFAULT)
             {
-                playerAnimationState = rb.velocity.y > 0f ? PlayerState_obs.JUMPING : PlayerState_obs.FALLING;
+                attackBuffer = true;
+                StartCoroutine(WaitAndDisableAttackBuffer());
             }
         }
-        else
+    }
+
+    IEnumerator WaitAndDisableAttackBuffer()
+    {
+        yield return new WaitForSeconds(attackBufferLenght);
+        if (curAttack == Attack.DEFAULT)
         {
-            playerAnimationState = PlayerState_obs.NO_GRAVITY;
+            attackBuffer = false;
+        }
+    }
+
+    void AttackCooldownsManager()
+    {
+        if (curAttack != Attack.DEFAULT && curAttack != Attack.THIRD_ATTACK)
+        {
+            if (timeSinceLastAttack > attacksTime[(int)curAttack - 1] + attackComboLoseTime)
+            {
+                curAttack = Attack.DEFAULT;
+                timeSinceLastCombo = 0f;
+            }
+        }
+        else if (curAttack == Attack.THIRD_ATTACK)
+        {
+            if (timeSinceLastAttack > attacksTime[2])
+            {
+                curAttack = Attack.DEFAULT;
+                timeSinceLastCombo = 0f;
+            }
         }
 
+        timeSinceLastAttack += Time.deltaTime;
+        timeSinceLastCombo += Time.deltaTime;
+    }
 
-
-        animator?.SetInteger("playerState", (int)playerAnimationState);
-    }*/
+    #region Animation
 
     void UpdatePlayerAnimationState()
     {
@@ -1209,6 +1267,13 @@ public class KLD_PlayerController : SerializedMonoBehaviour
         animState = (int)curPlayerState;
 
         animator?.SetInteger("playerState", animState);
+
+        //attack
+        animator?.SetInteger("LastAttackState", attackState);
+
+        attackState = (int)curAttack;
+
+        animator?.SetInteger("AttackState", attackState);
 
     }
 
