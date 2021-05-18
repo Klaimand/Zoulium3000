@@ -28,6 +28,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 37777906708330258}
+  - component: {fileID: 8685933162613865493}
   m_Layer: 10
   m_Name: GrapplingStartPoint
   m_TagString: Untagged
@@ -49,6 +50,32 @@ Transform:
   m_Father: {fileID: 7121690983688771078}
   m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &8685933162613865493
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3425223555128616528}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 75052b13a874e4c45841306168727d1b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  serializationData:
+    SerializedFormat: 2
+    SerializedBytes: 
+    ReferencedUnityObjects: []
+    SerializedBytesString: 
+    Prefab: {fileID: 0}
+    PrefabModificationsReferencedUnityObjects: []
+    PrefabModifications: []
+    SerializationNodes: []
+  linkTo: {fileID: 1233380273373630332}
+  lockRotation: 0
+  lockX: 0
+  lockY: 0
+  lockZ: 0
 --- !u!1 &7121690983135895577
 GameObject:
   m_ObjectHideFlags: 0
@@ -625,6 +652,12 @@ Transform:
 --- !u!4 &3378723818451415679 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -9114496787053588016, guid: 806e2017771883d4aadd0ccef8abaa54,
+    type: 3}
+  m_PrefabInstance: {fileID: 3414131072446358447}
+  m_PrefabAsset: {fileID: 0}
+--- !u!4 &1233380273373630332 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: -4720697313668813613, guid: 806e2017771883d4aadd0ccef8abaa54,
     type: 3}
   m_PrefabInstance: {fileID: 3414131072446358447}
   m_PrefabAsset: {fileID: 0}
