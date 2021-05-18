@@ -544,7 +544,7 @@ public class KLD_PlayerController : SerializedMonoBehaviour
 
             case PlayerState.GRAPPLING:
                 lr.SetPosition(0, grapplingStartPoint.position);
-                lr.SetPosition(1, selectedAnchor.transform.position + Vector3.up * 2f);
+                lr.SetPosition(1, selectedAnchor.transform.position + Vector3.up * 1.5f);
                 break;
 
             case PlayerState.GRAPPLING_GRABBED:
