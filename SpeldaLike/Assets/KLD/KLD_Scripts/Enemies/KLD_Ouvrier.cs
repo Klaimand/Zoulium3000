@@ -8,7 +8,7 @@ public class KLD_Ouvrier : KLD_Enemy
     enum OuvrierState { UNALERTED, ALERTED, ATTACKING, STUNNED };
 
     [SerializeField] OuvrierState curState = OuvrierState.UNALERTED;
-    float runThreshold = 0.3f;
+    float runThreshold = 0.5f;
     [SerializeField] Animator animator;
 
     [SerializeField, Header("Follow")]
@@ -19,16 +19,17 @@ public class KLD_Ouvrier : KLD_Enemy
     [SerializeField] float wanderingAcceleration = 6f;
     [SerializeField] float alertedSpeed = 6f;
     [SerializeField] float alertedAcceleration = 10f;
-    [SerializeField] float attackSpeed = 20f;
-    [SerializeField] float attackAcceleration = 20f;
+    //[SerializeField] float attackSpeed = 20f;
+    //[SerializeField] float attackAcceleration = 20f;
 
 
     [SerializeField, Header("Attack")] float attackDistance = 2f;
     [SerializeField] float attackCooldown = 2.5f;
     float timeSinceLastAttack = 99f;
-    [SerializeField] float attackDashDistance = 1f;
+    //[SerializeField] float attackDashDistance = 1f;
     [SerializeField] float attackStopTime = 0.5f;
     [SerializeField] float attackDuration = 0.5f;
+    [SerializeField] GameObject attackZoneObject;
 
     [SerializeField, Header("Stun")] float stunTime = 1f;
     float curStunTime;
@@ -146,13 +147,14 @@ public class KLD_Ouvrier : KLD_Enemy
         if (curState == OuvrierState.ATTACKING)
         {
 
-            Vector3 toDash = (player.position - transform.position).normalized * attackDashDistance;
-            agent.isStopped = false;
-            agent.speed = attackSpeed;
-            agent.acceleration = attackAcceleration;
-            agent.SetDestination(transform.position + toDash);
+            //Vector3 toDash = (player.position - transform.position).normalized * attackDashDistance;
+            //agent.isStopped = false;
+            //agent.speed = attackSpeed;
+            //agent.acceleration = attackAcceleration;
+            //agent.SetDestination(transform.position + toDash);
             timeSinceLastAttack = 0f;
             animator?.SetTrigger("attack");
+            Instantiate(attackZoneObject, transform.position, transform.rotation, transform);
 
             yield return new WaitForSeconds(attackDuration);
 
