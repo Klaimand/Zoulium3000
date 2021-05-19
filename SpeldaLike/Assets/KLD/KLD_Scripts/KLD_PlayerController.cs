@@ -89,6 +89,7 @@ public class KLD_PlayerController : SerializedMonoBehaviour
     [SerializeField] float powerJumpHorizontalSpeed = 10f;
     [SerializeField] float maxPowerJumpAirSpeed = 20f;
     [SerializeField] float powerJumpAddAirSpeed = 20f;
+    [SerializeField] GameObject powerJumpAttackPrefab;
 
     [SerializeField, Header("Grappling Hook")]
     float gh_time = 5f;
@@ -127,6 +128,7 @@ public class KLD_PlayerController : SerializedMonoBehaviour
     bool attackBuffer = false;
     [SerializeField] float attackBufferLenght = 0.3f;
     [SerializeField] GameObject[] attacksFxPrefabs;
+    [SerializeField] GameObject attackZonePrefab;
 
     [SerializeField]
     enum PlayerState
@@ -424,7 +426,19 @@ public class KLD_PlayerController : SerializedMonoBehaviour
                 grabbedAnchor = selectedAnchor;
             }
 
-            GroundedRunningIdleCheck();
+            //GroundedRunningIdleCheck();
+            if (isGrounded() && !groundDetectionDisabled)
+            {
+                Instantiate(powerJumpAttackPrefab, transform.position, Quaternion.identity);
+                if (timedAxis.magnitude != 0f)
+                {
+                    curPlayerState = PlayerState.RUNNING;
+                }
+                else
+                {
+                    curPlayerState = PlayerState.IDLE;
+                }
+            }
         }
         else if (curPlayerState == PlayerState.FLOATING) //_______________________FLOATING
         {
@@ -1216,6 +1230,7 @@ public class KLD_PlayerController : SerializedMonoBehaviour
             {
                 curAttack = Attack.FIRST_ATTACK;
                 InstantiateAttackVFX(0);
+                Instantiate(attackZonePrefab, transform.position, transform.rotation, transform);
                 timeSinceLastAttack = 0f;
                 didAttack = true;
                 attackBuffer = false;
@@ -1227,6 +1242,7 @@ public class KLD_PlayerController : SerializedMonoBehaviour
                 {
                     curAttack = (Attack)(i + 2);
                     InstantiateAttackVFX(i);
+                    Instantiate(attackZonePrefab, transform.position, transform.rotation, transform);
                     timeSinceLastAttack = 0f;
                     didAttack = true;
                     attackBuffer = false;

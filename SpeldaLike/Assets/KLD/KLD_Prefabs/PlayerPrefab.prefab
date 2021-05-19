@@ -265,6 +265,8 @@ MonoBehaviour:
   powerJumpHorizontalSpeed: 10
   maxPowerJumpAirSpeed: 20
   powerJumpAddAirSpeed: 22
+  powerJumpAttackPrefab: {fileID: 6325729434550116176, guid: d5d9132ecfacc7b41a9254b46bc81c57,
+    type: 3}
   gh_time: 0.4
   gh_speedCurve:
     serializedVersion: 2
@@ -311,6 +313,8 @@ MonoBehaviour:
   - {fileID: 7719330888422656180, guid: 838dcac7b1a60ff4fb2cbd6a4d5bbfe8, type: 3}
   - {fileID: 7642301446228593333, guid: 559b33e24f9959740bfe5f1edb864ee5, type: 3}
   - {fileID: 6145889630751459364, guid: e746e9bad1766ac48bf5f39628e38511, type: 3}
+  attackZonePrefab: {fileID: 8493841854013786119, guid: 4072db0b6b55222418dd93ec44ad0425,
+    type: 3}
   curPlayerState: 0
   ng_impulseForce: 2
   ng_verticalImpulseForce: 2
