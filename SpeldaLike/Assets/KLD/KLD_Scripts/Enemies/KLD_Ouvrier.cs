@@ -8,6 +8,8 @@ public class KLD_Ouvrier : KLD_Enemy
     enum OuvrierState { UNALERTED, ALERTED, ATTACKING, STUNNED };
 
     [SerializeField] OuvrierState curState = OuvrierState.UNALERTED;
+    float runThreshold = 0.3f;
+    [SerializeField] Animator animator;
 
     [SerializeField, Header("Follow")]
     float followMinDist = 2f;
@@ -48,6 +50,7 @@ public class KLD_Ouvrier : KLD_Enemy
 
         UpdateOuvrierState();
         DoOuvrierBehavior();
+        SendAnimState();
 
         if (curState != OuvrierState.STUNNED)
         {
@@ -149,6 +152,7 @@ public class KLD_Ouvrier : KLD_Enemy
             agent.acceleration = attackAcceleration;
             agent.SetDestination(transform.position + toDash);
             timeSinceLastAttack = 0f;
+            animator?.SetTrigger("attack");
 
             yield return new WaitForSeconds(attackDuration);
 
@@ -170,4 +174,17 @@ public class KLD_Ouvrier : KLD_Enemy
             agent.isStopped = true;
         }
     }
+
+    void SendAnimState()
+    {
+        animator?.SetInteger("enemyState", (int)curState);
+
+        bool isr = agent.velocity.sqrMagnitude > runThreshold * runThreshold;
+        animator?.SetBool("isRunning", isr);
+    }
+
+    //bool isAttacking()
+    //{
+    //animator?.GetCurrentAnimatorClipInfo(0).
+    //}
 }

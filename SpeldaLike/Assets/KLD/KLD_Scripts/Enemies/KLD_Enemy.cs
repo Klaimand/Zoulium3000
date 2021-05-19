@@ -120,7 +120,13 @@ public abstract class KLD_Enemy : MonoBehaviour
 
         if (wanderTime >= curWanderTimer)
         {
-            Vector3 newPos = RandomNavSphere(transform.position, Random.Range(settings.minMaxWanderRange.x, settings.minMaxWanderRange.y), settings.allowedLayers); //mask was -1
+            Vector3 newPos = Vector3.zero;
+
+            do
+            {
+                newPos = RandomNavSphere(transform.position, Random.Range(settings.minMaxWanderRange.x, settings.minMaxWanderRange.y), settings.allowedLayers); //mask was -1                
+            } while ((newPos - transform.position).sqrMagnitude < settings.minMaxWanderRange.x * settings.minMaxWanderRange.x);
+
             agent.SetDestination(newPos);
             wanderTime = 0;
 
