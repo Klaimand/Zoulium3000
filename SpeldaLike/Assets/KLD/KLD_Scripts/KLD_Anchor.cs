@@ -14,17 +14,19 @@ public class KLD_Anchor : MonoBehaviour
 
     public AnchorState curState = AnchorState.FREE;
 
-    Color[] colors = { Color.blue, Color.green, Color.red };
+    //Color[] colors = { Color.blue, Color.green, Color.red };
 
     MeshRenderer r;
 
     void Awake()
     {
-        r = GetComponent<MeshRenderer>();
+        r = transform.GetChild(0).GetChild(0).GetComponent<MeshRenderer>();
     }
 
     void Update()
     {
-        r.material.color = colors[(int)curState];
+        //r.material.color = colors[(int)curState];
+        float v = curState == AnchorState.FREE ? 0f : 2f;
+        r.material.SetFloat("Slider_", v);
     }
 }
