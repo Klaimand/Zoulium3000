@@ -43,6 +43,9 @@ public class KLD_Ouvrier : KLD_Enemy
     {
         base.Update();
 
+        //print(IsPlayerInZone());
+        //print(agent.isStopped);
+
         UpdateOuvrierState();
         DoOuvrierBehavior();
 
@@ -56,7 +59,7 @@ public class KLD_Ouvrier : KLD_Enemy
     {
         if (curState == OuvrierState.UNALERTED)
         {
-            if (PlayerDistance() <= settings.detectionRange)
+            if (IsPlayerInZone() && PlayerDistance() <= settings.detectionRange)
             {
                 curState = OuvrierState.ALERTED;
                 agent.speed = alertedSpeed;
@@ -65,7 +68,11 @@ public class KLD_Ouvrier : KLD_Enemy
         }
         else if (curState == OuvrierState.ALERTED)
         {
-            if (PlayerDistance() <= attackDistance && timeSinceLastAttack >= attackCooldown)
+            if (!IsPlayerInZone())
+            {
+                curState = OuvrierState.UNALERTED;
+            }
+            else if (PlayerDistance() <= attackDistance && timeSinceLastAttack >= attackCooldown)
             {
                 curState = OuvrierState.ATTACKING;
                 StartCoroutine(Attack());

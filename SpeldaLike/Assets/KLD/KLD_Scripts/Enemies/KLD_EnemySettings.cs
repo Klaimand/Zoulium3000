@@ -15,4 +15,7 @@ public class KLD_EnemySettings : ScriptableObject
     public Vector2 minMaxWanderRange = new Vector2(3f, 5f);
     public Vector2 minMaxWanderTimer = new Vector2(2f, 3f);
     public LayerMask allowedLayers;
+
+    [Header("Debug")]
+    public float maxErrorDistance = 1f;
 }

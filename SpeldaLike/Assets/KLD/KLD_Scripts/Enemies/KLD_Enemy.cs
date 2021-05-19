@@ -98,6 +98,20 @@ public abstract class KLD_Enemy : MonoBehaviour
         isInvulnerable = false;
     }
 
+    protected bool IsPlayerInZone()
+    {
+        bool b = agent.CalculatePath(player.position, path);
+
+        if (!b)
+            return false;
+
+        Vector3 theoricalPlayerPos = path.corners[path.corners.Length - 1];
+
+        Vector3 d = theoricalPlayerPos - player.position;
+
+        return d.sqrMagnitude < settings.maxErrorDistance * settings.maxErrorDistance;
+    }
+
     #region Wandering
 
     protected void Wander()

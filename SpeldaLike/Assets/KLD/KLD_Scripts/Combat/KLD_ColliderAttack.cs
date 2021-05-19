@@ -24,6 +24,5 @@ public class KLD_ColliderAttack : MonoBehaviour
     private void OnTriggerEnter(Collider other)
     {
         other.gameObject.SendMessage(playerAttack ? "DamageEnemy" : "DamagePlayer", damage, SendMessageOptions.DontRequireReceiver);
-        print(other.gameObject.name);
     }
 }
