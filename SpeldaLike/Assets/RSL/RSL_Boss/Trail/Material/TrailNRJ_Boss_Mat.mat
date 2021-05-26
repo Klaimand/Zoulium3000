@@ -1,0 +1,52 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!21 &2100000
+Material:
+  serializedVersion: 6
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: TrailNRJ_Boss_Mat
+  m_Shader: {fileID: -6465566751694194690, guid: da2f019238a322a4a8c1f6bc07a4e6e2,
+    type: 3}
+  m_ShaderKeywords: 
+  m_LightmapFlags: 4
+  m_EnableInstancingVariants: 0
+  m_DoubleSidedGI: 0
+  m_CustomRenderQueue: -1
+  stringTagMap: {}
+  disabledShaderPasses: []
+  m_SavedProperties:
+    serializedVersion: 3
+    m_TexEnvs:
+    - Texture2D_9fc9bd7b125141fa9c37723b5ecf1cde:
+        m_Texture: {fileID: 2800000, guid: 56abdf872f1afb04797ea74415a5c9a0, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _SampleTexture2D_cc03f47de31c4ae6864e8a58bf6e7e93_Texture_1:
+        m_Texture: {fileID: 2800000, guid: 6c7f484560ccdbf4fb0aa98d471a572a, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - unity_Lightmaps:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - unity_LightmapsInd:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - unity_ShadowMasks:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    m_Floats:
+    - Vector1_41f10ebc3a57471893f30b9578e11a27: 0
+    m_Colors:
+    - Color_3280bb5247bb497ebf3dc3ea35f140a5: {r: 10.680627, g: 5.403141, b: 5.821989,
+        a: 0}
+    - Color_d8a40bc600b64e99922e7928a201ba35: {r: 1, g: 0, b: 0, a: 0}
+    - Vector2_9f3eddaef43c4e2faba0fbe587c8ed01: {r: -1.5, g: 0, b: 0, a: 0}
+    - Vector2_c17357f2622f43549e5965019cb225f0: {r: 0.5, g: 0, b: 0, a: 0}
+    - Vector2_ff216b9e168f41ab94dec58ab754f0d9: {r: 1, g: 0, b: 0, a: 0}
+  m_BuildTextureStacks: []

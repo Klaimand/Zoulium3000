@@ -1,0 +1,64 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!21 &2100000
+Material:
+  serializedVersion: 6
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: Court_circuit_mat 1
+  m_Shader: {fileID: -6465566751694194690, guid: 631a838d2e79b1e488fb36c180be4127,
+    type: 3}
+  m_ShaderKeywords: 
+  m_LightmapFlags: 4
+  m_EnableInstancingVariants: 0
+  m_DoubleSidedGI: 0
+  m_CustomRenderQueue: 3000
+  stringTagMap: {}
+  disabledShaderPasses: []
+  m_SavedProperties:
+    serializedVersion: 3
+    m_TexEnvs:
+    - unity_Lightmaps:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - unity_LightmapsInd:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - unity_ShadowMasks:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    m_Floats:
+    - Stun_Slider_: 1
+    - Vector1_3308031419c74db4898cb65f1eb96191: 1
+    - Vector1_560f68d04f2d43e8abb7b4f7f2209de2: 0
+    - Vector1_560f68d04f2d43e8abb7b4f7f2209de21: 0
+    - Vector1_672469ea80c24f9990267483010ca23d: 1
+    - Vector1_9e67dddd09b146448c7fcf47b4624c0f: 1
+    - Vector1_a6f90f465c5646cc865165639d41b447: 3.01
+    - Vector1_ce548ca8c2234c0f9f7e2b433f304b0e: 1
+    - Vector1_dd3002bd81f04712a591ca0e1698edcd: 1
+    - _Epaisseur: 1
+    - _FondOpacity: 0
+    - _Intensit_Lumineuse: 1
+    - _OnOff: 0
+    - _OpacityGlow: 0.1
+    - _PowNoise: 0.8
+    - _SizeNoise: 100
+    m_Colors:
+    - Color_5e639ac770004e4989694e55a8324553: {r: 766.9961, g: 0, b: 0, a: 1}
+    - Color_6810180791d645ef86e93f51b971e3e7: {r: 10.427886, g: 0, b: 15.999998, a: 0}
+    - Color_8063d68d18da4be686fe77b4ae69767e: {r: 5.992157, g: 5.992157, b: 5.992157,
+        a: 0}
+    - Color_bbf6f8b1c7ba4ceeac7e216b7d22ac33: {r: 1, g: 1, b: 1, a: 1}
+    - Vector2_794f0c302a4847ddaa47377390dda6df: {r: -8, g: 2, b: 0, a: 0}
+    - Vector2_aae4d4c829d04fe98af6399aa6e0f304: {r: 10, g: -4, b: 0, a: 0}
+    - _BaseColor: {r: 1.6603774, g: 0.36706963, b: 0.19579919, a: 1}
+    - _ColorGlow: {r: 6.367663, g: 0, b: 0.07535584, a: 1}
+    - _Speed1: {r: 10, g: -5, b: 0, a: 0}
+    - _Speed2: {r: -8, g: 2, b: 0, a: 0}
+  m_BuildTextureStacks: []
