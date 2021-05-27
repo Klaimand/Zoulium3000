@@ -291,6 +291,7 @@ public class KLD_PlayerController : SerializedMonoBehaviour
             {
                 curPowerJumpLoadTime = 0f;
                 curPlayerState = PlayerState.POWERCROUCHING;
+                col.material = frictionMat;
             }
 
             if ((Input.GetButtonDown("Grapple") || RT_GetKeyDown) && HavePowerUp(PowerUp.GRAPPLING_HOOK) && selectedAnchor != null)
@@ -385,6 +386,7 @@ public class KLD_PlayerController : SerializedMonoBehaviour
             if (!Input.GetButton("Crouch") && !LT_GetKey)
             {
                 curPlayerState = PlayerState.IDLE;
+                col.material = noFrictionMat;
             }
 
             if (Input.GetButtonDown("Jump"))
@@ -396,6 +398,7 @@ public class KLD_PlayerController : SerializedMonoBehaviour
                     //print("Power Jumped");
                     justPowerJumped = true;
                     StartCoroutine(WaitAndDisableJustPowerJumped());
+                    col.material = noFrictionMat;
                 }
             }
 
