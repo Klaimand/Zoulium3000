@@ -10,6 +10,9 @@ public abstract class KLD_Enemy : MonoBehaviour
     NavMeshPath path;
     protected Transform player;
 
+    [SerializeField] protected SkinnedMeshRenderer r;
+    [SerializeField] float damageBlinkTime = 0.1f;
+
     [SerializeField] protected KLD_EnemySettings settings;
 
     int curHealth;
@@ -32,7 +35,8 @@ public abstract class KLD_Enemy : MonoBehaviour
     {
         curHealth = settings.maxHealth;
 
-        player = GameObject.Find("Player").transform;
+        //player = GameObject.Find("Player").transform;
+        player = GameObject.FindGameObjectWithTag("Player").transform;
     }
 
     // Update is called once per frame
@@ -88,7 +92,7 @@ public abstract class KLD_Enemy : MonoBehaviour
 
     bool TakeDamage(int _damage)
     {
-        print("took " + _damage + " dmg");
+        //print("took " + _damage + " dmg");
 
         curHealth = Mathf.Max(0, curHealth - _damage);
         if (CheckDeath())
@@ -100,6 +104,9 @@ public abstract class KLD_Enemy : MonoBehaviour
         isInvulnerable = true;
 
         StartCoroutine(WaitAndDisableInvulnerability());
+
+        r.materials[2].SetFloat("HitSlider_", 1f);
+        StartCoroutine(WaitAndDisableBlinkShader());
         //damage shader
 
         return true;
@@ -114,6 +121,12 @@ public abstract class KLD_Enemy : MonoBehaviour
     {
         yield return new WaitForSeconds(settings.invulnerabilityTime);
         isInvulnerable = false;
+    }
+
+    IEnumerator WaitAndDisableBlinkShader()
+    {
+        yield return new WaitForSeconds(damageBlinkTime);
+        r.materials[2].SetFloat("HitSlider_", 0f);
     }
 
     protected bool IsPlayerInZone()
