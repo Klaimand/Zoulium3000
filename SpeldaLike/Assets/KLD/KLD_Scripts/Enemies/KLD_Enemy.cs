@@ -68,23 +68,41 @@ public abstract class KLD_Enemy : MonoBehaviour
     {
         if (!isInvulnerable)
         {
-            print("took " + _damage + " dmg");
-
-            curHealth = Mathf.Max(0, curHealth - _damage);
-            if (CheckDeath())
+            if (TakeDamage(_damage))
             {
-                Die();
-                return;
+                OnDamageTake();
             }
-
-            isInvulnerable = true;
-            //damage shader
-
-            OnDamageTake();
-
-            StartCoroutine(WaitAndDisableInvulnerability());
-
         }
+    }
+
+    public void DamageEnemySuperJump(int _damage)
+    {
+        if (!isInvulnerable)
+        {
+            if (TakeDamage(_damage))
+            {
+                OnSuperJumpShockwave();
+            }
+        }
+    }
+
+    bool TakeDamage(int _damage)
+    {
+        print("took " + _damage + " dmg");
+
+        curHealth = Mathf.Max(0, curHealth - _damage);
+        if (CheckDeath())
+        {
+            Die();
+            return false;
+        }
+
+        isInvulnerable = true;
+
+        StartCoroutine(WaitAndDisableInvulnerability());
+        //damage shader
+
+        return true;
     }
 
     bool CheckDeath()

@@ -31,7 +31,8 @@ public class KLD_Ouvrier : KLD_Enemy
     [SerializeField] float attackDuration = 0.5f;
     [SerializeField] GameObject attackZoneObject;
 
-    [SerializeField, Header("Stun")] float stunTime = 1f;
+    [SerializeField, Header("Stun")] float attackStunTime = 1f;
+    [SerializeField, Header("Stun")] float superJumpStunTime = 3f;
     float curStunTime;
 
 
@@ -88,7 +89,7 @@ public class KLD_Ouvrier : KLD_Enemy
         }
         else if (curState == OuvrierState.STUNNED)
         {
-            if (curStunTime >= stunTime)
+            if (curStunTime <= 0f)
             {
                 curState = OuvrierState.UNALERTED;
                 agent.speed = wanderingSpeed;
@@ -114,7 +115,7 @@ public class KLD_Ouvrier : KLD_Enemy
                 break;
 
             case OuvrierState.STUNNED:
-                curStunTime += Time.deltaTime;
+                curStunTime -= Time.deltaTime;
                 break;
 
             default:
@@ -124,10 +125,15 @@ public class KLD_Ouvrier : KLD_Enemy
 
     protected override void OnSuperJumpShockwave()
     {
-        throw new System.NotImplementedException();
+        GetStunned(superJumpStunTime);
     }
 
     protected override void OnDamageTake()
+    {
+        GetStunned(attackStunTime);
+    }
+
+    void GetStunned(float _stunTime)
     {
         if (curState == OuvrierState.ATTACKING)
         {
@@ -135,7 +141,7 @@ public class KLD_Ouvrier : KLD_Enemy
         }
 
         curState = OuvrierState.STUNNED;
-        curStunTime = 0f;
+        curStunTime = _stunTime;
     }
 
 
@@ -185,8 +191,4 @@ public class KLD_Ouvrier : KLD_Enemy
         animator?.SetBool("isRunning", isr);
     }
 
-    //bool isAttacking()
-    //{
-    //animator?.GetCurrentAnimatorClipInfo(0).
-    //}
 }
