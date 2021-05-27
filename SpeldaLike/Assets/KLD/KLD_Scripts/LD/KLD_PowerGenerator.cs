@@ -6,21 +6,27 @@ using Sirenix.OdinInspector;
 
 public class KLD_PowerGenerator : SerializedMonoBehaviour
 {
-    [SerializeField, FoldoutGroup("Rendering Event")] UnityEvent OnPlayerHitRendering;
+    [SerializeField, FoldoutGroup("Rendering Event")] UnityEvent OnPlayerHitRenderingOnce;
+    [SerializeField, FoldoutGroup("Rendering Event")] UnityEvent OnPlayerHitRenderingEach;
 
     [SerializeField] UnityEvent OnPlayerHit;
 
     bool activated = false;
 
-    public void DamageEnemy()//int _damage)
+    public void DamageEnemy(int _damage)
     {
         if (!activated)
         {
             activated = true;
-            OnPlayerHitRendering.Invoke();
+            OnPlayerHitRenderingOnce.Invoke();
             OnPlayerHit.Invoke();
-            print("activated moteur");
         }
+        OnPlayerHitRenderingEach.Invoke();
+    }
+
+    public void PlayStretch(Animator a)
+    {
+        a.SetTrigger("attacked");
     }
 
 }
