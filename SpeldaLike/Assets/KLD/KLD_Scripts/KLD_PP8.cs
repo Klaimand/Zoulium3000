@@ -5,36 +5,44 @@ using UnityEngine;
 public class KLD_PP8 : MonoBehaviour
 {
 
-    //Transform player;
     Transform target;
 
-    [SerializeField] float maxAngularSpeed = 10f;
+    [SerializeField, Header("Movement settings")]
+    float maxAngularSpeed = 10f;
     [SerializeField] float timeToReachTargetAngle = 0.2f;
 
-    //[SerializeField] Vector2 minMaxSpeed = new Vector2(3f, 10f);
-    //float curSpeed = 5f;
     [SerializeField] float maxSpeed = 5f;
     [SerializeField] float smoothFactor = 0.5f;
 
-    Vector3 velocity;
+    Vector3 velocity; //ref
 
-    Vector3 lastPos;
+    [SerializeField, Header("Animation settings")]
+    float floatSpeed = 2f;
+    [SerializeField] float floatAmplitude = 0.3f;
+    [SerializeField] float noise = 1f;
 
-    //v = d/t
+    Transform child;
 
     // Start is called before the first frame update
     void Start()
     {
         target = GameObject.FindGameObjectWithTag("Player").transform.GetChild(5);
+        child = transform.GetChild(0);
     }
 
     // Update is called once per frame
     void Update()
     {
-        //lastPos = transform.position;
-
-        transform.position = Vector3.SmoothDamp(transform.position, target.position, ref velocity, smoothFactor, maxSpeed);
         DoRotation();
+    }
+
+    private void FixedUpdate()
+    {
+        transform.position = Vector3.SmoothDamp(transform.position, target.position, ref velocity, smoothFactor, maxSpeed);
+
+        child.localPosition = (Vector3.up * Mathf.Sin(Time.time * floatSpeed) * floatAmplitude) + (Vector3.up * floatAmplitude / 2f) +
+        (Vector3.up * Random.value * noise);
+
     }
 
 
