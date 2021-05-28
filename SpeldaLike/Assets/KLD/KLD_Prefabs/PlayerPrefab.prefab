@@ -49,6 +49,18 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
+--- !u!114 &1116076544742970953
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2567060373136269054}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 29d4ec85823733a438fa534910cca0d1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &3425223555128616528
 GameObject:
   m_ObjectHideFlags: 0
@@ -345,6 +357,10 @@ MonoBehaviour:
   - {fileID: 7719330888422656180, guid: 838dcac7b1a60ff4fb2cbd6a4d5bbfe8, type: 3}
   - {fileID: 7642301446228593333, guid: 559b33e24f9959740bfe5f1edb864ee5, type: 3}
   - {fileID: 6145889630751459364, guid: e746e9bad1766ac48bf5f39628e38511, type: 3}
+  attacksZonePrefabs:
+  - {fileID: 8493841854013786119, guid: 4072db0b6b55222418dd93ec44ad0425, type: 3}
+  - {fileID: 8493841854013786119, guid: 4072db0b6b55222418dd93ec44ad0425, type: 3}
+  - {fileID: 8493841854013786119, guid: 4072db0b6b55222418dd93ec44ad0425, type: 3}
   attackZonePrefab: {fileID: 8493841854013786119, guid: 4072db0b6b55222418dd93ec44ad0425,
     type: 3}
   curPlayerState: 0

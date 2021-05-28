@@ -24,19 +24,10 @@ public class KLD_PP8 : MonoBehaviour
 
     void DoRotation()
     {
-        //Vector3 vectorToTarget = _target.position - _looker.position;
-        //float angle = Mathf.Atan2(vectorToTarget.y, vectorToTarget.x) * Mathf.Rad2Deg;
+        //Vector3 vectorToTarget = player.position - transform.position;
+        //float angle = Mathf.Atan2(vectorToTarget.z, vectorToTarget.x) * Mathf.Rad2Deg;
         //Quaternion q = Quaternion.AngleAxis(angle, Vector3.forward);
-        //_looker.rotation = Quaternion.RotateTowards(_looker.rotation, q, Time.deltaTime * _maxRotateSpeed);
+        //transform.rotation = Quaternion.RotateTowards(transform.rotation, q, Time.deltaTime * _maxRotateSpeed);
 
-
-
-
-
-
-
-        //Quaternion q = Quaternion.AngleAxis()
-
-        //transform.rotation = Quaternion.RotateTowards(transform.rotation, )
     }
 }
