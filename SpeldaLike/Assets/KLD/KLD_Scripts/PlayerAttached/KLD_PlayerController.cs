@@ -149,7 +149,9 @@ public class KLD_PlayerController : SerializedMonoBehaviour
         GRAPPLING, //8
         GRAPPLING_GRABBED, //9
 
-        DODGING //10
+        DODGING, //10
+
+        FORCED_IDLE //11
     };
     [SerializeField, Space(10)] PlayerState curPlayerState = PlayerState.IDLE;
 
@@ -233,12 +235,18 @@ public class KLD_PlayerController : SerializedMonoBehaviour
     {
         GameEvents.Instance.onGravityDisable += OnGravityDisable;
         GameEvents.Instance.onGravityEnable += OnGravityEnable;
+
+        GameEvents.Instance.onDialogStart += OnDialogStart;
+        GameEvents.Instance.onDialogEnd += OnDialogEnd;
     }
 
     private void OnDisable()
     {
         GameEvents.Instance.onGravityDisable -= OnGravityDisable;
         GameEvents.Instance.onGravityEnable -= OnGravityEnable;
+
+        GameEvents.Instance.onDialogStart -= OnDialogStart;
+        GameEvents.Instance.onDialogEnd -= OnDialogEnd;
     }
 
     #endregion
@@ -263,6 +271,16 @@ public class KLD_PlayerController : SerializedMonoBehaviour
             curPlayerState = PlayerState.FLOATING;
             rb.useGravity = false;
         }
+    }
+
+    void OnDialogStart()
+    {
+        curPlayerState = PlayerState.FORCED_IDLE;
+    }
+
+    void OnDialogEnd()
+    {
+        curPlayerState = PlayerState.IDLE;
     }
 
     #endregion
@@ -579,6 +597,10 @@ public class KLD_PlayerController : SerializedMonoBehaviour
 
             case PlayerState.DODGING:
                 DoPlayerDodge();
+                break;
+
+            case PlayerState.FORCED_IDLE:
+                //do nothing we cant move
                 break;
 
             default:
@@ -1321,6 +1343,10 @@ public class KLD_PlayerController : SerializedMonoBehaviour
         Instantiate(attacksZonePrefabs[_attackIndex], transform.position, transform.rotation, transform);
     }
 
+    public int GetPlayerState()
+    {
+        return (int)curPlayerState;
+    }
 
     #region Animation
 

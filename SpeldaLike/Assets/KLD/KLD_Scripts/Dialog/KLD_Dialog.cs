@@ -14,5 +14,5 @@ public class KLD_Dialog : ScriptableObject
 [System.Serializable]
 public class TextPanel
 {
-    [TextArea(3, 10)] string text;
+    [TextArea(3, 10)] public string text;
 }
