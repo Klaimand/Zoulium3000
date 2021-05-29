@@ -1266,7 +1266,8 @@ public class KLD_PlayerController : SerializedMonoBehaviour
         if (Input.GetButtonDown("Attack") || attackBuffer)
         {
             bool didAttack = false;
-            if (curAttack == Attack.DEFAULT && timeSinceLastCombo >= attacksTime[2] + attackComboCooldown)
+            //if (curAttack == Attack.DEFAULT && timeSinceLastCombo >= attacksTime[2] + attackComboCooldown)
+            if (curAttack == Attack.DEFAULT && timeSinceLastCombo >= attackComboCooldown)
             {
                 curAttack = Attack.FIRST_ATTACK;
                 //InstantiateAttackVFX(0);
