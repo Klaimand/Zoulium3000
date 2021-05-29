@@ -601,6 +601,7 @@ public class KLD_PlayerController : SerializedMonoBehaviour
 
             case PlayerState.FORCED_IDLE:
                 //do nothing we cant move
+                rb.velocity = Vector3.zero;
                 break;
 
             default:
