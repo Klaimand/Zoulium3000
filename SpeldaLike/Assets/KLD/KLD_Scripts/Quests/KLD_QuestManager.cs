@@ -11,11 +11,13 @@ public class KLD_QuestManager : SerializedMonoBehaviour
     [SerializeField] float lineHeight = 90f;
     [SerializeField] GameObject questLine = null;
 
-    [SerializeField] List<KLD_Quest> curQuests = new List<KLD_Quest>();
+    [SerializeField, Header("Anims")] float lerpTime = 0.2f;
+    [SerializeField] float questFadeTime = 0.2f;
 
-    [SerializeField] List<RectTransform> transforms = new List<RectTransform>();
+    List<KLD_Quest> curQuests = new List<KLD_Quest>();
+    List<RectTransform> transforms = new List<RectTransform>();
 
-    [SerializeField, Header("DEBUG")] KLD_Quest testQuest;
+    //[SerializeField, Header("DEBUG")] KLD_Quest testQuest;
 
     // Start is called before the first frame update
     void Start()
@@ -40,6 +42,8 @@ public class KLD_QuestManager : SerializedMonoBehaviour
             l.localPosition = Vector3.down * lineHeight * curQuests.Count;
             l.GetChild(0).GetComponent<Text>().text = _quest.questTitle;
 
+            StartCoroutine(FadeGroup(l.gameObject.GetComponent<CanvasGroup>(), questFadeTime, true));
+
             curQuests.Add(_quest);
             transforms.Add(l);
         }
@@ -51,14 +55,16 @@ public class KLD_QuestManager : SerializedMonoBehaviour
         {
             int j = GetQuestIndex(_quest);
 
-            Destroy(transforms[j].gameObject);
+            StartCoroutine(FadeGroup(transforms[j].gameObject.GetComponent<CanvasGroup>(), questFadeTime, false));
+            Destroy(transforms[j].gameObject, questFadeTime + 0.1f);
             transforms.RemoveAt(j);
 
             if (transforms.Count > j)
             {
                 for (int i = j; i < transforms.Count; i++)
                 {
-                    transforms[i].localPosition += Vector3.up * lineHeight;
+                    //transforms[i].localPosition += Vector3.up * lineHeight;
+                    StartCoroutine(LerpUp(transforms[i], lineHeight, lerpTime));
                 }
             }
 
@@ -79,15 +85,44 @@ public class KLD_QuestManager : SerializedMonoBehaviour
         return 0;
     }
 
-    [Button]
-    public void AddTestQuest()
+    IEnumerator LerpUp(RectTransform _transform, float _height, float _time)
     {
-        AddQuest(testQuest);
+        float t = 0f;
+        float startPos = _transform.localPosition.y;
+        float endPos = startPos + _height;
+
+        while (t < _time)
+        {
+            _transform.localPosition = Vector3.up * Mathf.Lerp(startPos, endPos, t / _time);
+
+            t += Time.deltaTime;
+            yield return null;
+        }
+        _transform.localPosition = Vector3.up * endPos;
     }
 
-    [Button]
-    public void RemoveTestQuest()
+    IEnumerator FadeGroup(CanvasGroup _group, float _fadeTime, bool _fadeIn)
     {
-        RemoveQuest(testQuest);
+        float t = 0f;
+
+        while (t < _fadeTime)
+        {
+            _group.alpha = !_fadeIn ? 1f - (t / _fadeTime) : t / _fadeTime;
+
+            t += Time.deltaTime;
+            yield return null;
+        }
     }
+
+    //[Button]
+    //public void AddTestQuest()
+    //{
+    //AddQuest(testQuest);
+    //}
+
+    //[Button]
+    //public void RemoveTestQuest()
+    //{
+    //RemoveQuest(testQuest);
+    //}
 }
