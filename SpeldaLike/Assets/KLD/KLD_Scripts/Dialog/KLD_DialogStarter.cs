@@ -2,22 +2,26 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
+using Sirenix.OdinInspector;
 
 [RequireComponent(typeof(Collider))]
-public class KLD_DialogStarter : MonoBehaviour
+public class KLD_DialogStarter : SerializedMonoBehaviour
 {
 
     KLD_DialogManager manager;
 
-    public UnityEvent onDialogStart;
-    public UnityEvent onDialogEnd;
-
     [SerializeField] KLD_Dialog dialog;
 
+    [SerializeField] bool forceDialog = false;
+    bool alreadyDialoged = false;
+    [SerializeField, ShowIf("forceDialog")] bool canRedialog = false;
 
     bool playerIsInTrigger = false;
 
     bool gotButton = false;
+
+    public UnityEvent onDialogStart;
+    public UnityEvent onDialogEnd;
 
 
     // Start is called before the first frame update
@@ -40,6 +44,12 @@ public class KLD_DialogStarter : MonoBehaviour
         if (other.gameObject.CompareTag("Player"))
         {
             playerIsInTrigger = true;
+
+            if (forceDialog && !alreadyDialoged)
+            {
+                alreadyDialoged = true;
+                manager.StartDialog(dialog, this);
+            }
         }
     }
 
@@ -55,7 +65,7 @@ public class KLD_DialogStarter : MonoBehaviour
     {
         if (other.gameObject.CompareTag("Player"))
         {
-            if (gotButton)
+            if (gotButton && (!forceDialog || (forceDialog && canRedialog)))
             {
                 gotButton = false;
                 manager.StartDialog(dialog, this);
