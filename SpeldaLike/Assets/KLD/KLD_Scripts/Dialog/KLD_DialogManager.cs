@@ -116,7 +116,7 @@ public class KLD_DialogManager : SerializedMonoBehaviour
 
         while (t < _fadeTime)
         {
-            _group.alpha = !_fadeIn ? 1f - (t / _fadeTime) : t / fadeTime;
+            _group.alpha = !_fadeIn ? 1f - (t / _fadeTime) : t / _fadeTime;
 
             t += Time.deltaTime;
             yield return null;
