@@ -10,6 +10,9 @@ public class GameEvents : MonoBehaviour
     public event Action<int> onGravityDisable;
     public event Action<int> onGravityEnable;
 
+    public event Action onDialogStart;
+    public event Action onDialogEnd;
+
     private void Awake()
     {
         if (Instance == null)
@@ -33,5 +36,16 @@ public class GameEvents : MonoBehaviour
     public void EnableGravity(int _id)
     {
         onGravityEnable?.Invoke(_id);
+    }
+
+
+    public void StartDialog()
+    {
+        onDialogStart?.Invoke();
+    }
+
+    public void EndDialog()
+    {
+        onDialogEnd?.Invoke();
     }
 }

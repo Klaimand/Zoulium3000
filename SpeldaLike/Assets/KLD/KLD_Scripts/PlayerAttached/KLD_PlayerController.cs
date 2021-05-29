@@ -90,6 +90,7 @@ public class KLD_PlayerController : SerializedMonoBehaviour
     [SerializeField] float maxPowerJumpAirSpeed = 20f;
     [SerializeField] float powerJumpAddAirSpeed = 20f;
     [SerializeField] GameObject powerJumpAttackPrefab;
+    bool justPowerJumped = false;
 
     [SerializeField, Header("Grappling Hook")]
     float gh_time = 5f;
@@ -123,11 +124,12 @@ public class KLD_PlayerController : SerializedMonoBehaviour
     float timeSinceLastCombo = 0f;
     enum Attack { DEFAULT, FIRST_ATTACK, SECOND_ATTACK, THIRD_ATTACK };
     Attack curAttack = Attack.DEFAULT;
-    float[] attacksTime = { 0.5f, 0.25f, 0.5f };
+    float[] attacksTime = { 0.4f, 0.5f, 1.23f };
     int attackState = 0;
     bool attackBuffer = false;
     [SerializeField] float attackBufferLenght = 0.3f;
     [SerializeField] GameObject[] attacksFxPrefabs;
+    [SerializeField] GameObject[] attacksZonePrefabs;
     [SerializeField] GameObject attackZonePrefab;
 
     [SerializeField]
@@ -290,6 +292,7 @@ public class KLD_PlayerController : SerializedMonoBehaviour
             {
                 curPowerJumpLoadTime = 0f;
                 curPlayerState = PlayerState.POWERCROUCHING;
+                col.material = frictionMat;
             }
 
             if ((Input.GetButtonDown("Grapple") || RT_GetKeyDown) && HavePowerUp(PowerUp.GRAPPLING_HOOK) && selectedAnchor != null)
@@ -384,6 +387,7 @@ public class KLD_PlayerController : SerializedMonoBehaviour
             if (!Input.GetButton("Crouch") && !LT_GetKey)
             {
                 curPlayerState = PlayerState.IDLE;
+                col.material = noFrictionMat;
             }
 
             if (Input.GetButtonDown("Jump"))
@@ -393,6 +397,9 @@ public class KLD_PlayerController : SerializedMonoBehaviour
                     PowerJump();
                     curPlayerState = PlayerState.POWERJUMPING;
                     //print("Power Jumped");
+                    justPowerJumped = true;
+                    StartCoroutine(WaitAndDisableJustPowerJumped());
+                    col.material = noFrictionMat;
                 }
             }
 
@@ -402,6 +409,7 @@ public class KLD_PlayerController : SerializedMonoBehaviour
             if (rb.velocity.y < 0f)
             {
                 curPlayerState = PlayerState.POWERFALLING;
+                //print("powerfell");
             }
 
             if ((Input.GetButtonDown("Grapple") || RT_GetKeyDown) && HavePowerUp(PowerUp.GRAPPLING_HOOK) && selectedAnchor != null)
@@ -413,7 +421,10 @@ public class KLD_PlayerController : SerializedMonoBehaviour
                 grabbedAnchor = selectedAnchor;
             }
 
-            GroundedRunningIdleCheck();
+            if (!justPowerJumped)
+            {
+                GroundedRunningIdleCheck();
+            }
         }
         else if (curPlayerState == PlayerState.POWERFALLING) //___________________POWERFALLING
         {
@@ -862,6 +873,12 @@ public class KLD_PlayerController : SerializedMonoBehaviour
         rb.velocity += ((axisTransform.right * timedAxis.x) + (axisTransform.forward * timedAxis.y)).normalized * powerJumpHorizontalSpeed;
     }
 
+    IEnumerator WaitAndDisableJustPowerJumped()
+    {
+        yield return new WaitForSeconds(0.1f);
+        justPowerJumped = false;
+    }
+
     bool isGrounded()
     {
         float radius = col.radius * sphereRadiusMultiplier;
@@ -1229,8 +1246,8 @@ public class KLD_PlayerController : SerializedMonoBehaviour
             if (curAttack == Attack.DEFAULT && timeSinceLastCombo >= attacksTime[2] + attackComboCooldown)
             {
                 curAttack = Attack.FIRST_ATTACK;
-                InstantiateAttackVFX(0);
-                Instantiate(attackZonePrefab, transform.position, transform.rotation, transform);
+                //InstantiateAttackVFX(0);
+                //Instantiate(attackZonePrefab, transform.position, transform.rotation, transform);
                 timeSinceLastAttack = 0f;
                 didAttack = true;
                 attackBuffer = false;
@@ -1241,8 +1258,8 @@ public class KLD_PlayerController : SerializedMonoBehaviour
                 if (timeSinceLastAttack > attacksTime[i] && timeSinceLastAttack < attacksTime[i] + attackComboLoseTime)
                 {
                     curAttack = (Attack)(i + 2);
-                    InstantiateAttackVFX(i);
-                    Instantiate(attackZonePrefab, transform.position, transform.rotation, transform);
+                    //InstantiateAttackVFX(i);
+                    //Instantiate(attackZonePrefab, transform.position, transform.rotation, transform);
                     timeSinceLastAttack = 0f;
                     didAttack = true;
                     attackBuffer = false;
@@ -1294,10 +1311,16 @@ public class KLD_PlayerController : SerializedMonoBehaviour
         timeSinceLastCombo += Time.deltaTime;
     }
 
-    void InstantiateAttackVFX(int _attackIndex)
+    public void InstantiateAttackVFX(int _attackIndex)
     {
         Instantiate(attacksFxPrefabs[_attackIndex], transform.position, transform.rotation, transform);
     }
+
+    public void InstantiateAttack(int _attackIndex)
+    {
+        Instantiate(attacksZonePrefabs[_attackIndex], transform.position, transform.rotation, transform);
+    }
+
 
     #region Animation
 

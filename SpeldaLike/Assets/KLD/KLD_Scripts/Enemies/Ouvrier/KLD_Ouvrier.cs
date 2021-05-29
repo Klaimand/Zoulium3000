@@ -31,8 +31,12 @@ public class KLD_Ouvrier : KLD_Enemy
     [SerializeField] float attackDuration = 0.5f;
     [SerializeField] GameObject attackZoneObject;
 
-    [SerializeField, Header("Stun")] float stunTime = 1f;
+    [SerializeField, Header("Stun")] float attackStunTime = 1f;
+    [SerializeField] float superJumpStunTime = 3f;
     float curStunTime;
+
+    [SerializeField, Header("Death")]
+    GameObject explodedPrefab = null;
 
 
     // Start is called before the first frame update
@@ -88,11 +92,13 @@ public class KLD_Ouvrier : KLD_Enemy
         }
         else if (curState == OuvrierState.STUNNED)
         {
-            if (curStunTime >= stunTime)
+            if (curStunTime <= 0f)
             {
                 curState = OuvrierState.UNALERTED;
+                r.materials[1].SetFloat("Stun_Slider_", 0f);
                 agent.speed = wanderingSpeed;
                 agent.acceleration = wanderingAcceleration;
+                timeSinceLastAttack = 0f;
                 UpdateOuvrierState();
             }
         }
@@ -114,7 +120,7 @@ public class KLD_Ouvrier : KLD_Enemy
                 break;
 
             case OuvrierState.STUNNED:
-                curStunTime += Time.deltaTime;
+                curStunTime -= Time.deltaTime;
                 break;
 
             default:
@@ -124,10 +130,21 @@ public class KLD_Ouvrier : KLD_Enemy
 
     protected override void OnSuperJumpShockwave()
     {
-        throw new System.NotImplementedException();
+        GetStunned(superJumpStunTime);
     }
 
     protected override void OnDamageTake()
+    {
+        GetStunned(attackStunTime);
+    }
+
+    protected override void Die()
+    {
+        Instantiate(explodedPrefab, transform.position, transform.rotation);
+        base.Die();
+    }
+
+    void GetStunned(float _stunTime)
     {
         if (curState == OuvrierState.ATTACKING)
         {
@@ -135,7 +152,8 @@ public class KLD_Ouvrier : KLD_Enemy
         }
 
         curState = OuvrierState.STUNNED;
-        curStunTime = 0f;
+        curStunTime = _stunTime;
+        r.materials[1].SetFloat("Stun_Slider_", 1f);
     }
 
 
@@ -154,14 +172,21 @@ public class KLD_Ouvrier : KLD_Enemy
             //agent.SetDestination(transform.position + toDash);
             timeSinceLastAttack = 0f;
             animator?.SetTrigger("attack");
-            Instantiate(attackZoneObject, transform.position, transform.rotation, transform);
+            //Instantiate(attackZoneObject, transform.position, transform.rotation, transform);
 
             yield return new WaitForSeconds(attackDuration);
+
+            animator?.SetBool("isAttacking", false);
 
             curState = OuvrierState.UNALERTED;
             UpdateOuvrierState();
 
         }
+    }
+
+    public void SpawnAttackVFX()
+    {
+        Instantiate(attackZoneObject, transform.position, transform.rotation, transform);
     }
 
     void RushPlayer()
@@ -185,8 +210,4 @@ public class KLD_Ouvrier : KLD_Enemy
         animator?.SetBool("isRunning", isr);
     }
 
-    //bool isAttacking()
-    //{
-    //animator?.GetCurrentAnimatorClipInfo(0).
-    //}
 }
