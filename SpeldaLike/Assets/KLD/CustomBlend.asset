@@ -79,11 +79,11 @@ MonoBehaviour:
         m_PreInfinity: 0
         m_PostInfinity: 0
         m_RotationOrder: 0
-  - m_From: 
-    m_To: 
+  - m_From: Vcam_topdownLeft
+    m_To: Vcam_topdownSlopeEnd
     m_Blend:
-      m_Style: 0
-      m_Time: 0.5
+      m_Style: 1
+      m_Time: 1.5
       m_CustomCurve:
         serializedVersion: 2
         m_Curve:
@@ -117,18 +117,18 @@ MonoBehaviour:
         m_PreInfinity: 2
         m_PostInfinity: 2
         m_RotationOrder: 0
-  - m_From: CM vcam4
-    m_To: CM vcam3
+  - m_From: Vcam_topdownSlopeEnd
+    m_To: Vcam_topdownLeft
     m_Blend:
       m_Style: 1
-      m_Time: 2
+      m_Time: 1.5
       m_CustomCurve:
         serializedVersion: 2
         m_Curve: []
         m_PreInfinity: 0
         m_PostInfinity: 0
         m_RotationOrder: 0
-  - m_From: CM vcam3
+  - m_From: CinematicView
     m_To: CM vcam4
     m_Blend:
       m_Style: 1
@@ -185,6 +185,61 @@ MonoBehaviour:
         m_RotationOrder: 0
   - m_From: Vcam_topdownLeft
     m_To: Cam_NoGrav
+    m_Blend:
+      m_Style: 1
+      m_Time: 1.5
+      m_CustomCurve:
+        serializedVersion: 2
+        m_Curve: []
+        m_PreInfinity: 0
+        m_PostInfinity: 0
+        m_RotationOrder: 0
+  - m_From: CM vcam3
+    m_To: Vcam_topdownLeft
+    m_Blend:
+      m_Style: 1
+      m_Time: 1.5
+      m_CustomCurve:
+        serializedVersion: 2
+        m_Curve: []
+        m_PreInfinity: 0
+        m_PostInfinity: 0
+        m_RotationOrder: 0
+  - m_From: Vcam_topdownLeft
+    m_To: CM vcam3
+    m_Blend:
+      m_Style: 1
+      m_Time: 1.5
+      m_CustomCurve:
+        serializedVersion: 2
+        m_Curve: []
+        m_PreInfinity: 0
+        m_PostInfinity: 0
+        m_RotationOrder: 0
+  - m_From: CamStart
+    m_To: Vcam_topdownRight
+    m_Blend:
+      m_Style: 1
+      m_Time: 1.5
+      m_CustomCurve:
+        serializedVersion: 2
+        m_Curve: []
+        m_PreInfinity: 0
+        m_PostInfinity: 0
+        m_RotationOrder: 0
+  - m_From: Vcam_topdownSlopeEnd
+    m_To: CinematicView
+    m_Blend:
+      m_Style: 1
+      m_Time: 1.5
+      m_CustomCurve:
+        serializedVersion: 2
+        m_Curve: []
+        m_PreInfinity: 0
+        m_PostInfinity: 0
+        m_RotationOrder: 0
+  - m_From: CinematicView
+    m_To: Vcam_topdownSlopeEnd
     m_Blend:
       m_Style: 1
       m_Time: 1.5
