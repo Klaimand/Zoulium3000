@@ -7,7 +7,7 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: LCR_Pillar Gradient
+  m_Name: LCR_MegastructureGradient
   m_Shader: {fileID: -6465566751694194690, guid: f6c7064e3f3365c439aca2a0bbdb3e73,
     type: 3}
   m_ShaderKeywords: _DETAIL_MULX2 _NORMALMAP _OCCLUSIONMAP _PARALLAXMAP
@@ -78,7 +78,7 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Floats:
     - Vector1_32f39e82cbf14ea3ab6620b4793bfc17: 10
-    - Vector1_7a0c8d1e9dd849dbb3104bc48b3cc8a2: -7.7
+    - Vector1_7a0c8d1e9dd849dbb3104bc48b3cc8a2: 135.74
     - _AlphaClip: 0
     - _Blend: 0
     - _BumpScale: 1
@@ -106,9 +106,10 @@ Material:
     - _WorkflowMode: 1
     - _ZWrite: 1
     m_Colors:
-    - Color_21ff5ae4237c4b148f5e4d130907358b: {r: 0.2843115, g: 0.3508525, b: 0.36900002,
+    - Color_21ff5ae4237c4b148f5e4d130907358b: {r: 0.5849056, g: 0.5849056, b: 0.5849056,
         a: 1}
-    - Color_5410087e101f4a01b8e57f496f9cd183: {r: 0, g: 0, b: 0, a: 1}
+    - Color_5410087e101f4a01b8e57f496f9cd183: {r: 0.4433962, g: 0.4433962, b: 0.4433962,
+        a: 1}
     - _BaseColor: {r: 0.38461196, g: 0.3863632, b: 0.4056604, a: 1}
     - _Color: {r: 1, g: 1, b: 1, a: 1}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
