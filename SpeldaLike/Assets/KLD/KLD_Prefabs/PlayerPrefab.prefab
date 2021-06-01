@@ -345,6 +345,7 @@ MonoBehaviour:
   maxAnchorAngle: 60
   grapplingStartPoint: {fileID: 37777906708330258}
   grapplingLrObject: {fileID: 3350957556338476551}
+  mastodonteGrabDuration: 0.95
   dodgeForce: 20
   dodgeMinJoystickMagnitude: 0.1
   dodgeTime: 0.9
@@ -364,10 +365,10 @@ MonoBehaviour:
   attackZonePrefab: {fileID: 8493841854013786119, guid: 4072db0b6b55222418dd93ec44ad0425,
     type: 3}
   curPlayerState: 0
-  ng_impulseForce: 2
-  ng_verticalImpulseForce: 2
+  ng_impulseForce: 3
+  ng_verticalImpulseForce: 3
   ng_maxHorizontalSpeed: 5
-  ng_maxVerticalSpeed: 2
+  ng_maxVerticalSpeed: 4
   ng_rotationThreshold: 0
   ng_lockedAngle: 0
   ng_lockHorizontalSpeed: 1

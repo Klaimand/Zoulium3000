@@ -22,4 +22,9 @@ public class KLD_PlayerAttackInst : MonoBehaviour
     {
         controller.InstantiateAttackVFX(_attackIndex);
     }
+
+    public void PullMastodonte()
+    {
+        controller.InvokeMastodonteAnchorEvent();
+    }
 }
