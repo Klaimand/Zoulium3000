@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 
 public class KLD_Anchor : MonoBehaviour
 {
@@ -13,6 +14,10 @@ public class KLD_Anchor : MonoBehaviour
     }
 
     public AnchorState curState = AnchorState.FREE;
+
+    public bool isOnEnemy = false;
+
+    public UnityEvent onGrab;
 
     //Color[] colors = { Color.blue, Color.green, Color.red };
 
