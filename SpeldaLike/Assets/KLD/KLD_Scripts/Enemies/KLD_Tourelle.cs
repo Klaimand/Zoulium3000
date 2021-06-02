@@ -28,11 +28,17 @@ public class KLD_Tourelle : MonoBehaviour
     float curShotInterval;
     [SerializeField] float shootingInterval = 3f;
     float curShootingInterval;
+    [SerializeField] GameObject ammo;
+    [SerializeField] GameObject muzzleFlash;
+    [SerializeField] Transform[] canons;
 
     [SerializeField, Header("Aiming")]
     Transform head;
     [SerializeField] Transform refTarget;
     [SerializeField] float maxAngularSpeed = 30f;
+
+    [SerializeField, Header("Death")]
+    GameObject body;
 
     enum TourelleState { UNALERTED, SHOOTING, WAITING };
     [SerializeField] TourelleState curState;
@@ -77,7 +83,7 @@ public class KLD_Tourelle : MonoBehaviour
         }
         else if (curState == TourelleState.SHOOTING)
         {
-            if (curShot >= shootPerShooting - 1)
+            if (curShot >= shootPerShooting)
             {
                 curState = TourelleState.WAITING;
                 curShootingInterval = 0f;
@@ -110,7 +116,10 @@ public class KLD_Tourelle : MonoBehaviour
                 if (curShotInterval >= shotInterval)
                 {
                     //shoot
-                    print("shot");
+                    Instantiate(ammo, canons[curShot].position, canons[curShot].rotation);
+                    Instantiate(muzzleFlash, canons[curShot].position, canons[curShot].rotation);
+                    curShotInterval = 0f;
+                    //print("shot");
                     curShot++;
                 }
                 DoRotation(targetPosition);
@@ -187,6 +196,7 @@ public class KLD_Tourelle : MonoBehaviour
 
     void Die()
     {
+        Instantiate(body, transform.position, transform.rotation);
         Destroy(gameObject);
     }
 
