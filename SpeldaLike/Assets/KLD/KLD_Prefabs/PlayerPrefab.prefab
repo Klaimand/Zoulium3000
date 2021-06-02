@@ -345,6 +345,7 @@ MonoBehaviour:
   maxAnchorAngle: 60
   grapplingStartPoint: {fileID: 37777906708330258}
   grapplingLrObject: {fileID: 3350957556338476551}
+  mastodonteGrabDuration: 0.95
   dodgeForce: 20
   dodgeMinJoystickMagnitude: 0.1
   dodgeTime: 0.9
@@ -364,10 +365,10 @@ MonoBehaviour:
   attackZonePrefab: {fileID: 8493841854013786119, guid: 4072db0b6b55222418dd93ec44ad0425,
     type: 3}
   curPlayerState: 0
-  ng_impulseForce: 2
-  ng_verticalImpulseForce: 2
+  ng_impulseForce: 3
+  ng_verticalImpulseForce: 3
   ng_maxHorizontalSpeed: 5
-  ng_maxVerticalSpeed: 2
+  ng_maxVerticalSpeed: 4
   ng_rotationThreshold: 0
   ng_lockedAngle: 0
   ng_lockHorizontalSpeed: 1
@@ -873,10 +874,30 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 195285462818966024, guid: 08f70833dafa1434491d5571354fc81f,
+        type: 3}
+      propertyPath: m_Layer
+      value: 10
+      objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: 08f70833dafa1434491d5571354fc81f,
         type: 3}
       propertyPath: m_Name
       value: backpack_final
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 08f70833dafa1434491d5571354fc81f,
+        type: 3}
+      propertyPath: m_Layer
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 1876488756578092252, guid: 08f70833dafa1434491d5571354fc81f,
+        type: 3}
+      propertyPath: m_Layer
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 4066080857864168448, guid: 08f70833dafa1434491d5571354fc81f,
+        type: 3}
+      propertyPath: m_Layer
+      value: 10
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 08f70833dafa1434491d5571354fc81f, type: 3}

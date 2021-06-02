@@ -38,6 +38,10 @@ public class KLD_Ouvrier : KLD_Enemy
     [SerializeField, Header("Death")]
     GameObject explodedPrefab = null;
 
+    [SerializeField, Header("Rotation")]
+    float maxAngularSpeed = 180f;
+    [SerializeField] float timeToReachTargetAngle = 0.4f;
+
 
     // Start is called before the first frame update
     protected override void Start()
@@ -199,6 +203,7 @@ public class KLD_Ouvrier : KLD_Enemy
         else
         {
             agent.isStopped = true;
+            DoRotation();
         }
     }
 
@@ -210,4 +215,14 @@ public class KLD_Ouvrier : KLD_Enemy
         animator?.SetBool("isRunning", isr);
     }
 
+    void DoRotation()
+    {
+        Vector3 toPlayer = player.position - transform.position;
+        toPlayer.y = 0f;
+
+        float angle = Vector3.SignedAngle(transform.forward, toPlayer, Vector3.up);
+
+        angle = Mathf.Clamp(angle, -maxAngularSpeed, maxAngularSpeed);
+        transform.Rotate(Vector3.up * angle * Time.deltaTime * (1f / timeToReachTargetAngle));
+    }
 }
