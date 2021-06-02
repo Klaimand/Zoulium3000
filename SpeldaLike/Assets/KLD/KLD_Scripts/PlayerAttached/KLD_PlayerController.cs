@@ -1248,9 +1248,14 @@ public class KLD_PlayerController : SerializedMonoBehaviour
                             anchorDirection.y = 0f; //maybe remove this A TESTER
                         }
 
+                        //Vector3 referenceDirection = curPlayerState == PlayerState.GRAPPLING_GRABBED ?
+                        //                                                (Vector3)axisVector :
+                        //                                                transform.forward;
+
                         Vector3 referenceDirection = curPlayerState == PlayerState.GRAPPLING_GRABBED ?
-                                                                        (Vector3)axisVector :
-                                                                        transform.forward;
+                        axisTransform.right * axisVector.x + axisTransform.up * axisVector.y :
+                        transform.forward;
+
 
                         if (referenceDirection == Vector3.zero)
                             continue;
