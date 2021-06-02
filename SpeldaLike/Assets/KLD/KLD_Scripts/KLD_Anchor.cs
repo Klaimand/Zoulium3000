@@ -15,6 +15,8 @@ public class KLD_Anchor : MonoBehaviour
 
     public AnchorState curState = AnchorState.FREE;
 
+    public bool notSelectable = false;
+
     public bool isOnEnemy = false;
 
     public UnityEvent onGrab;

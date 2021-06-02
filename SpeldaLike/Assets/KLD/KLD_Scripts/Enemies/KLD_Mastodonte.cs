@@ -19,7 +19,7 @@ public class KLD_Mastodonte : KLD_Enemy
     float attackCooldown = 5f;
     float timeSinceLastAttack;
     [SerializeField] float attackDistance = 5f;
-    float attackDuration = 3.33f;
+    [SerializeField] float attackDuration = 3.33f;
     float curAttackDuration;
 
     [SerializeField, Header("Rotation")]
@@ -27,9 +27,17 @@ public class KLD_Mastodonte : KLD_Enemy
     [SerializeField] float timeToReachTargetAngle = 0.4f;
 
     [Header("Weakness"), SerializeField]
-    GameObject[] anchors;
+    int dmgOnPulling = 7;
+    [SerializeField] GameObject[] anchors;
     [SerializeField] MastodontePart[] parts;
     [SerializeField] float partDestroyTime = 5f;
+
+    [SerializeField, Header("Stun")]
+    float stunDuration = 3f;
+    float curStunDuration;
+
+    [SerializeField, Header("Death")]
+    GameObject deadBody;
 
 
     [Header("Animation"), SerializeField]
@@ -58,12 +66,18 @@ public class KLD_Mastodonte : KLD_Enemy
 
     protected override void OnDamageTake()
     {
-        throw new System.NotImplementedException();
+        //throw new System.NotImplementedException();
     }
 
     protected override void OnSuperJumpShockwave()
     {
-        throw new System.NotImplementedException();
+        //throw new System.NotImplementedException();
+    }
+
+    protected override void Die()
+    {
+        Instantiate(deadBody, transform.position, transform.rotation);
+        base.Die();
     }
 
     void UpdateMastodonteState()
@@ -80,6 +94,7 @@ public class KLD_Mastodonte : KLD_Enemy
         {
             if (!IsPlayerInZone())
             {
+                agent.isStopped = false;
                 curState = MastodonteState.WANDERING;
                 SetAgentSpac(spAcWandering);
             }
@@ -95,15 +110,26 @@ public class KLD_Mastodonte : KLD_Enemy
         {
             if (curAttackDuration >= attackDuration)
             {
-                agent.isStopped = false;
-                curState = MastodonteState.ALERTED;
-                SetAgentSpac(spAcAlerted);
-                timeSinceLastAttack = 0f;
+                //agent.isStopped = false;
+                //curState = MastodonteState.ALERTED;
+                //SetAgentSpac(spAcAlerted);
+                //timeSinceLastAttack = 0f;
+
+                curState = MastodonteState.STUNNED;
+                curStunDuration = 0f;
+                r.materials[1].SetFloat("Stun_Slider_", 1f);
             }
         }
         else if (curState == MastodonteState.STUNNED)
         {
-
+            if (curStunDuration >= stunDuration)
+            {
+                agent.isStopped = false;
+                curState = MastodonteState.ALERTED;
+                SetAgentSpac(spAcAlerted);
+                timeSinceLastAttack = 0f;
+                r.materials[1].SetFloat("Stun_Slider_", 0f);
+            }
         }
     }
 
@@ -125,6 +151,7 @@ public class KLD_Mastodonte : KLD_Enemy
                 break;
 
             case MastodonteState.STUNNED:
+                curStunDuration += Time.deltaTime;
                 break;
 
             default:
@@ -178,7 +205,8 @@ public class KLD_Mastodonte : KLD_Enemy
     {
         foreach (var anchor in anchors)
         {
-            Destroy(anchor);
+            anchor.GetComponent<KLD_Anchor>().notSelectable = true;
+            Destroy(anchor, 0.25f);
         }
 
         foreach (var part in parts)
@@ -187,6 +215,11 @@ public class KLD_Mastodonte : KLD_Enemy
             part.obj.transform.SetParent(null, true);
             Destroy(part.obj, partDestroyTime);
         }
+
+        int dmg = curHealth > dmgOnPulling ? dmgOnPulling : curHealth - 1;
+
+        isInvulnerable = false;
+        DamageEnemy(dmg);
     }
 }
 
