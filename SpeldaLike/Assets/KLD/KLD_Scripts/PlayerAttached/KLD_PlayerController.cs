@@ -107,6 +107,8 @@ public class KLD_PlayerController : SerializedMonoBehaviour
     [SerializeField] Transform grapplingStartPoint;
     [SerializeField] GameObject grapplingLrObject;
     LineRenderer lr;
+    [SerializeField] float mastodonteGrabDuration = 0.95f;
+    float curMastodonteGrabTime;
 
     [SerializeField, Header("Dodge")]
     float dodgeForce = 10f;
@@ -151,7 +153,9 @@ public class KLD_PlayerController : SerializedMonoBehaviour
 
         DODGING, //10
 
-        FORCED_IDLE //11
+        FORCED_IDLE, //11
+
+        GRAPPLING_PULLING //12
     };
     [SerializeField, Space(10)] PlayerState curPlayerState = PlayerState.IDLE;
 
@@ -320,6 +324,13 @@ public class KLD_PlayerController : SerializedMonoBehaviour
                 gh_curTime = 0f;
                 gh_startPos = transform.position;
                 grabbedAnchor = selectedAnchor;
+
+                if (selectedAnchor.isOnEnemy)
+                {
+                    curPlayerState = PlayerState.GRAPPLING_PULLING;
+                    curMastodonteGrabTime = 0f;
+                }
+                return;
             }
 
             if (CheckDodge())
@@ -353,6 +364,13 @@ public class KLD_PlayerController : SerializedMonoBehaviour
                 gh_curTime = 0f;
                 gh_startPos = transform.position;
                 grabbedAnchor = selectedAnchor;
+
+                if (selectedAnchor.isOnEnemy)
+                {
+                    curPlayerState = PlayerState.GRAPPLING_PULLING;
+                    curMastodonteGrabTime = 0f;
+                }
+                return;
             }
 
             if (CheckDodge())
@@ -373,11 +391,19 @@ public class KLD_PlayerController : SerializedMonoBehaviour
 
             if ((Input.GetButtonDown("Grapple") || RT_GetKeyDown) && HavePowerUp(PowerUp.GRAPPLING_HOOK) && selectedAnchor != null)
             {
+
                 curPlayerState = PlayerState.GRAPPLING;
                 grapplingLrObject.SetActive(true);
                 gh_curTime = 0f;
                 gh_startPos = transform.position;
                 grabbedAnchor = selectedAnchor;
+
+                if (selectedAnchor.isOnEnemy)
+                {
+                    curPlayerState = PlayerState.GRAPPLING_PULLING;
+                    curMastodonteGrabTime = 0f;
+                }
+                return;
             }
 
             GroundedRunningIdleCheck();
@@ -396,6 +422,13 @@ public class KLD_PlayerController : SerializedMonoBehaviour
                 gh_curTime = 0f;
                 gh_startPos = transform.position;
                 grabbedAnchor = selectedAnchor;
+
+                if (selectedAnchor.isOnEnemy)
+                {
+                    curPlayerState = PlayerState.GRAPPLING_PULLING;
+                    curMastodonteGrabTime = 0f;
+                }
+                return;
             }
 
             GroundedRunningIdleCheck();
@@ -437,6 +470,13 @@ public class KLD_PlayerController : SerializedMonoBehaviour
                 gh_curTime = 0f;
                 gh_startPos = transform.position;
                 grabbedAnchor = selectedAnchor;
+
+                if (selectedAnchor.isOnEnemy)
+                {
+                    curPlayerState = PlayerState.GRAPPLING_PULLING;
+                    curMastodonteGrabTime = 0f;
+                }
+                return;
             }
 
             if (!justPowerJumped)
@@ -453,6 +493,13 @@ public class KLD_PlayerController : SerializedMonoBehaviour
                 gh_curTime = 0f;
                 gh_startPos = transform.position;
                 grabbedAnchor = selectedAnchor;
+
+                if (selectedAnchor.isOnEnemy)
+                {
+                    curPlayerState = PlayerState.GRAPPLING_PULLING;
+                    curMastodonteGrabTime = 0f;
+                }
+                return;
             }
 
             //GroundedRunningIdleCheck();
@@ -510,13 +557,30 @@ public class KLD_PlayerController : SerializedMonoBehaviour
                 grabbedAnchor = selectedAnchor;
             }
         }
-        else if (curPlayerState == PlayerState.DODGING)
+        else if (curPlayerState == PlayerState.DODGING) //___________________________DODGING
         {
             dodgeCurTime += Time.deltaTime;
 
             if (dodgeCurTime >= dodgeTime)
             {
                 curPlayerState = PlayerState.IDLE;
+                UpdatePlayerState();
+            }
+        }
+        else if (curPlayerState == PlayerState.GRAPPLING_PULLING) //______________GRAPPLING_PULLING
+        {
+            if (curMastodonteGrabTime >= mastodonteGrabDuration)
+            {
+                curPlayerState = PlayerState.IDLE;
+                grabbedAnchor = null;
+                grapplingLrObject.SetActive(false);
+                UpdatePlayerState();
+            }
+            else if (!Input.GetButton("Grapple") && !RT_GetKey)
+            {
+                curPlayerState = PlayerState.IDLE;
+                grabbedAnchor = null;
+                grapplingLrObject.SetActive(false);
                 UpdatePlayerState();
             }
         }
@@ -602,6 +666,20 @@ public class KLD_PlayerController : SerializedMonoBehaviour
             case PlayerState.FORCED_IDLE:
                 //do nothing we cant move
                 rb.velocity = Vector3.zero;
+                break;
+
+            case PlayerState.GRAPPLING_PULLING:
+                if (selectedAnchor != null)
+                {
+                    lr.SetPosition(0, grapplingStartPoint.position);
+                    lr.SetPosition(1, selectedAnchor.transform.position + Vector3.up * 1.5f);
+                }
+                rb.velocity = Vector3.zero;
+                curMastodonteGrabTime += Time.fixedDeltaTime;
+                if (grabbedAnchor != null)
+                {
+                    DoGrabbedRotation();
+                }
                 break;
 
             default:
@@ -1143,6 +1221,8 @@ public class KLD_PlayerController : SerializedMonoBehaviour
 
         for (int i = 0; i < anchors.Length; i++)
         {
+            if (anchors[i] == null || anchors[i].notSelectable)
+                continue;
 
             Vector3 playerToAnchor = anchors[i].transform.position - transform.position;
 
@@ -1348,6 +1428,12 @@ public class KLD_PlayerController : SerializedMonoBehaviour
     public int GetPlayerState()
     {
         return (int)curPlayerState;
+    }
+
+    public void InvokeMastodonteAnchorEvent()
+    {
+        grabbedAnchor?.onGrab.Invoke();
+        grabbedAnchor = null;
     }
 
     #region Animation

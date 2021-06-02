@@ -46,6 +46,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   curState: 0
+  notSelectable: 0
+  isOnEnemy: 0
+  onGrab:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!114 &603728813162678767
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -79,6 +84,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1103559406189915042}
     m_Modifications:
+    - target: {fileID: 8938019577283391984, guid: 41b5d87fbeb31b148b00f7275c43ee2a,
+        type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 8938019577283391985, guid: 41b5d87fbeb31b148b00f7275c43ee2a,
         type: 3}
       propertyPath: m_Enabled

@@ -15,8 +15,8 @@ public abstract class KLD_Enemy : MonoBehaviour
 
     [SerializeField] protected KLD_EnemySettings settings;
 
-    int curHealth;
-    bool isInvulnerable = false;
+    protected int curHealth { get; private set; }
+    protected bool isInvulnerable = false;
 
     //Wandering
     float curWanderTimer;
@@ -68,7 +68,7 @@ public abstract class KLD_Enemy : MonoBehaviour
         return dist;
     }
 
-    public void DamageEnemy(int _damage)
+    public virtual void DamageEnemy(int _damage)
     {
         if (!isInvulnerable)
         {
@@ -79,7 +79,7 @@ public abstract class KLD_Enemy : MonoBehaviour
         }
     }
 
-    public void DamageEnemySuperJump(int _damage)
+    public virtual void DamageEnemySuperJump(int _damage)
     {
         if (!isInvulnerable)
         {
@@ -137,10 +137,17 @@ public abstract class KLD_Enemy : MonoBehaviour
             return false;
 
         Vector3 theoricalPlayerPos = path.corners[path.corners.Length - 1];
+        theoricalPlayerPos.y = player.position.y;
 
         Vector3 d = theoricalPlayerPos - player.position;
 
         return d.sqrMagnitude < settings.maxErrorDistance * settings.maxErrorDistance;
+    }
+
+    protected void SetAgentSpac(Vector2 _spac)
+    {
+        agent.speed = _spac.x;
+        agent.acceleration = _spac.y;
     }
 
     #region Wandering
