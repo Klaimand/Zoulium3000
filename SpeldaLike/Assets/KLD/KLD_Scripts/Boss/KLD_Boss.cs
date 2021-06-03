@@ -23,14 +23,19 @@ public class KLD_Boss : MonoBehaviour
     [SerializeField, Header("Laser")]
     GameObject laserBoss;
     float laserInstOffset = 1.5f;
+
+    [SerializeField, Header("Launch")]
+    float groundAttackThreshold = 0.5f;
+    [SerializeField] float ballAttackThreshold = 0.8f;
     //__________________________________________
 
     [SerializeField, Header("Life")]
     int health = 5;
     int curHealth;
-    [SerializeField] GameObject shieldObj;
+    //[SerializeField] GameObject shieldObj;
     bool isVulnerable = false;
     bool dead;
+    [SerializeField] UnityEvent onBossNoShield;
     [SerializeField] UnityEvent onBossDefeat;
 
     // Start is called before the first frame update
@@ -119,11 +124,11 @@ public class KLD_Boss : MonoBehaviour
 
         if (curHealth <= 0)
         {
+            onBossNoShield.Invoke();
             isVulnerable = true;
-            shieldObj.SetActive(false);
+            //shieldObj.SetActive(false);
         }
     }
-
 
     public void Die()
     {
