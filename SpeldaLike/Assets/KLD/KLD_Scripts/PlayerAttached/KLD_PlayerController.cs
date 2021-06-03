@@ -572,6 +572,8 @@ public class KLD_PlayerController : SerializedMonoBehaviour
             if (curMastodonteGrabTime >= mastodonteGrabDuration)
             {
                 curPlayerState = PlayerState.IDLE;
+                grabbedAnchor = null;
+                grapplingLrObject.SetActive(false);
                 UpdatePlayerState();
             }
             else if (!Input.GetButton("Grapple") && !RT_GetKey)
@@ -667,6 +669,11 @@ public class KLD_PlayerController : SerializedMonoBehaviour
                 break;
 
             case PlayerState.GRAPPLING_PULLING:
+                if (selectedAnchor != null)
+                {
+                    lr.SetPosition(0, grapplingStartPoint.position);
+                    lr.SetPosition(1, selectedAnchor.transform.position + Vector3.up * 1.5f);
+                }
                 rb.velocity = Vector3.zero;
                 curMastodonteGrabTime += Time.fixedDeltaTime;
                 if (grabbedAnchor != null)
@@ -1214,7 +1221,7 @@ public class KLD_PlayerController : SerializedMonoBehaviour
 
         for (int i = 0; i < anchors.Length; i++)
         {
-            if (anchors[i] == null)
+            if (anchors[i] == null || anchors[i].notSelectable)
                 continue;
 
             Vector3 playerToAnchor = anchors[i].transform.position - transform.position;
@@ -1241,9 +1248,14 @@ public class KLD_PlayerController : SerializedMonoBehaviour
                             anchorDirection.y = 0f; //maybe remove this A TESTER
                         }
 
+                        //Vector3 referenceDirection = curPlayerState == PlayerState.GRAPPLING_GRABBED ?
+                        //                                                (Vector3)axisVector :
+                        //                                                transform.forward;
+
                         Vector3 referenceDirection = curPlayerState == PlayerState.GRAPPLING_GRABBED ?
-                                                                        (Vector3)axisVector :
-                                                                        transform.forward;
+                        axisTransform.right * axisVector.x + axisTransform.up * axisVector.y :
+                        transform.forward;
+
 
                         if (referenceDirection == Vector3.zero)
                             continue;

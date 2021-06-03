@@ -15,7 +15,7 @@ public abstract class KLD_Enemy : MonoBehaviour
 
     [SerializeField] protected KLD_EnemySettings settings;
 
-    int curHealth;
+    protected int curHealth { get; private set; }
     protected bool isInvulnerable = false;
 
     //Wandering
