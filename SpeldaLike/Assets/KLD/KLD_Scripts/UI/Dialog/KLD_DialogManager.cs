@@ -35,13 +35,15 @@ public class KLD_DialogManager : SerializedMonoBehaviour
         controller = GameObject.FindGameObjectWithTag("Player").GetComponent<KLD_PlayerController>();
     }
 
-    public void StartDialog(KLD_Dialog _dialog, KLD_DialogStarter _starter)
+    public bool StartDialog(KLD_Dialog _dialog, KLD_DialogStarter _starter)
     {
         if (!dialoging && (controller.GetPlayerState() == 0 || controller.GetPlayerState() == 1))
         {
             dialoging = true;
             StartCoroutine(IStartDialog(_dialog, _starter));
+            return true;
         }
+        return false;
     }
 
     IEnumerator IStartDialog(KLD_Dialog _dialog, KLD_DialogStarter _starter)
