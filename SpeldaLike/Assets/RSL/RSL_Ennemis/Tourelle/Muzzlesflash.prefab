@@ -9,7 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5643905543842984467}
-  - component: {fileID: 1451061094712502251}
+  - component: {fileID: 28183573242135032}
   m_Layer: 0
   m_Name: Muzzlesflash
   m_TagString: Untagged
@@ -35,7 +35,7 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1451061094712502251
+--- !u!114 &28183573242135032
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -44,10 +44,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 2492385535229541565}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 13645114856a72a4ebcc05575bd813fb, type: 3}
+  m_Script: {fileID: 11500000, guid: 511fb72181bf3714e8b78a5b22c78844, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  t: 3
+  time: 3
 --- !u!1 &7978753761173973536
 GameObject:
   m_ObjectHideFlags: 0
