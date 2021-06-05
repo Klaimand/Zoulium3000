@@ -47,8 +47,10 @@ public class KLD_DialogStarter : SerializedMonoBehaviour
 
             if (forceDialog && !alreadyDialoged)
             {
-                alreadyDialoged = true;
-                manager.StartDialog(dialog, this);
+                if (manager.StartDialog(dialog, this))
+                {
+                    alreadyDialoged = true;
+                }
             }
         }
     }
@@ -69,6 +71,13 @@ public class KLD_DialogStarter : SerializedMonoBehaviour
             {
                 gotButton = false;
                 manager.StartDialog(dialog, this);
+            }
+            else if (forceDialog && !alreadyDialoged)
+            {
+                if (manager.StartDialog(dialog, this))
+                {
+                    alreadyDialoged = true;
+                }
             }
         }
     }

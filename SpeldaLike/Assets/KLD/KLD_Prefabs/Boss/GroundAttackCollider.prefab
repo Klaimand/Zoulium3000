@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 1379651901732240745}
   - component: {fileID: 1379651901732240750}
   - component: {fileID: 1379651901732240751}
+  - component: {fileID: 5014104653633070929}
   m_Layer: 13
   m_Name: GroundAttackCollider
   m_TagString: Untagged
@@ -75,3 +76,16 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   damage: 1
+--- !u!114 &5014104653633070929
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1379651901732240746}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 511fb72181bf3714e8b78a5b22c78844, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  time: 0.2
