@@ -23,34 +23,107 @@ public class KLD_Boss : MonoBehaviour
     [SerializeField, Header("Laser")]
     GameObject laserBoss;
     float laserInstOffset = 1.5f;
+
+    [SerializeField, Header("Launch")]
+    float groundAttackThreshold = 0.5f;
+    [SerializeField] float ballAttackThreshold = 0.8f;
+    [SerializeField] Vector2 minMaxAttackLaunchTime = new Vector2(5f, 10f);
+
+    //enum AttackType { GROUND_ATTACK, BALL_ATTACK, LASER_ATTACK };
+    int[] lastAttacks = new int[2];
     //__________________________________________
 
     [SerializeField, Header("Life")]
     int health = 5;
     int curHealth;
-    [SerializeField] GameObject shieldObj;
+    //[SerializeField] GameObject shieldObj;
     bool isVulnerable = false;
     bool dead;
+    bool canAttack = true;
+    [SerializeField] UnityEvent onBossNoShield;
     [SerializeField] UnityEvent onBossDefeat;
 
     // Start is called before the first frame update
     void Start()
     {
+        canAttack = true;
         curHealth = health;
         player = GameObject.FindGameObjectWithTag("Player").transform;
-        StartCoroutine(w());
+        StartCoroutine(WaitAndStartBoss());
     }
 
     // Update is called once per frame
-    void Update()
-    {
+    //void Update()
+    //{
 
-    }
+    //}
 
-    IEnumerator w()
+
+    IEnumerator WaitAndStartBoss()
     {
         yield return new WaitForSeconds(5f);
-        LaserAttack();
+        StartBoss();
+    }
+
+    public void StartBoss()
+    {
+        canAttack = true;
+        StartCoroutine(BossLoop());
+    }
+
+    IEnumerator BossLoop()
+    {
+        while (canAttack)
+        {
+            bool isValid = false;
+            int attackIndex = 0;
+            do
+            {
+                float rd = Random.value;
+
+                if (rd < groundAttackThreshold)
+                {
+                    attackIndex = 0;
+                }
+                else if (rd < ballAttackThreshold)
+                {
+                    attackIndex = 1;
+                }
+                else
+                {
+                    attackIndex = 2;
+                }
+
+                if (lastAttacks[0] != lastAttacks[1])
+                {
+                    isValid = true;
+                }
+                else if (attackIndex != lastAttacks[0])
+                {
+                    isValid = true;
+                }
+
+            } while (!isValid);
+
+            if (attackIndex == 0)
+            {
+                EnergyWaveAttack();
+            }
+            else if (attackIndex == 1)
+            {
+                EnergyBallAttack();
+            }
+            else if (attackIndex == 2)
+            {
+                LaserAttack();
+            }
+
+            lastAttacks[1] = lastAttacks[0];
+            lastAttacks[0] = attackIndex;
+
+            float rdt = Random.Range(minMaxAttackLaunchTime.x, minMaxAttackLaunchTime.y);
+            yield return new WaitForSeconds(4f + rdt);
+        }
     }
 
     #region Attacks
@@ -113,17 +186,39 @@ public class KLD_Boss : MonoBehaviour
     #endregion
 
 
+    public void LaunchAttack(int _attackIndex)
+    {
+        if (_attackIndex == 0)
+        {
+            EnergyWaveAttack();
+        }
+        else if (_attackIndex == 1)
+        {
+            EnergyBallAttack();
+        }
+        else if (_attackIndex == 2)
+        {
+            LaserAttack();
+        }
+    }
+
+    public void StopBoss()
+    {
+        canAttack = false;
+        StopCoroutine(BossLoop());
+    }
+
     public void TakeDamage()
     {
         curHealth--;
 
         if (curHealth <= 0)
         {
+            onBossNoShield.Invoke();
             isVulnerable = true;
-            shieldObj.SetActive(false);
+            //shieldObj.SetActive(false);
         }
     }
-
 
     public void Die()
     {
