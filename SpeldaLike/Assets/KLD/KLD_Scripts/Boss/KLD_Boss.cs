@@ -67,6 +67,7 @@ public class KLD_Boss : MonoBehaviour
 
     public void StartBoss()
     {
+        canAttack = true;
         StartCoroutine(BossLoop());
     }
 
@@ -184,6 +185,28 @@ public class KLD_Boss : MonoBehaviour
 
     #endregion
 
+
+    public void LaunchAttack(int _attackIndex)
+    {
+        if (_attackIndex == 0)
+        {
+            EnergyWaveAttack();
+        }
+        else if (_attackIndex == 1)
+        {
+            EnergyBallAttack();
+        }
+        else if (_attackIndex == 2)
+        {
+            LaserAttack();
+        }
+    }
+
+    public void StopBoss()
+    {
+        canAttack = false;
+        StopCoroutine(BossLoop());
+    }
 
     public void TakeDamage()
     {
