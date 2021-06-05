@@ -269,7 +269,20 @@ MonoBehaviour:
     Prefab: {fileID: 0}
     PrefabModificationsReferencedUnityObjects: []
     PrefabModifications: []
-    SerializationNodes: []
+    SerializationNodes:
+    - Name: curPowerUps
+      Entry: 7
+      Data: 0|System.Collections.Generic.HashSet`1[[KLD_PlayerController+PowerUp,
+        Assembly-CSharp]], System.Core
+    - Name: 
+      Entry: 12
+      Data: 0
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
   axisTransform: {fileID: 0}
   playerGroundPoint: {fileID: 7121690983169137050}
   dampedGroundPoint: {fileID: 0}
@@ -339,7 +352,7 @@ MonoBehaviour:
   anchorDetectionRayMask:
     serializedVersion: 2
     m_Bits: 305
-  maxAnchorDist: 30
+  maxAnchorDist: 8
   selectedAnchor: {fileID: 0}
   grabbedAnchor: {fileID: 0}
   maxAnchorAngle: 60

@@ -13,6 +13,8 @@ public class GameEvents : MonoBehaviour
     public event Action onDialogStart;
     public event Action onDialogEnd;
 
+    public event Action onSceneChange;
+
     private void Awake()
     {
         if (Instance == null)
@@ -47,5 +49,10 @@ public class GameEvents : MonoBehaviour
     public void EndDialog()
     {
         onDialogEnd?.Invoke();
+    }
+
+    public void ChangeScene()
+    {
+        onSceneChange?.Invoke();
     }
 }
