@@ -32,11 +32,30 @@ public class KLD_DialogManager : SerializedMonoBehaviour
     void Start()
     {
         //gameObject.SetActive(false);
+    }
+
+    private void OnEnable()
+    {
+        GameEvents.Instance.onSceneChange += OnSceneChange;
+    }
+
+    private void OnDisable()
+    {
+        GameEvents.Instance.onSceneChange -= OnSceneChange;
+    }
+
+    void OnSceneChange()
+    {
         controller = GameObject.FindGameObjectWithTag("Player").GetComponent<KLD_PlayerController>();
     }
 
     public bool StartDialog(KLD_Dialog _dialog, KLD_DialogStarter _starter)
     {
+        if (controller == null)
+        {
+            return false;
+        }
+
         if (!dialoging && (controller.GetPlayerState() == 0 || controller.GetPlayerState() == 1))
         {
             dialoging = true;
