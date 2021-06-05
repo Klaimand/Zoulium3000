@@ -7,7 +7,7 @@ public class CameraManager : MonoBehaviour
 {
     [SerializeField] int activeCamPriority = 10;
     [SerializeField] int inactiveCamPriority = 0;
-    [SerializeField] CinemachineVirtualCamera startCam;
+    //[SerializeField] CinemachineVirtualCamera startCam;
     CinemachineVirtualCamera curCam;
 
     public static CameraManager Instance;
@@ -29,8 +29,8 @@ public class CameraManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        curCam = startCam;
-        ChangeCamera(startCam);
+        //curCam = startCam;
+        //ChangeCamera(startCam);
     }
 
     // Update is called once per frame
@@ -43,6 +43,12 @@ public class CameraManager : MonoBehaviour
     {
         curCam.m_Priority = inactiveCamPriority;
         _newCam.m_Priority = activeCamPriority;
+        curCam = _newCam;
+    }
+
+    public void SetFirstCam(CinemachineVirtualCamera _newCam)
+    {
+        _newCam.Priority = activeCamPriority;
         curCam = _newCam;
     }
 }
