@@ -78,4 +78,16 @@ public class KLD_PlayerHealth : SerializedMonoBehaviour
     {
         lifeBar.value = (float)curHealth / maxHealth;
     }
+
+    public Vector2Int GetHealth()
+    {
+        return new Vector2Int(maxHealth, curHealth);
+    }
+
+    public void SetHealth(int _maxHealth, int _curHealth)
+    {
+        maxHealth = _maxHealth;
+        curHealth = _curHealth;
+        UpdateUI();
+    }
 }
