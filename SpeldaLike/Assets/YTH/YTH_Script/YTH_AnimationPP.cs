@@ -7,8 +7,13 @@ public class YTH_AnimationPP : MonoBehaviour
     [SerializeField]
     Animator PPanim;
 
-    public void talkTrue(bool _talking)
+    public void talk(bool _talking)
     {
         PPanim?.SetBool("talking", _talking);
+    }
+
+    public void wake(bool _wake)
+    {
+        PPanim?.SetBool("wake", _wake);
     }
 }
