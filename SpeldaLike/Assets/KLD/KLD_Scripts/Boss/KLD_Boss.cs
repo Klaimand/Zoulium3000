@@ -49,7 +49,7 @@ public class KLD_Boss : MonoBehaviour
         canAttack = true;
         curHealth = health;
         player = GameObject.FindGameObjectWithTag("Player").transform;
-        StartCoroutine(WaitAndStartBoss());
+        //StartCoroutine(WaitAndStartBoss());
     }
 
     // Update is called once per frame

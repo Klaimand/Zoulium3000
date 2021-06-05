@@ -116,7 +116,7 @@ MonoBehaviour:
     m_To: Vcam_topdownRightFourthPart
     m_Blend:
       m_Style: 1
-      m_Time: 0.2
+      m_Time: 1
       m_CustomCurve:
         serializedVersion: 2
         m_Curve: []
@@ -127,7 +127,7 @@ MonoBehaviour:
     m_To: Vcam_topdownRightThirdPart
     m_Blend:
       m_Style: 1
-      m_Time: 0.2
+      m_Time: 1
       m_CustomCurve:
         serializedVersion: 2
         m_Curve: []
@@ -139,6 +139,94 @@ MonoBehaviour:
     m_Blend:
       m_Style: 1
       m_Time: 1.5
+      m_CustomCurve:
+        serializedVersion: 2
+        m_Curve: []
+        m_PreInfinity: 0
+        m_PostInfinity: 0
+        m_RotationOrder: 0
+  - m_From: Vcam_topdownStart
+    m_To: Vcam_topdownRight
+    m_Blend:
+      m_Style: 1
+      m_Time: 1.5
+      m_CustomCurve:
+        serializedVersion: 2
+        m_Curve: []
+        m_PreInfinity: 0
+        m_PostInfinity: 0
+        m_RotationOrder: 0
+  - m_From: Vcam_topdownRight
+    m_To: Vcam_topdownStart
+    m_Blend:
+      m_Style: 1
+      m_Time: 1.5
+      m_CustomCurve:
+        serializedVersion: 2
+        m_Curve: []
+        m_PreInfinity: 0
+        m_PostInfinity: 0
+        m_RotationOrder: 0
+  - m_From: Vcam_topdownRight
+    m_To: Vcam_topdownRightNoGrav
+    m_Blend:
+      m_Style: 1
+      m_Time: 0.3
+      m_CustomCurve:
+        serializedVersion: 2
+        m_Curve: []
+        m_PreInfinity: 0
+        m_PostInfinity: 0
+        m_RotationOrder: 0
+  - m_From: Vcam_topdownRightNoGrav
+    m_To: Vcam_topdownRight
+    m_Blend:
+      m_Style: 1
+      m_Time: 0.3
+      m_CustomCurve:
+        serializedVersion: 2
+        m_Curve: []
+        m_PreInfinity: 0
+        m_PostInfinity: 0
+        m_RotationOrder: 0
+  - m_From: Vcam_topdownStart
+    m_To: Vcam_dialog
+    m_Blend:
+      m_Style: 1
+      m_Time: 2
+      m_CustomCurve:
+        serializedVersion: 2
+        m_Curve: []
+        m_PreInfinity: 0
+        m_PostInfinity: 0
+        m_RotationOrder: 0
+  - m_From: Vcam_dialog
+    m_To: Vcam_topdownStart
+    m_Blend:
+      m_Style: 1
+      m_Time: 2
+      m_CustomCurve:
+        serializedVersion: 2
+        m_Curve: []
+        m_PreInfinity: 0
+        m_PostInfinity: 0
+        m_RotationOrder: 0
+  - m_From: Vcam_dialog
+    m_To: Vcam_topdownRight
+    m_Blend:
+      m_Style: 1
+      m_Time: 2
+      m_CustomCurve:
+        serializedVersion: 2
+        m_Curve: []
+        m_PreInfinity: 0
+        m_PostInfinity: 0
+        m_RotationOrder: 0
+  - m_From: Vcam_dialog
+    m_To: Vcam_topdownStart
+    m_Blend:
+      m_Style: 1
+      m_Time: 2
       m_CustomCurve:
         serializedVersion: 2
         m_Curve: []

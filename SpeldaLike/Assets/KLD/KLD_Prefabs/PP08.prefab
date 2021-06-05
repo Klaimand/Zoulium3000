@@ -9,7 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4671352812874839811}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: child
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -41,7 +41,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5972553604287851784}
   - component: {fileID: 4070189661469800371}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: PP08
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -92,7 +92,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2198802658324968279}
   - component: {fileID: 342220942396397834}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: lamp
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -237,10 +237,40 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: -1014268425052216762, guid: c268ade4cc455634187ad5ab3ed115af,
+        type: 3}
+      propertyPath: m_Layer
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: -445137649591765684, guid: c268ade4cc455634187ad5ab3ed115af,
+        type: 3}
+      propertyPath: m_Layer
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 666602370706033372, guid: c268ade4cc455634187ad5ab3ed115af,
+        type: 3}
+      propertyPath: m_Layer
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: c268ade4cc455634187ad5ab3ed115af,
         type: 3}
       propertyPath: m_Name
       value: pp08
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: c268ade4cc455634187ad5ab3ed115af,
+        type: 3}
+      propertyPath: m_Layer
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 8487167654232718067, guid: c268ade4cc455634187ad5ab3ed115af,
+        type: 3}
+      propertyPath: m_Layer
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 8745071319094153269, guid: c268ade4cc455634187ad5ab3ed115af,
+        type: 3}
+      propertyPath: m_Layer
+      value: 2
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: c268ade4cc455634187ad5ab3ed115af, type: 3}
@@ -267,6 +297,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: TrailPP08
+      objectReference: {fileID: 0}
+    - target: {fileID: 79667677875570507, guid: eadfc5aeabb6739419d3e7172763c738,
+        type: 3}
+      propertyPath: m_Layer
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 6520973621812724895, guid: eadfc5aeabb6739419d3e7172763c738,
         type: 3}
@@ -322,6 +357,16 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6942247597014217344, guid: eadfc5aeabb6739419d3e7172763c738,
+        type: 3}
+      propertyPath: m_Layer
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 6942247597020861917, guid: eadfc5aeabb6739419d3e7172763c738,
+        type: 3}
+      propertyPath: m_Layer
+      value: 2
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: eadfc5aeabb6739419d3e7172763c738, type: 3}
