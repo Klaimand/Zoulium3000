@@ -6740,8 +6740,8 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 963194225}
-  m_LocalRotation: {x: 0.42261827, y: 0, z: 0, w: 0.9063079}
-  m_LocalPosition: {x: 13.45, y: 11.025164, z: -27.575394}
+  m_LocalRotation: {x: 0.25527793, y: 0.0013873527, z: -0.0003662972, w: 0.9668667}
+  m_LocalPosition: {x: 10.495629, y: 5.3645806, z: -21.52316}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -14322,10 +14322,19 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6220917768257641511, guid: 7dbb9926bd9ad3848a552dc5f5ef0e4d,
         type: 3}
+      propertyPath: canRedialog
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6220917768257641511, guid: 7dbb9926bd9ad3848a552dc5f5ef0e4d,
+        type: 3}
+      propertyPath: forceDialog
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6220917768257641511, guid: 7dbb9926bd9ad3848a552dc5f5ef0e4d,
+        type: 3}
       propertyPath: serializationData.Prefab
       value: 
-      objectReference: {fileID: 6220917768257641511, guid: 7dbb9926bd9ad3848a552dc5f5ef0e4d,
-        type: 3}
+      objectReference: {fileID: 0}
     - target: {fileID: 6220917768257641531, guid: 7dbb9926bd9ad3848a552dc5f5ef0e4d,
         type: 3}
       propertyPath: m_RootOrder

@@ -203,8 +203,8 @@ MonoBehaviour:
   - m_From: Vcam_topdownBack
     m_To: CamInterieur
     m_Blend:
-      m_Style: 1
-      m_Time: 1
+      m_Style: 0
+      m_Time: 1.5
       m_CustomCurve:
         serializedVersion: 2
         m_Curve: []
@@ -215,7 +215,7 @@ MonoBehaviour:
     m_To: Vcam_topdownBack
     m_Blend:
       m_Style: 1
-      m_Time: 1
+      m_Time: 1.5
       m_CustomCurve:
         serializedVersion: 2
         m_Curve: []
@@ -225,7 +225,7 @@ MonoBehaviour:
   - m_From: Vcam_topdownLeft
     m_To: CamInterieur
     m_Blend:
-      m_Style: 1
+      m_Style: 0
       m_Time: 1.5
       m_CustomCurve:
         serializedVersion: 2
@@ -236,7 +236,7 @@ MonoBehaviour:
   - m_From: CamInterieur
     m_To: Vcam_topdownLeft
     m_Blend:
-      m_Style: 1
+      m_Style: 0
       m_Time: 1.5
       m_CustomCurve:
         serializedVersion: 2
@@ -305,7 +305,7 @@ MonoBehaviour:
   - m_From: CamGrapplingGenerator
     m_To: CamInterieur
     m_Blend:
-      m_Style: 1
+      m_Style: 0
       m_Time: 2
       m_CustomCurve:
         serializedVersion: 2
@@ -334,7 +334,7 @@ MonoBehaviour:
   - m_From: CamInterieur
     m_To: CamGrapplingGenerator
     m_Blend:
-      m_Style: 1
+      m_Style: 0
       m_Time: 2
       m_CustomCurve:
         serializedVersion: 2
@@ -510,6 +510,238 @@ MonoBehaviour:
     m_Blend:
       m_Style: 1
       m_Time: 2
+      m_CustomCurve:
+        serializedVersion: 2
+        m_Curve:
+        - serializedVersion: 3
+          time: 0
+          value: 0
+          inSlope: 0
+          outSlope: 0
+          tangentMode: 0
+          weightedMode: 0
+          inWeight: 0
+          outWeight: 0
+        - serializedVersion: 3
+          time: 1
+          value: 1
+          inSlope: 0
+          outSlope: 0
+          tangentMode: 0
+          weightedMode: 0
+          inWeight: 0
+          outWeight: 0
+        m_PreInfinity: 2
+        m_PostInfinity: 2
+        m_RotationOrder: 0
+  - m_From: CamDialog
+    m_To: CamInterieur
+    m_Blend:
+      m_Style: 1
+      m_Time: 2
+      m_CustomCurve:
+        serializedVersion: 2
+        m_Curve:
+        - serializedVersion: 3
+          time: 0
+          value: 0
+          inSlope: 0
+          outSlope: 0
+          tangentMode: 0
+          weightedMode: 0
+          inWeight: 0
+          outWeight: 0
+        - serializedVersion: 3
+          time: 1
+          value: 1
+          inSlope: 0
+          outSlope: 0
+          tangentMode: 0
+          weightedMode: 0
+          inWeight: 0
+          outWeight: 0
+        m_PreInfinity: 2
+        m_PostInfinity: 2
+        m_RotationOrder: 0
+  - m_From: CamInterieur
+    m_To: CamDialog
+    m_Blend:
+      m_Style: 1
+      m_Time: 2
+      m_CustomCurve:
+        serializedVersion: 2
+        m_Curve:
+        - serializedVersion: 3
+          time: 0
+          value: 0
+          inSlope: 0
+          outSlope: 0
+          tangentMode: 0
+          weightedMode: 0
+          inWeight: 0
+          outWeight: 0
+        - serializedVersion: 3
+          time: 1
+          value: 1
+          inSlope: 0
+          outSlope: 0
+          tangentMode: 0
+          weightedMode: 0
+          inWeight: 0
+          outWeight: 0
+        m_PreInfinity: 2
+        m_PostInfinity: 2
+        m_RotationOrder: 0
+  - m_From: Vcam_Transition
+    m_To: Vcam_topdownRight
+    m_Blend:
+      m_Style: 1
+      m_Time: 1.5
+      m_CustomCurve:
+        serializedVersion: 2
+        m_Curve:
+        - serializedVersion: 3
+          time: 0
+          value: 0
+          inSlope: 0
+          outSlope: 0
+          tangentMode: 0
+          weightedMode: 0
+          inWeight: 0
+          outWeight: 0
+        - serializedVersion: 3
+          time: 1
+          value: 1
+          inSlope: 0
+          outSlope: 0
+          tangentMode: 0
+          weightedMode: 0
+          inWeight: 0
+          outWeight: 0
+        m_PreInfinity: 2
+        m_PostInfinity: 2
+        m_RotationOrder: 0
+  - m_From: Vcam_topdownRight
+    m_To: Vcam_Transition
+    m_Blend:
+      m_Style: 1
+      m_Time: 1.5
+      m_CustomCurve:
+        serializedVersion: 2
+        m_Curve:
+        - serializedVersion: 3
+          time: 0
+          value: 0
+          inSlope: 0
+          outSlope: 0
+          tangentMode: 0
+          weightedMode: 0
+          inWeight: 0
+          outWeight: 0
+        - serializedVersion: 3
+          time: 1
+          value: 1
+          inSlope: 0
+          outSlope: 0
+          tangentMode: 0
+          weightedMode: 0
+          inWeight: 0
+          outWeight: 0
+        m_PreInfinity: 2
+        m_PostInfinity: 2
+        m_RotationOrder: 0
+  - m_From: Vcam_Transition
+    m_To: CamGrapplingLeft
+    m_Blend:
+      m_Style: 1
+      m_Time: 1.5
+      m_CustomCurve:
+        serializedVersion: 2
+        m_Curve:
+        - serializedVersion: 3
+          time: 0
+          value: 0
+          inSlope: 0
+          outSlope: 0
+          tangentMode: 0
+          weightedMode: 0
+          inWeight: 0
+          outWeight: 0
+        - serializedVersion: 3
+          time: 1
+          value: 1
+          inSlope: 0
+          outSlope: 0
+          tangentMode: 0
+          weightedMode: 0
+          inWeight: 0
+          outWeight: 0
+        m_PreInfinity: 2
+        m_PostInfinity: 2
+        m_RotationOrder: 0
+  - m_From: Vcam_topdownRight
+    m_To: Vcam_Transition
+    m_Blend:
+      m_Style: 1
+      m_Time: 1.5
+      m_CustomCurve:
+        serializedVersion: 2
+        m_Curve:
+        - serializedVersion: 3
+          time: 0
+          value: 0
+          inSlope: 0
+          outSlope: 0
+          tangentMode: 0
+          weightedMode: 0
+          inWeight: 0
+          outWeight: 0
+        - serializedVersion: 3
+          time: 1
+          value: 1
+          inSlope: 0
+          outSlope: 0
+          tangentMode: 0
+          weightedMode: 0
+          inWeight: 0
+          outWeight: 0
+        m_PreInfinity: 2
+        m_PostInfinity: 2
+        m_RotationOrder: 0
+  - m_From: Vcam_Transition
+    m_To: CamGrapplingLeft
+    m_Blend:
+      m_Style: 1
+      m_Time: 1.5
+      m_CustomCurve:
+        serializedVersion: 2
+        m_Curve:
+        - serializedVersion: 3
+          time: 0
+          value: 0
+          inSlope: 0
+          outSlope: 0
+          tangentMode: 0
+          weightedMode: 0
+          inWeight: 0
+          outWeight: 0
+        - serializedVersion: 3
+          time: 1
+          value: 1
+          inSlope: 0
+          outSlope: 0
+          tangentMode: 0
+          weightedMode: 0
+          inWeight: 0
+          outWeight: 0
+        m_PreInfinity: 2
+        m_PostInfinity: 2
+        m_RotationOrder: 0
+  - m_From: CamGrapplingLeft
+    m_To: Vcam_Transition
+    m_Blend:
+      m_Style: 1
+      m_Time: 1.5
       m_CustomCurve:
         serializedVersion: 2
         m_Curve:
