@@ -42,6 +42,11 @@ public class GameManager : MonoBehaviour
 
     public void RespawnPlayer()
     {
+        StartCoroutine(IRespawnPlayer());
+    }
+
+    IEnumerator IRespawnPlayer()
+    {
         //save player pups
         playerPups = player.GetComponent<KLD_PlayerController>().curPowerUps;
         //unload scene
@@ -49,7 +54,15 @@ public class GameManager : MonoBehaviour
 
         //choose intact scene
         //reload scene
-        SceneManager.LoadSceneAsync(curScene);
+        AsyncOperation op = SceneManager.LoadSceneAsync(curScene, LoadSceneMode.Additive);
+
+        while (!op.isDone)
+        {
+            yield return new WaitForSeconds(0.5f);
+        }
+
+        SceneManager.SetActiveScene(SceneManager.GetSceneByName(curScene));
+
         //get player
         player = GameObject.FindGameObjectWithTag("Player").transform;
         //give player pups

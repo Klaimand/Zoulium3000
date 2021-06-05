@@ -7,7 +7,7 @@ public class CameraManager : MonoBehaviour
 {
     [SerializeField] int activeCamPriority = 10;
     [SerializeField] int inactiveCamPriority = 0;
-    [SerializeField] CinemachineVirtualCamera startCam;
+    //[SerializeField] CinemachineVirtualCamera startCam;
     CinemachineVirtualCamera curCam;
 
     public static CameraManager Instance;
