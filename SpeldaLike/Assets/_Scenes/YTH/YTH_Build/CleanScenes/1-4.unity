@@ -7639,7 +7639,7 @@ Mesh:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: pb_Mesh62426
+  m_Name: pb_Mesh99722
   serializedVersion: 10
   m_SubMeshes:
   - serializedVersion: 2
@@ -27602,7 +27602,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 3749237480064874269}
-  m_RootOrder: 5
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1729203217
 MonoBehaviour:
@@ -31596,7 +31596,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 2004533527}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 186e054227200aa40b9325394f66ae95, type: 3}
+  m_Script: {fileID: 11500000, guid: c5644258c7e8b58419a466a2cd7bc772, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!114 &2004533535
@@ -31615,9 +31615,9 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 2004533534}
-        m_TargetAssemblyTypeName: KLD_DEBUG_SceneLoader, Assembly-CSharp
-        m_MethodName: LoadScene
-        m_Mode: 5
+        m_TargetAssemblyTypeName: KLD_GameManagerInst, Assembly-CSharp
+        m_MethodName: RespawnPlayer
+        m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
@@ -34034,9 +34034,9 @@ Transform:
   - {fileID: 3749237481312710192}
   - {fileID: 3749237480530227604}
   - {fileID: 3749237480173023394}
+  - {fileID: 1729203216}
   - {fileID: 1071060871095998195}
   - {fileID: 6380151021077053991}
-  - {fileID: 1729203216}
   m_Father: {fileID: 0}
   m_RootOrder: 13
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
