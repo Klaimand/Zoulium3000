@@ -15,6 +15,9 @@ public class KLD_PlayerHealth : SerializedMonoBehaviour
 
     bool isInvulnerable = false;
     [SerializeField] float invulnerabilityTime = 0.2f;
+    [SerializeField] float blinkTime = 0.05f;
+
+    [SerializeField] Renderer[] renderers;
 
     bool isDead = false;
 
@@ -55,7 +58,9 @@ public class KLD_PlayerHealth : SerializedMonoBehaviour
             }
 
             isInvulnerable = true;
+            SetRenderersFloat(1f);
             StartCoroutine(WaitAndDisableInvulnerability());
+            StartCoroutine(WaitAndUnblink());
             UpdateUI();
             //update UI
         }
@@ -65,6 +70,12 @@ public class KLD_PlayerHealth : SerializedMonoBehaviour
     {
         yield return new WaitForSeconds(invulnerabilityTime);
         isInvulnerable = false;
+    }
+
+    IEnumerator WaitAndUnblink()
+    {
+        yield return new WaitForSeconds(blinkTime);
+        SetRenderersFloat(0f);
     }
 
     void Die()
@@ -89,5 +100,13 @@ public class KLD_PlayerHealth : SerializedMonoBehaviour
         maxHealth = _maxHealth;
         curHealth = _curHealth;
         UpdateUI();
+    }
+
+    void SetRenderersFloat(float _value)
+    {
+        foreach (var r in renderers)
+        {
+            r.materials[1].SetFloat("HitSlider_", _value);
+        }
     }
 }

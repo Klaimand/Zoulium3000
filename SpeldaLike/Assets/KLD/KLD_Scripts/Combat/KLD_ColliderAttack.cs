@@ -11,6 +11,12 @@ public class KLD_ColliderAttack : MonoBehaviour
 
     [SerializeField] AttackType attackType = AttackType.PLAYER_NORMAL;
 
+    [SerializeField, Header("Player")]
+    LayerMask collisionLayer;
+    [SerializeField] bool instImpact = false;
+    [SerializeField] GameObject[] playerHitImpact;
+    [SerializeField] int impactIndex = 0;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -43,6 +49,14 @@ public class KLD_ColliderAttack : MonoBehaviour
 
             default:
                 break;
+        }
+
+        if (instImpact && (attackType == AttackType.PLAYER_NORMAL || attackType == AttackType.PLAYER_SUPERJUMP))
+        {
+            if (collisionLayer == (collisionLayer | (1 << other.gameObject.layer)))
+            {
+                Instantiate(playerHitImpact[impactIndex], transform.position, transform.rotation);
+            }
         }
 
 
