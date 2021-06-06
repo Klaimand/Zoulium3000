@@ -155,7 +155,9 @@ public class KLD_PlayerController : SerializedMonoBehaviour
 
         FORCED_IDLE, //11
 
-        GRAPPLING_PULLING //12
+        GRAPPLING_PULLING, //12
+
+        DEAD //13
     };
     [SerializeField, Space(10)] PlayerState curPlayerState = PlayerState.IDLE;
 
@@ -681,6 +683,9 @@ public class KLD_PlayerController : SerializedMonoBehaviour
                 {
                     DoGrabbedRotation();
                 }
+                break;
+            case PlayerState.DEAD:
+                rb.velocity = Vector3.zero;
                 break;
 
             default:
@@ -1440,6 +1445,11 @@ public class KLD_PlayerController : SerializedMonoBehaviour
     {
         grabbedAnchor?.onGrab.Invoke();
         grabbedAnchor = null;
+    }
+
+    public void Die()
+    {
+        curPlayerState = PlayerState.DEAD;
     }
 
     #region Animation
