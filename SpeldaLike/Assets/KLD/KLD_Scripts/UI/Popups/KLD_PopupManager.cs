@@ -9,6 +9,7 @@ public class KLD_PopupManager : MonoBehaviour
 
     void Start()
     {
+        OnValidate();
         DisableAllPopups();
     }
 
