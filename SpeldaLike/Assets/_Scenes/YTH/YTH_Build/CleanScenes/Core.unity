@@ -1873,7 +1873,6 @@ GameObject:
   m_Component:
   - component: {fileID: 1395701185}
   - component: {fileID: 1395701184}
-  - component: {fileID: 1395701183}
   - component: {fileID: 1395701182}
   m_Layer: 0
   m_Name: Camera
@@ -1914,14 +1913,6 @@ MonoBehaviour:
   m_RequiresDepthTexture: 0
   m_RequiresColorTexture: 0
   m_Version: 2
---- !u!81 &1395701183
-AudioListener:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1395701181}
-  m_Enabled: 1
 --- !u!20 &1395701184
 Camera:
   m_ObjectHideFlags: 0
@@ -3444,7 +3435,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d7e26c22226626a4689cf9978e0e27e9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  firstScene: KLD_1-1
+  firstScene: 1-1
   loadingCanvas: {fileID: 1395701181}
 --- !u!114 &7089984849850941412
 MonoBehaviour:
