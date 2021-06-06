@@ -14606,6 +14606,7 @@ GameObject:
   - component: {fileID: 8739376320579506608}
   - component: {fileID: 3306384455686148737}
   - component: {fileID: 4755148497301282883}
+  - component: {fileID: 5633073092622985211}
   m_Layer: 0
   m_Name: Heal_Feedback
   m_TagString: Untagged
@@ -19404,6 +19405,20 @@ ParticleSystemRenderer:
   m_Mesh2: {fileID: 0}
   m_Mesh3: {fileID: 0}
   m_MaskInteraction: 0
+--- !u!114 &5633073092622985211
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3960967416277296213}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 511fb72181bf3714e8b78a5b22c78844, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  time: 2
+  dontDestroyAtStart: 0
 --- !u!1 &8190681031283269966
 GameObject:
   m_ObjectHideFlags: 0

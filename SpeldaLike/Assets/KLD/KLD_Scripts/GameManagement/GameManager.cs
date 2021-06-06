@@ -47,8 +47,18 @@ public class GameManager : MonoBehaviour
 
     IEnumerator IRespawnPlayer()
     {
+
+        loadingCanvas.SetActive(true);
+
+        yield return new WaitForSeconds(1f);
+
         //save player pups
         playerPups = player.GetComponent<KLD_PlayerController>().curPowerUps;
+
+        Vector2Int h = player.GetComponent<KLD_PlayerHealth>().GetHealth();
+        maxHealth = h.x;
+        curHealth = h.y;
+
         //unload scene
         SceneManager.UnloadSceneAsync(curScene);
 
@@ -61,6 +71,8 @@ public class GameManager : MonoBehaviour
             yield return new WaitForSeconds(0.5f);
         }
 
+        yield return new WaitForSeconds(1f);
+
         SceneManager.SetActiveScene(SceneManager.GetSceneByName(curScene));
 
         //get player
@@ -69,6 +81,13 @@ public class GameManager : MonoBehaviour
         player.GetComponent<KLD_PlayerController>().curPowerUps = playerPups;
         //change player pos
         //__not needed
+        KLD_PlayerHealth playerHealth = player.GetComponent<KLD_PlayerHealth>();
+        playerHealth.SetHealth(maxHealth, curHealth);
+        GameEvents.Instance.ChangeScene();
+
+        yield return new WaitForSeconds(0.1f);
+
+        loadingCanvas.SetActive(false);
     }
 
     public void LoadScene(string _scene)
@@ -79,6 +98,8 @@ public class GameManager : MonoBehaviour
     IEnumerator ILoadScene(string _scene)
     {
         loadingCanvas.SetActive(true);
+
+        yield return new WaitForSeconds(1f);
 
         //get player health
         Vector2Int h = player.GetComponent<KLD_PlayerHealth>().GetHealth();
@@ -102,6 +123,8 @@ public class GameManager : MonoBehaviour
             yield return new WaitForSeconds(0.5f);
         }
 
+        yield return new WaitForSeconds(1f);
+
         SceneManager.SetActiveScene(SceneManager.GetSceneByName(curScene));
 
         //update player life (max and cur health)
@@ -109,6 +132,8 @@ public class GameManager : MonoBehaviour
         KLD_PlayerHealth playerHealth = player.GetComponent<KLD_PlayerHealth>();
         playerHealth.SetHealth(maxHealth, curHealth);
         GameEvents.Instance.ChangeScene();
+
+        yield return new WaitForSeconds(0.1f);
 
         loadingCanvas.SetActive(false);
     }

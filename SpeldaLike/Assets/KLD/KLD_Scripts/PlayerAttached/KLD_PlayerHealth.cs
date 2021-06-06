@@ -17,7 +17,13 @@ public class KLD_PlayerHealth : SerializedMonoBehaviour
     [SerializeField] float invulnerabilityTime = 0.2f;
     [SerializeField] float blinkTime = 0.05f;
 
+    [SerializeField] GameObject healFeedback;
+
     [SerializeField] Renderer[] renderers;
+
+    [SerializeField] GameObject ragdoll;
+
+    [SerializeField] GameObject playerToDisable;
 
     bool isDead = false;
 
@@ -88,9 +94,18 @@ public class KLD_PlayerHealth : SerializedMonoBehaviour
 
     void Die()
     {
-        //controller.die
+        controller.Die();
         isDead = true;
         UpdateUI();
+        playerToDisable.SetActive(false);
+        Instantiate(ragdoll, transform.position, transform.rotation);
+        StartCoroutine(WaitAndRespawn());
+    }
+
+    IEnumerator WaitAndRespawn()
+    {
+        yield return new WaitForSeconds(1.5f);
+        GameManager.Instance.RespawnPlayer();
     }
 
     void UpdateUI()
@@ -123,6 +138,7 @@ public class KLD_PlayerHealth : SerializedMonoBehaviour
         {
             curHealth++;
             UpdateUI();
+            Instantiate(healFeedback, transform.position, Quaternion.identity);
         }
     }
 

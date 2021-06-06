@@ -431,11 +431,15 @@ MonoBehaviour:
   curHealth: 0
   invulnerabilityTime: 0.2
   blinkTime: 0.075
+  healFeedback: {fileID: 3960967416277296213, guid: 538b6da9dba5fe54f8957e54f946fc1b,
+    type: 3}
   renderers:
   - {fileID: 8659514671555821893}
   - {fileID: 3162929792291579032}
   - {fileID: 3113904405569188220}
   - {fileID: 4124251980357378898}
+  ragdoll: {fileID: 7513813418941856810, guid: c9195d036fc8a8f45895b9677244e768, type: 3}
+  playerToDisable: {fileID: 2567060373136269054}
   fullBar: {fileID: 21300000, guid: 31bcd8a090599c240aba23423e226a59, type: 3}
   emptyBar: {fileID: 21300000, guid: 7cf4a69857a89904b8c20674cb86dc3c, type: 3}
   barPrefab: {fileID: 3494265186331574838, guid: add8e0aec06180641aed2009a1d860d2,
