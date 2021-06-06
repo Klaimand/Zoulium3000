@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 572802102836792267}
   - component: {fileID: 4876431264692508143}
   - component: {fileID: 1367179065790994955}
+  - component: {fileID: 5795896227528331023}
   m_Layer: 0
   m_Name: DD_SmallCrate00
   m_TagString: Untagged
@@ -81,6 +82,19 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!65 &5795896227528331023
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5842140867059236885}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 0.7235869, y: 0.60157335, z: 0.95364743}
+  m_Center: {x: -1.7012334, y: 0.31568867, z: 0.7374587}
 --- !u!1 &8239913947149743631
 GameObject:
   m_ObjectHideFlags: 0

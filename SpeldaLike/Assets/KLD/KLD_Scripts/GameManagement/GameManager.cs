@@ -124,6 +124,8 @@ public class GameManager : MonoBehaviour
     {
         loadingCanvas.SetActive(true);
 
+        yield return new WaitForSeconds(1f);
+
         //choose good scene (argument)
         curScene = _scene;
         //load scene
@@ -134,12 +136,16 @@ public class GameManager : MonoBehaviour
             yield return new WaitForSeconds(0.5f);
         }
 
+        yield return new WaitForSeconds(1f);
+
         SceneManager.SetActiveScene(SceneManager.GetSceneByName(curScene));
 
         //update player life (max and cur health)
         player = GameObject.FindGameObjectWithTag("Player").transform;
         KLD_PlayerHealth playerHealth = player.GetComponent<KLD_PlayerHealth>();
         GameEvents.Instance.ChangeScene();
+
+        yield return new WaitForSeconds(0.1f);
 
         loadingCanvas.SetActive(false);
     }
