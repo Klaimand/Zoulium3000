@@ -110,7 +110,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   damage: 1
-  playerAttack: 1
+  attackType: 0
+  collisionLayer:
+    serializedVersion: 2
+    m_Bits: 4353
+  instImpact: 1
+  playerHitImpact:
+  - {fileID: 1450540535806589798, guid: 70ec8dcf6d284ae43aa11938fbdeeee5, type: 3}
+  impactIndex: 0
 --- !u!54 &7283321776165398666
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -172,3 +179,4 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   time: 0.2
+  dontDestroyAtStart: 0
