@@ -508,6 +508,7 @@ public class KLD_PlayerController : SerializedMonoBehaviour
             //GroundedRunningIdleCheck();
             if (isGrounded() && !groundDetectionDisabled)
             {
+                KLD_AudioManager.Instance.PlaySound("PowerJumpLand");
                 Instantiate(powerJumpAttackPrefab, transform.position, Quaternion.identity);
                 if (timedAxis.magnitude != 0f)
                 {
@@ -699,6 +700,7 @@ public class KLD_PlayerController : SerializedMonoBehaviour
     {
         if (isGrounded() && !groundDetectionDisabled)
         {
+            KLD_AudioManager.Instance.PlaySound("JumpLand");
             if (timedAxis.magnitude != 0f)
             {
                 curPlayerState = PlayerState.RUNNING;

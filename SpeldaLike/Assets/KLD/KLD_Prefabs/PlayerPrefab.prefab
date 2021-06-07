@@ -30,6 +30,103 @@ Transform:
   m_Father: {fileID: 7121690983688771078}
   m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!82 &4610348862075309833
+AudioSource:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2567060373136269054}
+  m_Enabled: 1
+  serializedVersion: 4
+  OutputAudioMixerGroup: {fileID: -2938074775129868667, guid: 020835133af096d40820cc892f742809,
+    type: 2}
+  m_audioClip: {fileID: 0}
+  m_PlayOnAwake: 0
+  m_Volume: 1
+  m_Pitch: 1
+  Loop: 0
+  Mute: 0
+  Spatialize: 0
+  SpatializePostEffects: 0
+  Priority: 128
+  DopplerLevel: 1
+  MinDistance: 1
+  MaxDistance: 500
+  Pan2D: 0
+  rolloffMode: 0
+  BypassEffects: 0
+  BypassListenerEffects: 0
+  BypassReverbZones: 0
+  rolloffCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 1
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  panLevelCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  spreadCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  reverbZoneMixCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
 --- !u!95 &4419005568464463209
 Animator:
   serializedVersion: 3
@@ -61,6 +158,31 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 29d4ec85823733a438fa534910cca0d1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &8793799898700623984
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2567060373136269054}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: df453518722dc0149925eb4f388f2bd2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  audioClip:
+  - {fileID: 8300000, guid: 35ff3b891fc78b44bb17e3c5fedc435c, type: 3}
+  - {fileID: 8300000, guid: 7104f8497a822f847a10045124c37e04, type: 3}
+  - {fileID: 8300000, guid: 440c25ae85e8cbd489fe43632cc5e9cf, type: 3}
+  Slash1SFX: {fileID: 8300000, guid: 05660ad6a121b7c4fa7f6ab2a13e073c, type: 3}
+  Slash2SFX: {fileID: 8300000, guid: 187b812ebd62dfb4aba46a991f7af915, type: 3}
+  Slash3SFX: {fileID: 8300000, guid: 0c56781204031454e97e7191f19bca7b, type: 3}
+  JumpSFX: {fileID: 8300000, guid: b7bb5c0c6d966c3489a1b9874c543133, type: 3}
+  Jump2SFX: {fileID: 8300000, guid: 98de02c1df15f1f42917c7a099bbadcf, type: 3}
+  MegaJumpChargeSFX: {fileID: 8300000, guid: 37c91653d4afe0c469e68355708a5bc8, type: 3}
+  JumpDecolageSFX: {fileID: 8300000, guid: b96d6ce321f53f44384a8620c1954c44, type: 3}
+  MegaJumpFallSFX: {fileID: 8300000, guid: eb6d7de64a58cb147b5897da88865f1a, type: 3}
+  GrappleSFX: {fileID: 8300000, guid: 25c74f2c85b5a8c4592560fc5e581ed7, type: 3}
 --- !u!1 &3260789766537294876
 GameObject:
   m_ObjectHideFlags: 0
@@ -278,7 +400,7 @@ Rigidbody:
   m_UseGravity: 1
   m_IsKinematic: 0
   m_Interpolate: 0
-  m_Constraints: 80
+  m_Constraints: 112
   m_CollisionDetection: 0
 --- !u!114 &7121690983688771128
 MonoBehaviour:

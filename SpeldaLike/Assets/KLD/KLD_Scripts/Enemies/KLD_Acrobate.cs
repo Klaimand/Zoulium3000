@@ -86,6 +86,7 @@ public class KLD_Acrobate : KLD_Enemy
             }
             else if (curBlockTimeWithoutAttack >= blockTimeToAttack)
             {
+                KLD_AudioManager.Instance.PlaySound("AcrobateAttack");
                 animator.SetTrigger("attack");
                 curState = AcrobateState.ATTACKING;
                 //isInvulnerable = false;
@@ -148,7 +149,7 @@ public class KLD_Acrobate : KLD_Enemy
 
     protected override void OnDamageTake()
     {
-
+        KLD_AudioManager.Instance.PlaySound("AcrobateDamage");
     }
 
     protected override void OnSuperJumpShockwave()
@@ -193,6 +194,7 @@ public class KLD_Acrobate : KLD_Enemy
 
     protected override void Die()
     {
+        KLD_AudioManager.Instance.PlaySound("AcrobateDamage");
         Instantiate(explodedPrefab, transform.position, transform.rotation);
         base.Die();
     }
