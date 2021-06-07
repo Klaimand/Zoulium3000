@@ -21,4 +21,9 @@ public class KLD_QuestInst : MonoBehaviour
     {
         manager.RemoveQuest(_quest);
     }
+
+    public void RemoveAllQuests()
+    {
+        manager.RemoveAllQuests();
+    }
 }

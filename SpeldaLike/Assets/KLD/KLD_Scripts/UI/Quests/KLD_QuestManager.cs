@@ -32,6 +32,23 @@ public class KLD_QuestManager : SerializedMonoBehaviour
 
     }
 
+    public void RemoveAllQuests()
+    {
+        //if (transforms != null)
+        {
+            //foreach (var rectt in transforms)
+            //{
+            //Destroy(rectt.gameObject);
+            //}
+            //}
+            for (int i = 0; i < curQuests.Count; i++)
+            {
+                RemoveQuest(curQuests[0]); ;
+            }
+            //curQuests.Clear();
+        }
+    }
+
 
     public void AddQuest(KLD_Quest _quest)
     {

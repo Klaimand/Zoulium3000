@@ -18,4 +18,9 @@ public class KLD_GameManagerInst : MonoBehaviour
     {
         GameManager.Instance.RespawnPlayer();
     }
+
+    public void LoadMainMenu(string _scene)
+    {
+        GameManager.Instance.LoadMainMenu(_scene);
+    }
 }

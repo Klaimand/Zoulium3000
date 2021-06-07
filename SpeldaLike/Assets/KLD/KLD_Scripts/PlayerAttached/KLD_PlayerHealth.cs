@@ -40,7 +40,7 @@ public class KLD_PlayerHealth : SerializedMonoBehaviour
     {
         //lifeBar = GameObject.Find("HUD_Canvas").transform.GetChild(0).GetComponent<Slider>();
         barsParent = GameObject.Find("HUD_Canvas").transform.GetChild(2).transform;
-        StartCoroutine(WaitAndUpdateUI());
+        //StartCoroutine(WaitAndUpdateUI());
     }
 
     IEnumerator WaitAndUpdateUI()
@@ -188,6 +188,11 @@ public class KLD_PlayerHealth : SerializedMonoBehaviour
                     (i * (barLenght + spaceLenght) + offset) - ((maxHealth * (barLenght + spaceLenght)) / 2)
                 );
             }
+        }
+
+        if (bars == null)
+        {
+            return;
         }
 
         for (int i = 0; i < maxHealth; i++)

@@ -53,7 +53,7 @@ public class GameManager : MonoBehaviour
 
         loadingCanvas.SetActive(true);
 
-        yield return new WaitForSeconds(1f);
+        yield return new WaitForSecondsRealtime(1f);
 
         //save player pups
         playerPups = player.GetComponent<KLD_PlayerController>().curPowerUps;
@@ -71,10 +71,10 @@ public class GameManager : MonoBehaviour
 
         while (!op.isDone)
         {
-            yield return new WaitForSeconds(0.5f);
+            yield return new WaitForSecondsRealtime(0.5f);
         }
 
-        yield return new WaitForSeconds(1f);
+        yield return new WaitForSecondsRealtime(1f);
 
         SceneManager.SetActiveScene(SceneManager.GetSceneByName(curScene));
 
@@ -88,7 +88,7 @@ public class GameManager : MonoBehaviour
         playerHealth.SetHealth(maxHealth, curHealth);
         GameEvents.Instance.ChangeScene();
 
-        yield return new WaitForSeconds(0.1f);
+        yield return new WaitForSecondsRealtime(0.1f);
 
         loadingCanvas.SetActive(false);
     }
@@ -102,7 +102,7 @@ public class GameManager : MonoBehaviour
     {
         loadingCanvas.SetActive(true);
 
-        yield return new WaitForSeconds(1f);
+        yield return new WaitForSecondsRealtime(1f);
 
         //get player health
         Vector2Int h = player.GetComponent<KLD_PlayerHealth>().GetHealth();
@@ -113,7 +113,7 @@ public class GameManager : MonoBehaviour
 
         while (!p1.isDone)
         {
-            yield return new WaitForSeconds(0.5f);
+            yield return new WaitForSecondsRealtime(0.5f);
         }
 
         //choose good scene (argument)
@@ -123,10 +123,10 @@ public class GameManager : MonoBehaviour
 
         while (!p2.isDone)
         {
-            yield return new WaitForSeconds(0.5f);
+            yield return new WaitForSecondsRealtime(0.5f);
         }
 
-        yield return new WaitForSeconds(1f);
+        yield return new WaitForSecondsRealtime(1f);
 
         SceneManager.SetActiveScene(SceneManager.GetSceneByName(curScene));
 
@@ -136,7 +136,7 @@ public class GameManager : MonoBehaviour
         playerHealth.SetHealth(maxHealth, curHealth);
         GameEvents.Instance.ChangeScene();
 
-        yield return new WaitForSeconds(0.1f);
+        yield return new WaitForSecondsRealtime(0.1f);
 
         loadingCanvas.SetActive(false);
     }
@@ -153,14 +153,14 @@ public class GameManager : MonoBehaviour
         loadingCanvas.SetActive(true);
         HideCanvases();
 
-        yield return new WaitForSeconds(1f);
+        yield return new WaitForSecondsRealtime(1f);
 
         //unload scene
         AsyncOperation p1 = SceneManager.UnloadSceneAsync(curScene);
 
         while (!p1.isDone)
         {
-            yield return new WaitForSeconds(0.5f);
+            yield return new WaitForSecondsRealtime(0.5f);
         }
 
         //choose good scene (argument)
@@ -170,10 +170,10 @@ public class GameManager : MonoBehaviour
 
         while (!op.isDone)
         {
-            yield return new WaitForSeconds(0.5f);
+            yield return new WaitForSecondsRealtime(0.5f);
         }
 
-        yield return new WaitForSeconds(1f);
+        yield return new WaitForSecondsRealtime(1f);
 
         SceneManager.SetActiveScene(SceneManager.GetSceneByName(curScene));
 
@@ -182,7 +182,7 @@ public class GameManager : MonoBehaviour
         KLD_PlayerHealth playerHealth = player.GetComponent<KLD_PlayerHealth>();
         GameEvents.Instance.ChangeScene();
 
-        yield return new WaitForSeconds(0.1f);
+        yield return new WaitForSecondsRealtime(0.1f);
 
         loadingCanvas.SetActive(false);
         ShowCanvases();
@@ -198,7 +198,7 @@ public class GameManager : MonoBehaviour
         HideCanvases();
         loadingCanvas.SetActive(true);
 
-        //yield return new WaitForSeconds(1f);
+        //yield return new WaitForSecondsRealtime(1f);
 
         //choose good scene (argument)
         curScene = _scene;
@@ -207,16 +207,16 @@ public class GameManager : MonoBehaviour
 
         while (!op.isDone)
         {
-            yield return new WaitForSeconds(0.5f);
+            yield return new WaitForSecondsRealtime(0.5f);
         }
 
-        //yield return new WaitForSeconds(1f);
+        //yield return new WaitForSecondsRealtime(1f);
 
         SceneManager.SetActiveScene(SceneManager.GetSceneByName(curScene));
 
         //update player life (max and cur health)
 
-        //yield return new WaitForSeconds(0.1f);
+        //yield return new WaitForSecondsRealtime(0.1f);
 
         loadingCanvas.SetActive(false);
     }
@@ -236,10 +236,10 @@ public class GameManager : MonoBehaviour
 
         while (!p1.isDone)
         {
-            yield return new WaitForSeconds(0.5f);
+            yield return new WaitForSecondsRealtime(0.5f);
         }
 
-        yield return new WaitForSeconds(1f);
+        yield return new WaitForSecondsRealtime(1f);
 
         //choose good scene (argument)
         curScene = _scene;
@@ -248,14 +248,14 @@ public class GameManager : MonoBehaviour
 
         while (!p2.isDone)
         {
-            yield return new WaitForSeconds(0.2f);
+            yield return new WaitForSecondsRealtime(0.2f);
         }
 
-        yield return new WaitForSeconds(1f);
+        yield return new WaitForSecondsRealtime(1f);
 
         SceneManager.SetActiveScene(SceneManager.GetSceneByName(curScene));
 
-        yield return new WaitForSeconds(0.1f);
+        yield return new WaitForSecondsRealtime(0.1f);
 
         loadingCanvas.SetActive(false);
     }

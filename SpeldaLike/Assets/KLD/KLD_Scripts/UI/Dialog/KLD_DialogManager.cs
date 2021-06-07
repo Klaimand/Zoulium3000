@@ -56,6 +56,7 @@ public class KLD_DialogManager : SerializedMonoBehaviour
     void OnSceneChange()
     {
         controller = GameObject.FindGameObjectWithTag("Player").GetComponent<KLD_PlayerController>();
+        group.alpha = 0f;
     }
 
     public bool StartDialog(KLD_Dialog _dialog, KLD_DialogStarter _starter)
