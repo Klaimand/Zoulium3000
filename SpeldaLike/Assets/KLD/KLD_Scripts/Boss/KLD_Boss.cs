@@ -230,6 +230,11 @@ public class KLD_Boss : MonoBehaviour
 
     public void LoadMainMenu()
     {
+        AudioSource _source = KLD_AudioManager.Instance.GetSound("musique2").GetSource();
+        KLD_AudioManager.Instance.FadeOutInst(_source, 2f);
+        KLD_AudioManager.Instance.PlaySound("musique1");
+        KLD_AudioManager.Instance.SetReverb(false);
+        GameManager.Instance.LoadMainMenu("MainMenu");
         print("laod main menu");
     }
 }

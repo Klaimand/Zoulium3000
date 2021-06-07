@@ -221,6 +221,45 @@ public class GameManager : MonoBehaviour
         loadingCanvas.SetActive(false);
     }
 
+    public void LoadMainMenu(string _scene)
+    {
+        StartCoroutine(ILoadMainMenu(_scene));
+    }
+
+    IEnumerator ILoadMainMenu(string _scene)
+    {
+        loadingCanvas.SetActive(true);
+
+
+        //unload scene
+        AsyncOperation p1 = SceneManager.UnloadSceneAsync(curScene);
+
+        while (!p1.isDone)
+        {
+            yield return new WaitForSeconds(0.5f);
+        }
+
+        yield return new WaitForSeconds(1f);
+
+        //choose good scene (argument)
+        curScene = _scene;
+        //load scene
+        AsyncOperation p2 = SceneManager.LoadSceneAsync(curScene, LoadSceneMode.Additive);
+
+        while (!p2.isDone)
+        {
+            yield return new WaitForSeconds(0.2f);
+        }
+
+        yield return new WaitForSeconds(1f);
+
+        SceneManager.SetActiveScene(SceneManager.GetSceneByName(curScene));
+
+        yield return new WaitForSeconds(0.1f);
+
+        loadingCanvas.SetActive(false);
+    }
+
     public void HideCanvases()
     {
         foreach (var group in groups)

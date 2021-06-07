@@ -22,6 +22,7 @@ public class KLD_QuestManager : SerializedMonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        //print("zizou" + gameObject.name);
         child = transform.GetChild(0);
     }
 
