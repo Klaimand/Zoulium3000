@@ -5060,7 +5060,7 @@ PrefabInstance:
     - target: {fileID: 8568781335165983779, guid: 47484ae83daa436428a1810320ab8554,
         type: 3}
       propertyPath: OnPlayerHit.m_PersistentCalls.m_Calls.Array.size
-      value: 3
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 8568781335165983779, guid: 47484ae83daa436428a1810320ab8554,
         type: 3}
@@ -5080,7 +5080,7 @@ PrefabInstance:
     - target: {fileID: 8568781335165983779, guid: 47484ae83daa436428a1810320ab8554,
         type: 3}
       propertyPath: OnPlayerHit.m_PersistentCalls.m_Calls.Array.data[3].m_Mode
-      value: 2
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 8568781335165983779, guid: 47484ae83daa436428a1810320ab8554,
         type: 3}
@@ -5101,7 +5101,7 @@ PrefabInstance:
         type: 3}
       propertyPath: OnPlayerHit.m_PersistentCalls.m_Calls.Array.data[3].m_Target
       value: 
-      objectReference: {fileID: 1837597605}
+      objectReference: {fileID: 1837597601}
     - target: {fileID: 8568781335165983779, guid: 47484ae83daa436428a1810320ab8554,
         type: 3}
       propertyPath: OnPlayerHit.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
@@ -5140,7 +5140,7 @@ PrefabInstance:
     - target: {fileID: 8568781335165983779, guid: 47484ae83daa436428a1810320ab8554,
         type: 3}
       propertyPath: OnPlayerHit.m_PersistentCalls.m_Calls.Array.data[3].m_MethodName
-      value: ChangeCameraInstance
+      value: ChangeProperty
       objectReference: {fileID: 0}
     - target: {fileID: 8568781335165983779, guid: 47484ae83daa436428a1810320ab8554,
         type: 3}
@@ -5160,12 +5160,17 @@ PrefabInstance:
     - target: {fileID: 8568781335165983779, guid: 47484ae83daa436428a1810320ab8554,
         type: 3}
       propertyPath: OnPlayerHit.m_PersistentCalls.m_Calls.Array.data[3].m_TargetAssemblyTypeName
-      value: KLD_CameraManagerInst, Assembly-CSharp
+      value: KLD_MaterialPropertyChanger, Assembly-CSharp
       objectReference: {fileID: 0}
     - target: {fileID: 8568781335165983779, guid: 47484ae83daa436428a1810320ab8554,
         type: 3}
       propertyPath: OnPlayerHit.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_BoolArgument
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8568781335165983779, guid: 47484ae83daa436428a1810320ab8554,
+        type: 3}
+      propertyPath: OnPlayerHit.m_PersistentCalls.m_Calls.Array.data[3].m_Arguments.m_FloatArgument
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 8568781335165983779, guid: 47484ae83daa436428a1810320ab8554,
         type: 3}
@@ -5176,7 +5181,7 @@ PrefabInstance:
         type: 3}
       propertyPath: OnPlayerHit.m_PersistentCalls.m_Calls.Array.data[3].m_Arguments.m_ObjectArgument
       value: 
-      objectReference: {fileID: 1489000704991382892}
+      objectReference: {fileID: 0}
     - target: {fileID: 8568781335165983779, guid: 47484ae83daa436428a1810320ab8554,
         type: 3}
       propertyPath: OnPlayerHit.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
@@ -5195,7 +5200,7 @@ PrefabInstance:
     - target: {fileID: 8568781335165983779, guid: 47484ae83daa436428a1810320ab8554,
         type: 3}
       propertyPath: OnPlayerHit.m_PersistentCalls.m_Calls.Array.data[3].m_Arguments.m_ObjectArgumentAssemblyTypeName
-      value: Cinemachine.CinemachineVirtualCamera, Cinemachine
+      value: UnityEngine.Object, UnityEngine
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 47484ae83daa436428a1810320ab8554, type: 3}
@@ -15916,7 +15921,7 @@ MonoBehaviour:
   rows: 8
   columns: 16
   smooth: 1
-  m_IsEditing: 1
+  m_IsEditing: 0
 --- !u!33 &545811765
 MeshFilter:
   m_ObjectHideFlags: 10
@@ -54911,6 +54916,12 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 1391221721}
   m_PrefabAsset: {fileID: 0}
+--- !u!23 &1391221723 stripped
+MeshRenderer:
+  m_CorrespondingSourceObject: {fileID: -7511558181221131132, guid: 2bdf6621b5c803f4394db5c34a5986fd,
+    type: 3}
+  m_PrefabInstance: {fileID: 1391221721}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &1394047132
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -66423,6 +66434,22 @@ GameObject:
     type: 3}
   m_PrefabInstance: {fileID: 160882851}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &1837597601
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1837597600}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 87f58fd410706934e932b54b21f10675, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  r: {fileID: 1391221723}
+  materialIndex: 0
+  reference: Vector1_9ef6a390bc2442d4a5347911172b1b57
+  fromTo: {x: 0, y: 1}
 --- !u!114 &1837597605
 MonoBehaviour:
   m_ObjectHideFlags: 0
