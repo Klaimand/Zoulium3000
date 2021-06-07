@@ -45,8 +45,8 @@ BoxCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 62, y: 1, z: 62}
-  m_Center: {x: 0, y: -3.5, z: 0}
+  m_Size: {x: 62, y: 0.74553585, z: 62}
+  m_Center: {x: 0, y: -3.627232, z: 0}
 --- !u!54 &1379651901732240750
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -89,3 +89,4 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   time: 0.2
+  dontDestroyAtStart: 0
