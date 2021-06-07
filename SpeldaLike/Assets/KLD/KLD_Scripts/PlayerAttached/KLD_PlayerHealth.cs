@@ -166,13 +166,20 @@ public class KLD_PlayerHealth : SerializedMonoBehaviour
 
     void DoLifeBarUI()
     {
-        if (bars == null || bars.Length != maxHealth)
+        if (bars == null || bars.Length != maxHealth || barsParent.childCount != maxHealth)
         {
             if (bars != null)
             {
                 foreach (var bar in bars)
                 {
                     Destroy(bar.gameObject);
+                }
+            }
+            else if (barsParent.childCount != maxHealth)
+            {
+                for (int i = barsParent.childCount - 1; i >= 0; i--)
+                {
+                    Destroy(barsParent.GetChild(i));
                 }
             }
             bars = new Image[maxHealth];
