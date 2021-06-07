@@ -52,7 +52,10 @@ public class KLD_PlayerHealth : SerializedMonoBehaviour
     // Update is called once per frame
     void Update()
     {
-
+        if (barsParent.childCount != maxHealth)
+        {
+            UpdateUI();
+        }
     }
 
 
@@ -166,22 +169,13 @@ public class KLD_PlayerHealth : SerializedMonoBehaviour
 
     void DoLifeBarUI()
     {
-        if (bars == null || bars.Length != maxHealth || barsParent.childCount != maxHealth)
+        if (barsParent.childCount != maxHealth)
         {
-            if (bars != null)
+            for (int i = 0; i < barsParent.childCount; i++)
             {
-                foreach (var bar in bars)
-                {
-                    Destroy(bar.gameObject);
-                }
+                Destroy(barsParent.GetChild(0).gameObject);
             }
-            else if (barsParent.childCount != maxHealth)
-            {
-                for (int i = barsParent.childCount - 1; i >= 0; i--)
-                {
-                    Destroy(barsParent.GetChild(i));
-                }
-            }
+
             bars = new Image[maxHealth];
             //int offset = maxHealth % 2 == 0 ? barLenght / 2 : 0;
             int offset = barLenght / 2;
