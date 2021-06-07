@@ -7,7 +7,7 @@ public class KLD_BorneVie : MonoBehaviour
 
     bool gaveLife = false;
 
-    float healTime = 2f;
+    float healTime = 1f;
     float t;
 
     KLD_PlayerHealth playerHealth;
