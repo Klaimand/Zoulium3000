@@ -228,5 +228,8 @@ public class KLD_Boss : MonoBehaviour
         }
     }
 
-
+    public void LoadMainMenu()
+    {
+        print("laod main menu");
+    }
 }
