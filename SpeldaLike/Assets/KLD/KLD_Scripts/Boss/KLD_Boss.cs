@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
 using UnityEngine.Events;
+using Cinemachine;
 
 public class KLD_Boss : MonoBehaviour
 {
@@ -42,6 +43,8 @@ public class KLD_Boss : MonoBehaviour
     bool canAttack = true;
     [SerializeField] UnityEvent onBossNoShield;
     [SerializeField] UnityEvent onBossDefeat;
+
+    [SerializeField] CinemachineVirtualCamera cam;
 
     // Start is called before the first frame update
     void Start()
@@ -228,5 +231,31 @@ public class KLD_Boss : MonoBehaviour
         }
     }
 
+    public void LoadMainMenu()
+    {
+        AudioSource _source = KLD_AudioManager.Instance.GetSound("musique2").GetSource();
+        KLD_AudioManager.Instance.FadeOutInst(_source, 2f);
+        KLD_AudioManager.Instance.PlaySound("musique1");
+        KLD_AudioManager.Instance.SetReverb(false);
+        GameManager.Instance.LoadMainMenu("MainMenu");
+        print("laod main menu");
+    }
 
+    public void Shake(float t)
+    {
+        StartCoroutine(IShake(t));
+    }
+
+    IEnumerator IShake(float t)
+    {
+        CinemachineBasicMultiChannelPerlin settings = cam.GetCinemachineComponent<Cinemachine.CinemachineBasicMultiChannelPerlin>();
+        float _t = 0f;
+        Vector2 s = new Vector2(0f, 20f);
+        while (_t < t)
+        {
+            settings.m_AmplitudeGain = Mathf.Lerp(s.x, s.y, _t / t);
+            _t += Time.deltaTime;
+            yield return null;
+        }
+    }
 }

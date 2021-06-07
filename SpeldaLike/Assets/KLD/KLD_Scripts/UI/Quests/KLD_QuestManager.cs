@@ -22,6 +22,7 @@ public class KLD_QuestManager : SerializedMonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        //print("zizou" + gameObject.name);
         child = transform.GetChild(0);
     }
 
@@ -40,7 +41,7 @@ public class KLD_QuestManager : SerializedMonoBehaviour
             RectTransform l = Instantiate(questLine).GetComponent<RectTransform>();
             l.SetParent(child);
             l.localPosition = Vector3.down * lineHeight * curQuests.Count;
-            l.GetChild(0).GetComponent<Text>().text = _quest.questTitle;
+            l.GetChild(1).GetComponent<Text>().text = _quest.questTitle;
 
             StartCoroutine(FadeGroup(l.gameObject.GetComponent<CanvasGroup>(), questFadeTime, true));
 

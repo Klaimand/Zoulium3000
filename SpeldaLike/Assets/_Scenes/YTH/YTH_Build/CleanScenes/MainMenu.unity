@@ -168,7 +168,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 83793991}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 4e29b1a8efbd4b44bb3f3716e73f07ff, type: 3}
   m_Name: 
@@ -607,6 +607,7 @@ GameObject:
   - component: {fileID: 201673388}
   - component: {fileID: 201673387}
   - component: {fileID: 201673386}
+  - component: {fileID: 201673389}
   m_Layer: 6
   m_Name: Credits
   m_TagString: Untagged
@@ -713,6 +714,18 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+      - m_Target: {fileID: 201673389}
+        m_TargetAssemblyTypeName: KLD_AudioInst, Assembly-CSharp
+        m_MethodName: PlaySoundInst
+        m_Mode: 5
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: UI_1
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &201673387
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -811,6 +824,21 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 201673384}
   m_CullTransparentMesh: 1
+--- !u!114 &201673389
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 201673384}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bf121ae7aa5399d488481eff77d71664, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  playSoundOnStart: 0
+  soundName: sound
+  time: 2
 --- !u!1 &302316460
 GameObject:
   m_ObjectHideFlags: 0
@@ -1039,7 +1067,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 362190035}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 4e29b1a8efbd4b44bb3f3716e73f07ff, type: 3}
   m_Name: 
@@ -1402,6 +1430,7 @@ GameObject:
   - component: {fileID: 477298259}
   - component: {fileID: 477298258}
   - component: {fileID: 477298257}
+  - component: {fileID: 477298260}
   m_Layer: 6
   m_Name: NON
   m_TagString: Untagged
@@ -1508,6 +1537,18 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 1
         m_CallState: 2
+      - m_Target: {fileID: 477298260}
+        m_TargetAssemblyTypeName: KLD_AudioInst, Assembly-CSharp
+        m_MethodName: PlaySoundInst
+        m_Mode: 5
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: UI_2
+          m_BoolArgument: 1
+        m_CallState: 2
 --- !u!114 &477298258
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1608,6 +1649,21 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 477298255}
   m_CullTransparentMesh: 1
+--- !u!114 &477298260
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 477298255}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bf121ae7aa5399d488481eff77d71664, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  playSoundOnStart: 0
+  soundName: sound
+  time: 2
 --- !u!1 &508718505
 GameObject:
   m_ObjectHideFlags: 0
@@ -1982,7 +2038,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 587410938}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 4e29b1a8efbd4b44bb3f3716e73f07ff, type: 3}
   m_Name: 
@@ -2702,7 +2758,7 @@ MonoBehaviour:
     m_PressedTrigger: Pressed
     m_SelectedTrigger: Selected
     m_DisabledTrigger: Disabled
-  m_Interactable: 1
+  m_Interactable: 0
   m_TargetGraphic: {fileID: 861570803}
   m_OnClick:
     m_PersistentCalls:
@@ -3339,7 +3395,7 @@ MonoBehaviour:
     m_PressedTrigger: Pressed
     m_SelectedTrigger: Selected
     m_DisabledTrigger: Disabled
-  m_Interactable: 1
+  m_Interactable: 0
   m_TargetGraphic: {fileID: 950259215}
   m_OnClick:
     m_PersistentCalls:
@@ -3503,8 +3559,8 @@ Camera:
   m_GameObject: {fileID: 963194225}
   m_Enabled: 1
   serializedVersion: 2
-  m_ClearFlags: 1
-  m_BackGroundColor: {r: 0.19215687, g: 0.3019608, b: 0.4745098, a: 0}
+  m_ClearFlags: 2
+  m_BackGroundColor: {r: 0, g: 0, b: 0, a: 0}
   m_projectionMatrixMode: 2
   m_GateFitMode: 2
   m_FOVAxisMode: 0
@@ -4472,6 +4528,7 @@ GameObject:
   - component: {fileID: 1309879479}
   - component: {fileID: 1309879478}
   - component: {fileID: 1309879481}
+  - component: {fileID: 1309879482}
   m_Layer: 6
   m_Name: OUI
   m_TagString: Untagged
@@ -4590,6 +4647,18 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+      - m_Target: {fileID: 1309879482}
+        m_TargetAssemblyTypeName: KLD_AudioInst, Assembly-CSharp
+        m_MethodName: PlaySoundInst
+        m_Mode: 5
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: UI_1
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1309879479
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4700,6 +4769,21 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d9e375d17697cc74dac182a09a80972f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &1309879482
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1309879476}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bf121ae7aa5399d488481eff77d71664, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  playSoundOnStart: 0
+  soundName: sound
+  time: 2
 --- !u!1 &1326147532
 GameObject:
   m_ObjectHideFlags: 0
@@ -6739,6 +6823,7 @@ GameObject:
   - component: {fileID: 1792697851}
   - component: {fileID: 1792697850}
   - component: {fileID: 1792697849}
+  - component: {fileID: 1792697852}
   m_Layer: 6
   m_Name: Quitter
   m_TagString: Untagged
@@ -6845,6 +6930,18 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+      - m_Target: {fileID: 1792697852}
+        m_TargetAssemblyTypeName: KLD_AudioInst, Assembly-CSharp
+        m_MethodName: PlaySoundInst
+        m_Mode: 5
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: UI_1
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1792697850
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6943,6 +7040,21 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1792697847}
   m_CullTransparentMesh: 1
+--- !u!114 &1792697852
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1792697847}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bf121ae7aa5399d488481eff77d71664, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  playSoundOnStart: 0
+  soundName: sound
+  time: 2
 --- !u!1 &1798012657
 GameObject:
   m_ObjectHideFlags: 0
@@ -6991,6 +7103,7 @@ GameObject:
   - component: {fileID: 1800830980}
   - component: {fileID: 1800830979}
   - component: {fileID: 1800830978}
+  - component: {fileID: 1800830981}
   m_Layer: 6
   m_Name: Retour
   m_TagString: Untagged
@@ -7097,6 +7210,18 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+      - m_Target: {fileID: 1800830981}
+        m_TargetAssemblyTypeName: KLD_AudioInst, Assembly-CSharp
+        m_MethodName: PlaySoundInst
+        m_Mode: 5
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: UI_2
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1800830979
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -7195,6 +7320,21 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1800830976}
   m_CullTransparentMesh: 1
+--- !u!114 &1800830981
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1800830976}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bf121ae7aa5399d488481eff77d71664, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  playSoundOnStart: 0
+  soundName: sound
+  time: 2
 --- !u!1 &1830418823
 GameObject:
   m_ObjectHideFlags: 0
@@ -7240,7 +7380,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1830418823}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 4e29b1a8efbd4b44bb3f3716e73f07ff, type: 3}
   m_Name: 
@@ -7911,6 +8051,7 @@ GameObject:
   - component: {fileID: 2012098755}
   - component: {fileID: 2012098754}
   - component: {fileID: 2012098757}
+  - component: {fileID: 2012098758}
   m_Layer: 6
   m_Name: New
   m_TagString: Untagged
@@ -7982,15 +8123,27 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 2012098757}
-        m_TargetAssemblyTypeName: KLD_DEBUG_SceneLoader, Assembly-CSharp
-        m_MethodName: LoadScene
+        m_TargetAssemblyTypeName: KLD_GameManagerInst, Assembly-CSharp
+        m_MethodName: LoadSceneFromMainMenu
         m_Mode: 5
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
           m_IntArgument: 0
           m_FloatArgument: 0
-          m_StringArgument: Core
+          m_StringArgument: 2-3
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 2012098758}
+        m_TargetAssemblyTypeName: KLD_AudioInst, Assembly-CSharp
+        m_MethodName: PlaySoundInst
+        m_Mode: 5
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: UI_1
           m_BoolArgument: 0
         m_CallState: 2
 --- !u!114 &2012098755
@@ -8100,9 +8253,24 @@ MonoBehaviour:
   m_GameObject: {fileID: 2012098752}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 186e054227200aa40b9325394f66ae95, type: 3}
+  m_Script: {fileID: 11500000, guid: c5644258c7e8b58419a466a2cd7bc772, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &2012098758
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2012098752}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bf121ae7aa5399d488481eff77d71664, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  playSoundOnStart: 0
+  soundName: UI_1
+  time: 2
 --- !u!1 &2013363731
 GameObject:
   m_ObjectHideFlags: 0
@@ -8184,7 +8352,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2035740004}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 4e29b1a8efbd4b44bb3f3716e73f07ff, type: 3}
   m_Name: 

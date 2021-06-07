@@ -51,6 +51,10 @@ public abstract class KLD_Enemy : MonoBehaviour
 
     protected virtual void Die()
     {
+        if (Random.value < settings.healPointLootChance)
+        {
+            Instantiate(settings.healPointObj, transform.position, Quaternion.identity);
+        }
         Destroy(gameObject);
     }
 

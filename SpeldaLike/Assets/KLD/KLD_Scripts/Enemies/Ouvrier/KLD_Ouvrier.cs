@@ -140,10 +140,12 @@ public class KLD_Ouvrier : KLD_Enemy
     protected override void OnDamageTake()
     {
         GetStunned(attackStunTime);
+        KLD_AudioManager.Instance.PlaySound("OuvrierDamage");
     }
 
     protected override void Die()
     {
+        KLD_AudioManager.Instance.PlaySound("OuvrierDeath");
         Instantiate(explodedPrefab, transform.position, transform.rotation);
         base.Die();
     }
@@ -176,6 +178,7 @@ public class KLD_Ouvrier : KLD_Enemy
             //agent.SetDestination(transform.position + toDash);
             timeSinceLastAttack = 0f;
             animator?.SetTrigger("attack");
+            KLD_AudioManager.Instance.PlaySound("OuvrierAttack");
             //Instantiate(attackZoneObject, transform.position, transform.rotation, transform);
 
             yield return new WaitForSeconds(attackDuration);

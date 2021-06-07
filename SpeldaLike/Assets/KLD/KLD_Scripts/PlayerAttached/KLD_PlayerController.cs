@@ -155,7 +155,9 @@ public class KLD_PlayerController : SerializedMonoBehaviour
 
         FORCED_IDLE, //11
 
-        GRAPPLING_PULLING //12
+        GRAPPLING_PULLING, //12
+
+        DEAD //13
     };
     [SerializeField, Space(10)] PlayerState curPlayerState = PlayerState.IDLE;
 
@@ -506,6 +508,7 @@ public class KLD_PlayerController : SerializedMonoBehaviour
             //GroundedRunningIdleCheck();
             if (isGrounded() && !groundDetectionDisabled)
             {
+                KLD_AudioManager.Instance.PlaySound("PowerJumpLand");
                 Instantiate(powerJumpAttackPrefab, transform.position, Quaternion.identity);
                 if (timedAxis.magnitude != 0f)
                 {
@@ -682,6 +685,9 @@ public class KLD_PlayerController : SerializedMonoBehaviour
                     DoGrabbedRotation();
                 }
                 break;
+            case PlayerState.DEAD:
+                rb.velocity = Vector3.zero;
+                break;
 
             default:
                 Debug.LogError("WHATTTTTATATATATTA");
@@ -694,6 +700,7 @@ public class KLD_PlayerController : SerializedMonoBehaviour
     {
         if (isGrounded() && !groundDetectionDisabled)
         {
+            KLD_AudioManager.Instance.PlaySound("JumpLand");
             if (timedAxis.magnitude != 0f)
             {
                 curPlayerState = PlayerState.RUNNING;
@@ -1440,6 +1447,11 @@ public class KLD_PlayerController : SerializedMonoBehaviour
     {
         grabbedAnchor?.onGrab.Invoke();
         grabbedAnchor = null;
+    }
+
+    public void Die()
+    {
+        curPlayerState = PlayerState.DEAD;
     }
 
     #region Animation

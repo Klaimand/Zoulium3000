@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.Events;
 using Sirenix.OdinInspector;
 
-[RequireComponent(typeof(Collider))]
+//[RequireComponent(typeof(Collider))]
 public class KLD_DialogStarter : SerializedMonoBehaviour
 {
 
@@ -80,5 +80,22 @@ public class KLD_DialogStarter : SerializedMonoBehaviour
                 }
             }
         }
+    }
+
+    public void ForceDialogEvent()
+    {
+        StartCoroutine(KeepForcing());
+    }
+
+    IEnumerator KeepForcing()
+    {
+        bool b = false;
+
+        while (b == false)
+        {
+            b = manager.StartDialog(dialog, this);
+            yield return null;
+        }
+        print("forced");
     }
 }

@@ -32,11 +32,20 @@ public class KLD_DialogManager : SerializedMonoBehaviour
     void Start()
     {
         //gameObject.SetActive(false);
+        //GameEvents.Instance.onSceneChange += OnSceneChange;
     }
 
     private void OnEnable()
     {
-        GameEvents.Instance.onSceneChange += OnSceneChange;
+        if (GameEvents.Instance != null)
+        {
+            GameEvents.Instance.onSceneChange += OnSceneChange;
+            //print("this is not the problem 1");
+        }
+        else
+        {
+            //print("PROBLEM IS IN DIALOGMANAGER ONENABLE");
+        }
     }
 
     private void OnDisable()

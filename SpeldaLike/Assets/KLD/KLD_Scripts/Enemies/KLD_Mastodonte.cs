@@ -66,6 +66,7 @@ public class KLD_Mastodonte : KLD_Enemy
 
     protected override void OnDamageTake()
     {
+        KLD_AudioManager.Instance.PlaySound("MastodonteDamage");
         //throw new System.NotImplementedException();
     }
 
@@ -76,6 +77,7 @@ public class KLD_Mastodonte : KLD_Enemy
 
     protected override void Die()
     {
+        KLD_AudioManager.Instance.PlaySound("MastodonteDamage");
         Instantiate(deadBody, transform.position, transform.rotation);
         base.Die();
     }
