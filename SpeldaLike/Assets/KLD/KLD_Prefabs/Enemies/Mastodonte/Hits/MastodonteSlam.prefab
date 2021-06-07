@@ -51,7 +51,7 @@ MeshRenderer:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1803417217982033101}
-  m_Enabled: 1
+  m_Enabled: 0
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
@@ -210,6 +210,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   playSoundOnStart: 1
   soundName: MastodonteSlam
+  time: 2
 --- !u!1001 &928213720099186674
 PrefabInstance:
   m_ObjectHideFlags: 0

@@ -9559,10 +9559,10 @@ GameObject:
   - component: {fileID: 352582092}
   - component: {fileID: 352582091}
   - component: {fileID: 352582090}
-  - component: {fileID: 352582089}
   - component: {fileID: 352582088}
   - component: {fileID: 352582087}
   - component: {fileID: 352582086}
+  - component: {fileID: 352582089}
   m_Layer: 2
   m_Name: TriggerBridge
   m_TagString: Untagged
@@ -9639,8 +9639,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   manageVisibility: 1
---- !u!64 &352582089
-MeshCollider:
+--- !u!65 &352582089
+BoxCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -9649,10 +9649,9 @@ MeshCollider:
   m_Material: {fileID: 0}
   m_IsTrigger: 1
   m_Enabled: 1
-  serializedVersion: 4
-  m_Convex: 1
-  m_CookingOptions: 30
-  m_Mesh: {fileID: 1761073468}
+  serializedVersion: 2
+  m_Size: {x: 7.8835526, y: 10.110939, z: 20.882246}
+  m_Center: {x: -3.9417763, y: 5.0554695, z: 10.441123}
 --- !u!33 &352582090
 MeshFilter:
   m_ObjectHideFlags: 10
@@ -43674,7 +43673,7 @@ Mesh:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: pb_Mesh73814
+  m_Name: pb_Mesh90698
   serializedVersion: 10
   m_SubMeshes:
   - serializedVersion: 2
@@ -62111,7 +62110,7 @@ Mesh:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: pb_Mesh73832
+  m_Name: pb_Mesh90716
   serializedVersion: 10
   m_SubMeshes:
   - serializedVersion: 2
