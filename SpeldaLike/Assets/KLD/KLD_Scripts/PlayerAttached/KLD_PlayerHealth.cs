@@ -38,8 +38,8 @@ public class KLD_PlayerHealth : SerializedMonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        lifeBar = GameObject.Find("HUD_Canvas").transform.GetChild(0).GetComponent<Slider>();
-        barsParent = GameObject.Find("HUD_Canvas").transform.GetChild(1).transform;
+        //lifeBar = GameObject.Find("HUD_Canvas").transform.GetChild(0).GetComponent<Slider>();
+        barsParent = GameObject.Find("HUD_Canvas").transform.GetChild(2).transform;
         StartCoroutine(WaitAndUpdateUI());
     }
 
@@ -52,7 +52,10 @@ public class KLD_PlayerHealth : SerializedMonoBehaviour
     // Update is called once per frame
     void Update()
     {
-
+        if (barsParent.childCount != maxHealth)
+        {
+            UpdateUI();
+        }
     }
 
 
@@ -166,15 +169,13 @@ public class KLD_PlayerHealth : SerializedMonoBehaviour
 
     void DoLifeBarUI()
     {
-        if (bars == null || bars.Length != maxHealth)
+        if (barsParent.childCount != maxHealth)
         {
-            if (bars != null)
+            for (int i = 0; i < barsParent.childCount; i++)
             {
-                foreach (var bar in bars)
-                {
-                    Destroy(bar.gameObject);
-                }
+                Destroy(barsParent.GetChild(0).gameObject);
             }
+
             bars = new Image[maxHealth];
             //int offset = maxHealth % 2 == 0 ? barLenght / 2 : 0;
             int offset = barLenght / 2;
