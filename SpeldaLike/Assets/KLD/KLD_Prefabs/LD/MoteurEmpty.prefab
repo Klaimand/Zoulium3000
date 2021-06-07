@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 4511082805161755059}
   - component: {fileID: 8568781335165983779}
   - component: {fileID: 805420296921490465}
+  - component: {fileID: 3315268565415935546}
   m_Layer: 8
   m_Name: MoteurEmpty
   m_TagString: Untagged
@@ -96,6 +97,18 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+      - m_Target: {fileID: 3315268565415935546}
+        m_TargetAssemblyTypeName: KLD_AudioInst, Assembly-CSharp
+        m_MethodName: PlaySoundInst
+        m_Mode: 5
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: ActivateMotor
+          m_BoolArgument: 0
+        m_CallState: 2
   OnPlayerHitRenderingEach:
     m_PersistentCalls:
       m_Calls:
@@ -130,6 +143,20 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 126
   m_CollisionDetection: 0
+--- !u!114 &3315268565415935546
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2458052163282826142}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bf121ae7aa5399d488481eff77d71664, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  playSoundOnStart: 0
+  soundName: sound
 --- !u!95 &8204672644154410226
 Animator:
   serializedVersion: 3

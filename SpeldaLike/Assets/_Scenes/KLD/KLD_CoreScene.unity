@@ -466,6 +466,12 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 168749511}
   m_Mesh: {fileID: 10209, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!225 &173472089 stripped
+CanvasGroup:
+  m_CorrespondingSourceObject: {fileID: 312888072832263814, guid: 44388b8318cfd924091c96c139f0cfb1,
+    type: 3}
+  m_PrefabInstance: {fileID: 520113396914695354}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &197900299
 GameObject:
   m_ObjectHideFlags: 0
@@ -625,7 +631,7 @@ Canvas:
   m_SortingBucketNormalizedSize: 0
   m_AdditionalShaderChannelsFlag: 0
   m_SortingLayerID: 0
-  m_SortingOrder: 900
+  m_SortingOrder: 10
   m_TargetDisplay: 0
 --- !u!224 &302791128
 RectTransform:
@@ -1215,7 +1221,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -2.0046387, y: 465.38855}
+  m_AnchoredPosition: {x: -2.0043945, y: 465.38867}
   m_SizeDelta: {x: 56.4832, y: -888.6445}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &711141395
@@ -1976,6 +1982,12 @@ Transform:
   m_Father: {fileID: 1763290669}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!225 &1295982777 stripped
+CanvasGroup:
+  m_CorrespondingSourceObject: {fileID: 4888428380654056793, guid: ecf3cdea09f00094ea7bbe6fd3dddb33,
+    type: 3}
+  m_PrefabInstance: {fileID: 8978262221930611098}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1313374752
 GameObject:
   m_ObjectHideFlags: 0
@@ -2375,6 +2387,12 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1507112525}
   m_Mesh: {fileID: -2128599272216676504, guid: c268ade4cc455634187ad5ab3ed115af, type: 3}
+--- !u!225 &1554823710 stripped
+CanvasGroup:
+  m_CorrespondingSourceObject: {fileID: 2779075962526189869, guid: 84518bcd8c8831d47b8d7a0dc5ab0b4f,
+    type: 3}
+  m_PrefabInstance: {fileID: 2855519509119402581}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1570022761
 GameObject:
   m_ObjectHideFlags: 0
@@ -2529,6 +2547,191 @@ Transform:
   m_Father: {fileID: 982284265}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1706229142
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1706229144}
+  - component: {fileID: 1706229143}
+  m_Layer: 0
+  m_Name: AudioManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1706229143
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1706229142}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4274d66d3885fdf4a9ce30aeac4a5d0e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  mixer: {fileID: 24100000, guid: 020835133af096d40820cc892f742809, type: 2}
+  sounds:
+  - name: JumpLand
+    clip: {fileID: 8300000, guid: 98de02c1df15f1f42917c7a099bbadcf, type: 3}
+    group: {fileID: -2938074775129868667, guid: 020835133af096d40820cc892f742809,
+      type: 2}
+    volume: 0.7
+    pitch: 1
+    randomVolume: 0
+    randomPitch: 0
+  - name: PowerJumpLand
+    clip: {fileID: 8300000, guid: eb6d7de64a58cb147b5897da88865f1a, type: 3}
+    group: {fileID: -2938074775129868667, guid: 020835133af096d40820cc892f742809,
+      type: 2}
+    volume: 0.7
+    pitch: 1
+    randomVolume: 0
+    randomPitch: 0
+  - name: TakeDamage
+    clip: {fileID: 8300000, guid: abcda732a0829e7489e7c9f2dc595794, type: 3}
+    group: {fileID: 9055414936240707130, guid: 020835133af096d40820cc892f742809, type: 2}
+    volume: 0.7
+    pitch: 1
+    randomVolume: 0
+    randomPitch: 0
+  - name: Die
+    clip: {fileID: 8300000, guid: f4a8d3b261ae5d3479a13d05f127a1d1, type: 3}
+    group: {fileID: -2938074775129868667, guid: 020835133af096d40820cc892f742809,
+      type: 2}
+    volume: 0.7
+    pitch: 1
+    randomVolume: 0
+    randomPitch: 0
+  - name: OuvrierAttack
+    clip: {fileID: 8300000, guid: ac104c65ba4250b4985e074289c2a225, type: 3}
+    group: {fileID: 4269124198427478048, guid: 020835133af096d40820cc892f742809, type: 2}
+    volume: 0.7
+    pitch: 1
+    randomVolume: 0
+    randomPitch: 0
+  - name: OuvrierDamage
+    clip: {fileID: 8300000, guid: 29af1138dd648914491b766b59cedd5d, type: 3}
+    group: {fileID: 4269124198427478048, guid: 020835133af096d40820cc892f742809, type: 2}
+    volume: 0.7
+    pitch: 1
+    randomVolume: 0
+    randomPitch: 0
+  - name: OuvrierDeath
+    clip: {fileID: 8300000, guid: 1493d429ef952654bb1307d80213a079, type: 3}
+    group: {fileID: 4269124198427478048, guid: 020835133af096d40820cc892f742809, type: 2}
+    volume: 0.7
+    pitch: 1
+    randomVolume: 0
+    randomPitch: 0
+  - name: AcrobateAttack
+    clip: {fileID: 8300000, guid: 7d634fcadba77334e9c0e0e028da23bb, type: 3}
+    group: {fileID: 4269124198427478048, guid: 020835133af096d40820cc892f742809, type: 2}
+    volume: 0.7
+    pitch: 1
+    randomVolume: 0
+    randomPitch: 0
+  - name: AcrobateDamage
+    clip: {fileID: 8300000, guid: a8c4406fa119be246a15ed73f6e87a32, type: 3}
+    group: {fileID: 4269124198427478048, guid: 020835133af096d40820cc892f742809, type: 2}
+    volume: 0.7
+    pitch: 1
+    randomVolume: 0
+    randomPitch: 0
+  - name: MastdonteSwing
+    clip: {fileID: 8300000, guid: e38965acd33f6db43ace44194d94ed83, type: 3}
+    group: {fileID: 4269124198427478048, guid: 020835133af096d40820cc892f742809, type: 2}
+    volume: 0.7
+    pitch: 1
+    randomVolume: 0
+    randomPitch: 0
+  - name: MastodonteSlam
+    clip: {fileID: 8300000, guid: 12ea14f1c74bd1949acf379eae350ef0, type: 3}
+    group: {fileID: 4269124198427478048, guid: 020835133af096d40820cc892f742809, type: 2}
+    volume: 0.7
+    pitch: 1
+    randomVolume: 0
+    randomPitch: 0
+  - name: MastodonteDamage
+    clip: {fileID: 8300000, guid: a63ed1766c58a694bb2350d6dde49ff9, type: 3}
+    group: {fileID: 4269124198427478048, guid: 020835133af096d40820cc892f742809, type: 2}
+    volume: 0.7
+    pitch: 1
+    randomVolume: 0
+    randomPitch: 0
+  - name: ActivateMotor
+    clip: {fileID: 8300000, guid: 3f9fb32302137594aa2e423efe7bc242, type: 3}
+    group: {fileID: 2268015708129471708, guid: 020835133af096d40820cc892f742809, type: 2}
+    volume: 0.7
+    pitch: 1
+    randomVolume: 0
+    randomPitch: 0
+  - name: BonusHealth
+    clip: {fileID: 8300000, guid: 03808d62ab723604e9022801d8c98b36, type: 3}
+    group: {fileID: 2268015708129471708, guid: 020835133af096d40820cc892f742809, type: 2}
+    volume: 0.7
+    pitch: 1
+    randomVolume: 0
+    randomPitch: 0
+  - name: Heal
+    clip: {fileID: 8300000, guid: 24bdae46df56d404e975f41b808c5a91, type: 3}
+    group: {fileID: 2268015708129471708, guid: 020835133af096d40820cc892f742809, type: 2}
+    volume: 0.7
+    pitch: 1
+    randomVolume: 0
+    randomPitch: 0
+  - name: musique1
+    clip: {fileID: 8300000, guid: dc64e07a386882e4088a1f42ad8aa22e, type: 3}
+    group: {fileID: 3463032456197871647, guid: 020835133af096d40820cc892f742809, type: 2}
+    volume: 0.7
+    pitch: 1
+    randomVolume: 0
+    randomPitch: 0
+  - name: musique2
+    clip: {fileID: 8300000, guid: 76ab6fced8a96ab479f5fa2baba32bdb, type: 3}
+    group: {fileID: 3463032456197871647, guid: 020835133af096d40820cc892f742809, type: 2}
+    volume: 0.7
+    pitch: 1
+    randomVolume: 0
+    randomPitch: 0
+  - name: UI_1
+    clip: {fileID: 8300000, guid: 030dc33cb8482d141981daa15c67c4ae, type: 3}
+    group: {fileID: -3877361025731825298, guid: 020835133af096d40820cc892f742809,
+      type: 2}
+    volume: 0.7
+    pitch: 1
+    randomVolume: 0
+    randomPitch: 0
+  - name: UI_2
+    clip: {fileID: 8300000, guid: 9c532787b69da1a46914fb91875ac84b, type: 3}
+    group: {fileID: -3877361025731825298, guid: 020835133af096d40820cc892f742809,
+      type: 2}
+    volume: 0.7
+    pitch: 1
+    randomVolume: 0
+    randomPitch: 0
+  soundsToPlayOnStart:
+  - musique1
+--- !u!4 &1706229144
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1706229142}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 9
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1732031795
 GameObject:
   m_ObjectHideFlags: 0
@@ -2632,6 +2835,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1844105387}
   - component: {fileID: 1844105388}
+  - component: {fileID: 1844105389}
   m_Layer: 10
   m_Name: Player
   m_TagString: Untagged
@@ -2674,6 +2878,18 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
+--- !u!114 &1844105389
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1844105386}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4875624b9d68057428b41052ba1264d1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1851760225
 GameObject:
   m_ObjectHideFlags: 0
@@ -3601,8 +3817,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d7e26c22226626a4689cf9978e0e27e9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  firstScene: 2-3
+  firstScene: MainMenu
   loadingCanvas: {fileID: 1395701181}
+  groups:
+  - {fileID: 1295982777}
+  - {fileID: 1554823710}
+  - {fileID: 173472089}
 --- !u!114 &7089984849850941412
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -25,7 +25,7 @@ public class RSL_SoundEffectPJ : MonoBehaviour
         audioSource = GetComponent<AudioSource>();
     }
 
-    private void Step()
+    public void Step()
     {
         AudioClip clip = GetRandomClip();
         audioSource.PlayOneShot(clip);
@@ -33,45 +33,45 @@ public class RSL_SoundEffectPJ : MonoBehaviour
 
     private AudioClip GetRandomClip()
     {
-        int index = Random.Range(0, audioClip.Length - 1);
+        int index = Random.Range(0, audioClip.Length);
         return audioClip[index];
     }
 
-   private void Slash1()
+    public void Slash1()
     {
         audioSource.PlayOneShot(Slash1SFX);
     }
-    private void Slash2()
+    public void Slash2()
     {
         audioSource.PlayOneShot(Slash2SFX);
     }
-    private void Slash3()
+    public void Slash3()
     {
         audioSource.PlayOneShot(Slash3SFX);
     }
-    private void Jump()
+    public void Jump()
     {
         audioSource.PlayOneShot(JumpSFX);
     }
-    private void Jump2()
+    public void Jump2()
     {
         audioSource.PlayOneShot(Jump2SFX);
     }
 
-    private void MegaJumpCharge()
+    public void MegaJumpCharge()
     {
         audioSource.PlayOneShot(MegaJumpChargeSFX);
     }
-    private void MegaJumpFall()
+    public void MegaJumpFall()
     {
         audioSource.PlayOneShot(MegaJumpFallSFX);
     }
-    private void JumpDecolage()
+    public void JumpDecolage()
     {
         audioSource.PlayOneShot(JumpDecolageSFX);
     }
 
-    private void Grapple()
+    public void Grapple()
     {
         audioSource.PlayOneShot(GrappleSFX);
     }

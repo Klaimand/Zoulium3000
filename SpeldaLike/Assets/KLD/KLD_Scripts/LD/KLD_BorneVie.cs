@@ -30,6 +30,7 @@ public class KLD_BorneVie : MonoBehaviour
         {
             playerHealth.AddMaxHP();
             gaveLife = true;
+            t = 0f;
         }
     }
 

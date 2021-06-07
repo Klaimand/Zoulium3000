@@ -77,6 +77,7 @@ public class KLD_PlayerHealth : SerializedMonoBehaviour
             StartCoroutine(WaitAndUnblink());
             UpdateUI();
             //update UI
+            KLD_AudioManager.Instance.PlaySound("TakeDamage");
         }
     }
 
@@ -94,6 +95,7 @@ public class KLD_PlayerHealth : SerializedMonoBehaviour
 
     void Die()
     {
+        KLD_AudioManager.Instance.PlaySound("Die");
         controller.Die();
         isDead = true;
         UpdateUI();
@@ -130,6 +132,7 @@ public class KLD_PlayerHealth : SerializedMonoBehaviour
     {
         maxHealth++;
         UpdateUI();
+        KLD_AudioManager.Instance.PlaySound("BonusHealth");
     }
 
     public void HealPlayer()
@@ -138,7 +141,8 @@ public class KLD_PlayerHealth : SerializedMonoBehaviour
         {
             curHealth++;
             UpdateUI();
-            Instantiate(healFeedback, transform.position, Quaternion.identity);
+            Instantiate(healFeedback, transform.position, Quaternion.Euler(-90f, 0f, 0f));
+            KLD_AudioManager.Instance.PlaySound("Heal");
         }
     }
 
