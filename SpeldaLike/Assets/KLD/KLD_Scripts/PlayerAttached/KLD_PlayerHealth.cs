@@ -54,6 +54,7 @@ public class KLD_PlayerHealth : SerializedMonoBehaviour
     {
         if (barsParent.childCount != maxHealth)
         {
+            print(barsParent.childCount + " SSS");
             UpdateUI();
         }
     }
@@ -171,10 +172,20 @@ public class KLD_PlayerHealth : SerializedMonoBehaviour
     {
         if (barsParent.childCount != maxHealth)
         {
+            print("pp");
+            List<GameObject> toDestroy = new List<GameObject>();
+
             for (int i = 0; i < barsParent.childCount; i++)
             {
-                Destroy(barsParent.GetChild(0).gameObject);
+                toDestroy.Add(barsParent.GetChild(i).gameObject);
+                //Destroy(barsParent.GetChild(0).gameObject);
             }
+
+            foreach (var go in toDestroy)
+            {
+                Destroy(go);
+            }
+
 
             bars = new Image[maxHealth];
             //int offset = maxHealth % 2 == 0 ? barLenght / 2 : 0;
