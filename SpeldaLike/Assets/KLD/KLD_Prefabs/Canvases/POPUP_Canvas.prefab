@@ -186,6 +186,7 @@ GameObject:
   - component: {fileID: 2768598800258297342}
   - component: {fileID: 2768598800258297343}
   - component: {fileID: 2768598800258297231}
+  - component: {fileID: 312888072832263814}
   m_Layer: 5
   m_Name: POPUP_Canvas
   m_TagString: Untagged
@@ -311,6 +312,18 @@ MonoBehaviour:
     popUpEmpty: {fileID: 5132668693682843265}
   - popUpID: roll
     popUpEmpty: {fileID: 2561349290460653652}
+--- !u!225 &312888072832263814
+CanvasGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2768598800258297216}
+  m_Enabled: 1
+  m_Alpha: 1
+  m_Interactable: 0
+  m_BlocksRaycasts: 0
+  m_IgnoreParentGroups: 0
 --- !u!1 &3003653320317289294
 GameObject:
   m_ObjectHideFlags: 0

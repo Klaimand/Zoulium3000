@@ -21,6 +21,8 @@ public class GameManager : MonoBehaviour
     int maxHealth;
     int curHealth;
 
+    [SerializeField] CanvasGroup[] groups;
+
     private void Awake()
     {
         if (Instance == null)
@@ -37,7 +39,8 @@ public class GameManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        LoadFirstScene(firstScene);
+        //LoadFirstScene(firstScene);
+        InitialMainMenuLoad(firstScene);
     }
 
     public void RespawnPlayer()
@@ -140,16 +143,25 @@ public class GameManager : MonoBehaviour
 
 
 
-    public void LoadFirstScene(string _scene)
+    public void LoadSceneFromMainMenu(string _scene)
     {
-        StartCoroutine(ILoadFirstScene(_scene));
+        StartCoroutine(ILoadSceneFromMainMenu(_scene));
     }
 
-    IEnumerator ILoadFirstScene(string _scene)
+    IEnumerator ILoadSceneFromMainMenu(string _scene)
     {
         loadingCanvas.SetActive(true);
+        HideCanvases();
 
         yield return new WaitForSeconds(1f);
+
+        //unload scene
+        AsyncOperation p1 = SceneManager.UnloadSceneAsync(curScene);
+
+        while (!p1.isDone)
+        {
+            yield return new WaitForSeconds(0.5f);
+        }
 
         //choose good scene (argument)
         curScene = _scene;
@@ -173,5 +185,55 @@ public class GameManager : MonoBehaviour
         yield return new WaitForSeconds(0.1f);
 
         loadingCanvas.SetActive(false);
+        ShowCanvases();
+    }
+
+    public void InitialMainMenuLoad(string _scene)
+    {
+        StartCoroutine(IInitialMainMenuLoad(_scene));
+    }
+
+    IEnumerator IInitialMainMenuLoad(string _scene)
+    {
+        HideCanvases();
+        loadingCanvas.SetActive(true);
+
+        //yield return new WaitForSeconds(1f);
+
+        //choose good scene (argument)
+        curScene = _scene;
+        //load scene
+        AsyncOperation op = SceneManager.LoadSceneAsync(curScene, LoadSceneMode.Additive);
+
+        while (!op.isDone)
+        {
+            yield return new WaitForSeconds(0.5f);
+        }
+
+        //yield return new WaitForSeconds(1f);
+
+        SceneManager.SetActiveScene(SceneManager.GetSceneByName(curScene));
+
+        //update player life (max and cur health)
+
+        //yield return new WaitForSeconds(0.1f);
+
+        loadingCanvas.SetActive(false);
+    }
+
+    public void HideCanvases()
+    {
+        foreach (var group in groups)
+        {
+            group.alpha = 0f;
+        }
+    }
+
+    public void ShowCanvases()
+    {
+        foreach (var group in groups)
+        {
+            group.alpha = 1f;
+        }
     }
 }
