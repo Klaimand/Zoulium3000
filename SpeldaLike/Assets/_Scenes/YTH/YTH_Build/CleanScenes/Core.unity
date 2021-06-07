@@ -466,6 +466,12 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 168749511}
   m_Mesh: {fileID: 10209, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!225 &173472089 stripped
+CanvasGroup:
+  m_CorrespondingSourceObject: {fileID: 312888072832263814, guid: 44388b8318cfd924091c96c139f0cfb1,
+    type: 3}
+  m_PrefabInstance: {fileID: 520113396914695354}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &197900299
 GameObject:
   m_ObjectHideFlags: 0
@@ -1976,6 +1982,12 @@ Transform:
   m_Father: {fileID: 1763290669}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!225 &1295982777 stripped
+CanvasGroup:
+  m_CorrespondingSourceObject: {fileID: 4888428380654056793, guid: ecf3cdea09f00094ea7bbe6fd3dddb33,
+    type: 3}
+  m_PrefabInstance: {fileID: 8978262221930611098}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1313374752
 GameObject:
   m_ObjectHideFlags: 0
@@ -2375,6 +2387,12 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1507112525}
   m_Mesh: {fileID: -2128599272216676504, guid: c268ade4cc455634187ad5ab3ed115af, type: 3}
+--- !u!225 &1554823710 stripped
+CanvasGroup:
+  m_CorrespondingSourceObject: {fileID: 2779075962526189869, guid: 84518bcd8c8831d47b8d7a0dc5ab0b4f,
+    type: 3}
+  m_PrefabInstance: {fileID: 2855519509119402581}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1570022761
 GameObject:
   m_ObjectHideFlags: 0
@@ -2558,7 +2576,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4274d66d3885fdf4a9ce30aeac4a5d0e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  mixer: {fileID: 0}
+  mixer: {fileID: 24100000, guid: 020835133af096d40820cc892f742809, type: 2}
   sounds:
   - name: JumpLand
     clip: {fileID: 8300000, guid: 98de02c1df15f1f42917c7a099bbadcf, type: 3}
@@ -3682,14 +3700,8 @@ PrefabInstance:
     - target: {fileID: 1548032078278281863, guid: 84518bcd8c8831d47b8d7a0dc5ab0b4f,
         type: 3}
       propertyPath: m_Color.r
-      value: 0.13725491
+      value: 0.14117648
       objectReference: {fileID: 0}
-    - target: {fileID: 2293982355844279531, guid: 84518bcd8c8831d47b8d7a0dc5ab0b4f,
-        type: 3}
-      propertyPath: m_FontData.m_Font
-      value: 
-      objectReference: {fileID: 12800000, guid: b716b5cd672dbd94fbe7254154ea4d79,
-        type: 3}
     - target: {fileID: 2779075962526189868, guid: 84518bcd8c8831d47b8d7a0dc5ab0b4f,
         type: 3}
       propertyPath: serializationData.Prefab
@@ -3814,7 +3826,7 @@ PrefabInstance:
     - target: {fileID: 7080619229613423761, guid: 84518bcd8c8831d47b8d7a0dc5ab0b4f,
         type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 285
+      value: 300.6
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 84518bcd8c8831d47b8d7a0dc5ab0b4f, type: 3}
@@ -3830,8 +3842,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d7e26c22226626a4689cf9978e0e27e9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  firstScene: 1-1
+  firstScene: MainMenu
   loadingCanvas: {fileID: 1395701181}
+  groups:
+  - {fileID: 1295982777}
+  - {fileID: 1554823710}
+  - {fileID: 173472089}
 --- !u!114 &7089984849850941412
 MonoBehaviour:
   m_ObjectHideFlags: 0
