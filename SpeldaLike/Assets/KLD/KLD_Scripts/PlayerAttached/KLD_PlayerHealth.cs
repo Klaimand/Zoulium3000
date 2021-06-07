@@ -17,7 +17,13 @@ public class KLD_PlayerHealth : SerializedMonoBehaviour
     [SerializeField] float invulnerabilityTime = 0.2f;
     [SerializeField] float blinkTime = 0.05f;
 
+    [SerializeField] GameObject healFeedback;
+
     [SerializeField] Renderer[] renderers;
+
+    [SerializeField] GameObject ragdoll;
+
+    [SerializeField] GameObject playerToDisable;
 
     bool isDead = false;
 
@@ -33,6 +39,14 @@ public class KLD_PlayerHealth : SerializedMonoBehaviour
     void Start()
     {
         lifeBar = GameObject.Find("HUD_Canvas").transform.GetChild(0).GetComponent<Slider>();
+        barsParent = GameObject.Find("HUD_Canvas").transform.GetChild(1).transform;
+        StartCoroutine(WaitAndUpdateUI());
+    }
+
+    IEnumerator WaitAndUpdateUI()
+    {
+        yield return new WaitForSeconds(0.3f);
+        UpdateUI();
     }
 
     // Update is called once per frame
@@ -80,14 +94,24 @@ public class KLD_PlayerHealth : SerializedMonoBehaviour
 
     void Die()
     {
-        //controller.die
+        controller.Die();
         isDead = true;
         UpdateUI();
+        playerToDisable.SetActive(false);
+        Instantiate(ragdoll, transform.position, transform.rotation);
+        StartCoroutine(WaitAndRespawn());
+    }
+
+    IEnumerator WaitAndRespawn()
+    {
+        yield return new WaitForSeconds(1.5f);
+        GameManager.Instance.RespawnPlayer();
     }
 
     void UpdateUI()
     {
-        lifeBar.value = (float)curHealth / maxHealth;
+        //lifeBar.value = (float)curHealth / maxHealth;
+        DoLifeBarUI();
     }
 
     public Vector2Int GetHealth()
@@ -102,11 +126,68 @@ public class KLD_PlayerHealth : SerializedMonoBehaviour
         UpdateUI();
     }
 
+    public void AddMaxHP()
+    {
+        maxHealth++;
+        UpdateUI();
+    }
+
+    public void HealPlayer()
+    {
+        if (curHealth < maxHealth)
+        {
+            curHealth++;
+            UpdateUI();
+            Instantiate(healFeedback, transform.position, Quaternion.identity);
+        }
+    }
+
     void SetRenderersFloat(float _value)
     {
         foreach (var r in renderers)
         {
             r.materials[1].SetFloat("HitSlider_", _value);
+        }
+    }
+
+    [SerializeField] Sprite fullBar;
+    [SerializeField] Sprite emptyBar;
+    [SerializeField] GameObject barPrefab;
+    Transform barsParent;
+
+    Image[] bars;
+
+    int barLenght = 168;
+    int spaceLenght = 20;
+
+    void DoLifeBarUI()
+    {
+        if (bars == null || bars.Length != maxHealth)
+        {
+            if (bars != null)
+            {
+                foreach (var bar in bars)
+                {
+                    Destroy(bar.gameObject);
+                }
+            }
+            bars = new Image[maxHealth];
+            //int offset = maxHealth % 2 == 0 ? barLenght / 2 : 0;
+            int offset = barLenght / 2;
+            for (int i = 0; i < maxHealth; i++)
+            {
+                GameObject obj = Instantiate(barPrefab, Vector3.zero, Quaternion.identity, barsParent);
+                bars[i] = obj.GetComponent<Image>();
+                obj.GetComponent<RectTransform>().anchoredPosition = Vector3.right *
+                (
+                    (i * (barLenght + spaceLenght) + offset) - ((maxHealth * (barLenght + spaceLenght)) / 2)
+                );
+            }
+        }
+
+        for (int i = 0; i < maxHealth; i++)
+        {
+            bars[i].sprite = i < curHealth ? fullBar : emptyBar;
         }
     }
 }

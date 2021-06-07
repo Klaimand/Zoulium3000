@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 6317423580690360239}
   - component: {fileID: 6918695419437819914}
   - component: {fileID: 5179372230570040512}
+  - component: {fileID: 4064711299466795190}
   m_Layer: 0
   m_Name: BigCrate
   m_TagString: Untagged
@@ -81,3 +82,16 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!65 &4064711299466795190
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6692401728811826453}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 1.7492497, y: 1.1179574, z: 0.72239137}
+  m_Center: {x: 0.000000048317, y: 0.0000037732673, z: 0.30843687}

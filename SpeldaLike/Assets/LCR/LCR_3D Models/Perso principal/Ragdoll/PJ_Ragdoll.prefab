@@ -1751,8 +1751,6 @@ GameObject:
   - component: {fileID: 7513813418941856814}
   - component: {fileID: 7513813418941856811}
   - component: {fileID: 7513813418941856815}
-  - component: {fileID: 7513813418941856784}
-  - component: {fileID: 6489342190540620204}
   m_Layer: 10
   m_Name: PJ_Ragdoll
   m_TagString: Player
@@ -1805,156 +1803,6 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 80
   m_CollisionDetection: 0
---- !u!114 &7513813418941856784
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7513813418941856810}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 80f5593cc855b6c418b326777ebe700b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  serializationData:
-    SerializedFormat: 2
-    SerializedBytes: 
-    ReferencedUnityObjects: []
-    SerializedBytesString: 
-    Prefab: {fileID: 0}
-    PrefabModificationsReferencedUnityObjects: []
-    PrefabModifications: []
-    SerializationNodes: []
-  axisTransform: {fileID: 0}
-  playerGroundPoint: {fileID: 0}
-  dampedGroundPoint: {fileID: 0}
-  groundPointDampingSpeed: 0.5
-  groundPointDampingMaxSpeed: 3
-  controllerMode: 0
-  axisDeadZoneMagnitude: 0.1
-  accelerationTime: 0.3
-  decelerationTime: 0.2
-  ng_accelerationTime: 0.3
-  ng_decelerationTime: 0.2
-  axisZeroingDeadzone: 0.05
-  snapAxis: 1
-  speed: 10
-  sphereRadiusMultiplier: 0.85
-  maxSlopeAngle: 42
-  noFrictionMat: {fileID: 13400000, guid: 9cac1c0a04f2eed4584436f205edf26c, type: 2}
-  frictionMat: {fileID: 13400000, guid: b2b9578a71e8fcc44b76ba3fc6aaf9e9, type: 2}
-  groundLayer:
-    serializedVersion: 2
-    m_Bits: 256
-  groundPointLayer:
-    serializedVersion: 2
-    m_Bits: 768
-  jumpSpeed: 10
-  fallMultiplier: 1.8
-  lowJumpMultiplier: 1
-  jumpBufferDuration: 0.2
-  normalJumpDrag: 0.055
-  maxAirSpeed: 15
-  addAirSpeed: 17
-  jumpHorizontalAddedForce: 0
-  powerJumpSpeed: 40
-  powerJumpLoadTime: 0.2
-  powerJumpDrag: {x: 0.03, y: 0.1}
-  powerJumpFallMultiplier: 1.05
-  powerJumpHorizontalSpeed: 10
-  maxPowerJumpAirSpeed: 20
-  powerJumpAddAirSpeed: 22
-  powerJumpAttackPrefab: {fileID: 6325729434550116176, guid: d5d9132ecfacc7b41a9254b46bc81c57,
-    type: 3}
-  gh_time: 0.4
-  gh_speedCurve:
-    serializedVersion: 2
-    m_Curve:
-    - serializedVersion: 3
-      time: 0
-      value: 0
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0
-      outWeight: 0
-    - serializedVersion: 3
-      time: 1
-      value: 1
-      inSlope: 2
-      outSlope: 2
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0
-      outWeight: 0
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 4
-  anchorDetectionRayMask:
-    serializedVersion: 2
-    m_Bits: 305
-  maxAnchorDist: 30
-  selectedAnchor: {fileID: 0}
-  grabbedAnchor: {fileID: 0}
-  maxAnchorAngle: 60
-  grapplingStartPoint: {fileID: 0}
-  grapplingLrObject: {fileID: 0}
-  mastodonteGrabDuration: 0.95
-  dodgeForce: 20
-  dodgeMinJoystickMagnitude: 0.1
-  dodgeTime: 0.9
-  dodgeDrag: 0.05
-  dodgeCooldown: 1
-  attackComboCooldown: 0.3
-  attackComboLoseTime: 0.7
-  attackBufferLenght: 0.3
-  attacksFxPrefabs:
-  - {fileID: 7719330888422656180, guid: 838dcac7b1a60ff4fb2cbd6a4d5bbfe8, type: 3}
-  - {fileID: 7642301446228593333, guid: 559b33e24f9959740bfe5f1edb864ee5, type: 3}
-  - {fileID: 6145889630751459364, guid: e746e9bad1766ac48bf5f39628e38511, type: 3}
-  attacksZonePrefabs:
-  - {fileID: 8493841854013786119, guid: 4072db0b6b55222418dd93ec44ad0425, type: 3}
-  - {fileID: 8493841854013786119, guid: 4072db0b6b55222418dd93ec44ad0425, type: 3}
-  - {fileID: 8493841854013786119, guid: 4072db0b6b55222418dd93ec44ad0425, type: 3}
-  attackZonePrefab: {fileID: 8493841854013786119, guid: 4072db0b6b55222418dd93ec44ad0425,
-    type: 3}
-  curPlayerState: 0
-  ng_impulseForce: 3
-  ng_verticalImpulseForce: 3
-  ng_maxHorizontalSpeed: 5
-  ng_maxVerticalSpeed: 4
-  ng_rotationThreshold: 0
-  ng_lockedAngle: 0
-  ng_lockHorizontalSpeed: 1
-  ng_lockVerticalSpeed: 1
-  animator: {fileID: 4017298209306349377}
-  startPowerUps: 
---- !u!114 &6489342190540620204
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7513813418941856810}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: edde27cfa84ac6f4da23058545275f51, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  serializationData:
-    SerializedFormat: 2
-    SerializedBytes: 
-    ReferencedUnityObjects: []
-    SerializedBytesString: 
-    Prefab: {fileID: 0}
-    PrefabModificationsReferencedUnityObjects: []
-    PrefabModifications: []
-    SerializationNodes: []
-  maxHealth: 5
-  curHealth: 0
-  invulnerabilityTime: 0.2
 --- !u!1 &8139206671510994854
 GameObject:
   m_ObjectHideFlags: 0
@@ -2511,15 +2359,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 5e81539270b3e004dbd58a002f4e8007, type: 3}
---- !u!4 &2290607507451310377 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 4871790053779488437, guid: 5e81539270b3e004dbd58a002f4e8007,
-    type: 3}
-  m_PrefabInstance: {fileID: 6653448709930799004}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1477760982817844115 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 5248878920098309135, guid: 5e81539270b3e004dbd58a002f4e8007,
+    type: 3}
+  m_PrefabInstance: {fileID: 6653448709930799004}
+  m_PrefabAsset: {fileID: 0}
+--- !u!4 &2290607507451310377 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 4871790053779488437, guid: 5e81539270b3e004dbd58a002f4e8007,
     type: 3}
   m_PrefabInstance: {fileID: 6653448709930799004}
   m_PrefabAsset: {fileID: 0}

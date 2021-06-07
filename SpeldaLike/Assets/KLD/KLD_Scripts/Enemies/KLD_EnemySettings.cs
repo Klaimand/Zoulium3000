@@ -10,6 +10,8 @@ public class KLD_EnemySettings : ScriptableObject
 
     public float detectionRange = 10f;
 
+    public float healPointLootChance = 0.4f;
+    public GameObject healPointObj = null;
 
     [Header("Wandering")]
     public Vector2 minMaxWanderRange = new Vector2(3f, 5f);
