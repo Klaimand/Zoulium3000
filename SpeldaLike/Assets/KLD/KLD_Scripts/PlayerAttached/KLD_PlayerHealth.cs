@@ -141,7 +141,7 @@ public class KLD_PlayerHealth : SerializedMonoBehaviour
         {
             curHealth++;
             UpdateUI();
-            Instantiate(healFeedback, transform.position, Quaternion.Euler(-90f, 0f, 0f));
+            Instantiate(healFeedback, transform.position, Quaternion.Euler(-90f, 0f, 0f), transform);
             KLD_AudioManager.Instance.PlaySound("Heal");
         }
     }

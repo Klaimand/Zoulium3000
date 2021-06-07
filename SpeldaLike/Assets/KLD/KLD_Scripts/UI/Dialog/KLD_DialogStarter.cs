@@ -96,5 +96,6 @@ public class KLD_DialogStarter : SerializedMonoBehaviour
             b = manager.StartDialog(dialog, this);
             yield return null;
         }
+        print("forced");
     }
 }
