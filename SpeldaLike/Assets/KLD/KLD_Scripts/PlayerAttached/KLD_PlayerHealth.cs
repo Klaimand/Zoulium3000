@@ -38,8 +38,8 @@ public class KLD_PlayerHealth : SerializedMonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        lifeBar = GameObject.Find("HUD_Canvas").transform.GetChild(0).GetComponent<Slider>();
-        barsParent = GameObject.Find("HUD_Canvas").transform.GetChild(1).transform;
+        //lifeBar = GameObject.Find("HUD_Canvas").transform.GetChild(0).GetComponent<Slider>();
+        barsParent = GameObject.Find("HUD_Canvas").transform.GetChild(2).transform;
         StartCoroutine(WaitAndUpdateUI());
     }
 
